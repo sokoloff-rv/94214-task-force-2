@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="11" height="10" viewBox="0 0 11 10">
+    <defs>
+        <path id="qirnjrwgla" d="M8.303.965C8.79.323 9.723.183 10.389.653c.665.47.81 1.372.323 2.015L5.837 9.1c-.333.44-.96.527-1.4.193-.033-.024-.063-.05-.092-.078L.435 5.431c-.581-.564-.58-1.476.003-2.039.584-.562 1.529-.56 2.111.003L4.806 5.58 8.303.965z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <g>
+                    <g transform="translate(-357 -944) translate(350 936) translate(7 8)">
+                        <use fill="#FFF" xlink:href="#qirnjrwgla"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

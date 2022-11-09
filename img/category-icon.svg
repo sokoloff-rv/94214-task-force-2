@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>Category</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Default" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Мои-задания" transform="translate(-670.000000, -388.000000)">
+            <g id="task_item" transform="translate(351.000000, 228.000000)">
+                <g id="Category" transform="translate(320.000000, 161.000000)">
+                    <polygon id="Path" stroke="#989898" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="0.36 7.785 10.215 17.64 17.64 10.215 7.785 0.36 0.8925 0.8925"></polygon>
+                    <polygon id="Path" fill="#989898" fill-rule="nonzero" points="16.47 9.045 9.045 16.47 10.08 17.58 17.58 10.08"></polygon>
+                    <path d="M15.6225,8.1975 L8.1975,15.6225" id="Path" stroke="#989898" stroke-linecap="round"></path>
+                    <circle id="Oval" fill="#989898" fill-rule="nonzero" cx="4.5" cy="4.5" r="1.125"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
