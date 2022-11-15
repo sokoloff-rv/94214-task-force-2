@@ -1,6 +1,8 @@
 <?php
+require_once '../vendor/autoload.php';
+use Taskforce\Models\Task;
+
 header("Content-Type: text/plain");
-require_once '../src/Models/Task.php';
 
 $idCustomer = 1;
 $idExecutor = 1;
@@ -17,7 +19,7 @@ print_r($task->getActionsMap());
 print_r($task->currentStatus."\n");
 
 // получаем следующий статус задания в ответ на действие
-print_r($task->getNextStatus('cancel')."\n");
+print_r($task->getNextStatus(Task::ACTION_CANCEL)."\n");
 
 // получаем список доступных действий для задания в определенном статусе
-print_r($task->getAvailableActions('new'));
+print_r($task->getAvailableActions(Task::STATUS_NEW));
