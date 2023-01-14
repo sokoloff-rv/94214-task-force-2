@@ -21,27 +21,27 @@ class Task
     const ACTION_RESPOND = ActionRespond::class;
     const ACTION_DENY = ActionDeny::class;
 
-    private $idCustomer;
-    private $idExecutor;
+    private int $idCustomer;
+    private int $idExecutor;
 
-    public function __construct($idCustomer, $idExecutor, $currentStatus = Task::STATUS_NEW)
+    public function __construct(int $idCustomer, int $idExecutor, string $currentStatus = Task::STATUS_NEW)
     {
         $this->idCustomer = $idCustomer;
         $this->idExecutor = $idExecutor;
         $this->currentStatus = $currentStatus;
     }
 
-    public function getIdCustomer()
+    public function getIdCustomer(): int
     {
         return $this->idCustomer;
     }
 
-    public function getIdExecutor()
+    public function getIdExecutor(): int
     {
         return $this->idExecutor;
     }
 
-    public function getStatusesMap()
+    public function getStatusesMap(): array
     {
         return [
             self::STATUS_NEW => 'Новое',
@@ -52,7 +52,7 @@ class Task
         ];
     }
 
-    public function getActionsMap()
+    public function getActionsMap(): array
     {
         return [
             self::ACTION_CANCEL => ActionCancel::getTitle(),
@@ -62,7 +62,7 @@ class Task
         ];
     }
 
-    public function getNextStatus($action)
+    public function getNextStatus($action): string
     {
         $status = $this->currentStatus;
         switch ($action) {
@@ -82,7 +82,7 @@ class Task
         return $status;
     }
 
-    public function getAvailableActions($status)
+    public function getAvailableActions($status): array
     {
         $actions = [];
         switch ($status) {
