@@ -5,27 +5,26 @@ use Taskforce\Actions\ActionCancel;
 use Taskforce\Actions\ActionAccept;
 use Taskforce\Actions\ActionRespond;
 use Taskforce\Actions\ActionDeny;
+use Taskforce\Exceptions\ExceptionStatusNotExist;
+use Taskforce\Exceptions\ExceptionActionNotExist;
+use Taskforce\Exceptions\ExceptionNoActionAvailable;
 
 class Task
 {
-    // Статусы
     const STATUS_NEW = 'new';
     const STATUS_CANCELLED = 'cancelled';
     const STATUS_WORKING = 'working';
     const STATUS_COMPLETED = 'completed';
     const STATUS_FAILED = 'failed';
 
-    // Действия
-    const ACTION_CANCEL = ActionCancel::class;
-    const ACTION_ACCEPT = ActionAccept::class;
-    const ACTION_RESPOND = ActionRespond::class;
-    const ACTION_DENY = ActionDeny::class;
-
     private int $idCustomer;
     private int $idExecutor;
 
     public function __construct(int $idCustomer, int $idExecutor, string $currentStatus = Task::STATUS_NEW)
     {
+        if (!array_key_exists($currentStatus, $this->getStatusesMap())) {
+            throw new ExceptionStatusNotExist();
+        }
         $this->idCustomer = $idCustomer;
         $this->idExecutor = $idExecutor;
         $this->currentStatus = $currentStatus;
@@ -55,27 +54,30 @@ class Task
     public function getActionsMap(): array
     {
         return [
-            self::ACTION_CANCEL => ActionCancel::getTitle(),
-            self::ACTION_ACCEPT => ActionAccept::getTitle(),
-            self::ACTION_RESPOND => ActionRespond::getTitle(),
-            self::ACTION_DENY => ActionDeny::getTitle(),
+            ActionCancel::getName() => ActionCancel::getTitle(),
+            ActionAccept::getName() => ActionAccept::getTitle(),
+            ActionRespond::getName() => ActionRespond::getTitle(),
+            ActionDeny::getName() => ActionDeny::getTitle(),
         ];
     }
 
     public function getNextStatus($action): string
     {
+        if (!array_key_exists($action, $this->getActionsMap())) {
+            throw new ExceptionActionNotExist();
+        }
         $status = $this->currentStatus;
         switch ($action) {
-            case self::ACTION_CANCEL:
+            case ActionCancel::getName():
                 $status = self::STATUS_CANCELLED;
                 break;
-            case self::ACTION_ACCEPT:
+            case ActionAccept::getName():
                 $status = self::STATUS_COMPLETED;
                 break;
-            case self::ACTION_RESPOND:
+            case ActionRespond::getName():
                 $status = self::STATUS_WORKING;
                 break;
-            case self::ACTION_DENY:
+            case ActionDeny::getName():
                 $status = self::STATUS_FAILED;
                 break;
         }
@@ -84,18 +86,21 @@ class Task
 
     public function getAvailableActions($status): array
     {
+        if (!array_key_exists($status, $this->getStatusesMap())) {
+            throw new ExceptionStatusNotExist();
+        }
         $actions = [];
         switch ($status) {
             case self::STATUS_NEW:
-                $actions[] = self::ACTION_CANCEL;
-                $actions[] = self::ACTION_RESPOND;
+                $actions[] = ActionCancel::getName();
+                $actions[] = ActionRespond::getName();
                 break;
             case self::STATUS_WORKING:
-                $actions[] = self::ACTION_ACCEPT;
-                $actions[] = self::ACTION_DENY;
+                $actions[] = ActionAccept::getName();
+                $actions[] = ActionDeny::getName();
                 break;
             default:
-                throw new Exception("Нет доступных действий");
+                throw new ExceptionNoActionAvailable();
         }
         return $actions;
     }

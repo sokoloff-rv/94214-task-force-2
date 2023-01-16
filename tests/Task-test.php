@@ -19,7 +19,7 @@ print_r($task->getActionsMap());
 print_r($task->currentStatus."\n");
 
 // получаем следующий статус задания в ответ на действие
-print_r($task->getNextStatus(Task::ACTION_CANCEL)."\n");
+print_r($task->getNextStatus('accept')."\n");
 
 // получаем список доступных действий для задания в определенном статусе
-print_r($task->getAvailableActions(Task::STATUS_NEW));
+print_r($task->getAvailableActions('new'));
