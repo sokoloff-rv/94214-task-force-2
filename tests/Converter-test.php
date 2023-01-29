@@ -4,7 +4,7 @@ use Taskforce\Utils\ConverterCSV;
 
 $categories = new ConverterCSV(
     "../data/categories.csv",
-    ['name', 'icon']
+    ['name', 'alias']
 );
 $categories->import();
-var_dump($categories->getData());
+$categories->generateSqlFile('categories');
