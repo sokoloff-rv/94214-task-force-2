@@ -116,17 +116,17 @@ class ConverterCSV
 
         $columnNames = '';
         foreach($this->getHeaderData() as $header) {
-            $columnNames .= "'$header', ";
+            $columnNames .= "`$header`, ";
         }
         $columnNames = rtrim($columnNames, ", ");
 
         foreach($this->getData() as $line) {
             $lineValues = '';
             foreach($line as $value) {
-                $lineValues .= "'$value', ";
+                $lineValues .= "\"$value\", ";
             }
             $lineValues = rtrim($lineValues, ", ");
-            fputs($file, "INSERT INTO categories ($columnNames) VALUES ($lineValues);" . PHP_EOL);
+            fputs($file, "INSERT INTO $tableName ($columnNames) VALUES ($lineValues);" . PHP_EOL);
         }
 
         fclose($file);

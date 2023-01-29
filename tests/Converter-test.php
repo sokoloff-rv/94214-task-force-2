@@ -8,3 +8,10 @@ $categories = new ConverterCSV(
 );
 $categories->import();
 $categories->generateSqlFile('categories');
+
+$cities = new ConverterCSV(
+    "../data/cities.csv",
+    ['name', 'latitude', 'longtitude']
+);
+$cities->import();
+$cities->generateSqlFile('cities');
