@@ -1,17 +1,15 @@
 <?php
-require_once '../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 use Taskforce\Utils\ConverterCSV;
 
 $categories = new ConverterCSV(
-    "../data/categories.csv",
+    __DIR__ . "/../data/categories.csv",
     ['name', 'alias']
 );
-$categories->import();
 $categories->generateSqlFile('categories');
 
 $cities = new ConverterCSV(
-    "../data/cities.csv",
+    __DIR__ . "/../data/cities.csv",
     ['name', 'latitude', 'longtitude']
 );
-$cities->import();
 $cities->generateSqlFile('cities');

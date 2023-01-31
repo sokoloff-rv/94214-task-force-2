@@ -7,11 +7,10 @@ use Taskforce\Exceptions\ExceptionSourceFile;
 
 class ConverterCSV
 {
-    private $fileName;
-    private $columns;
-    private $fileObject;
-    private $result = [];
-    private $error = null;
+    private string $fileName;
+    private array $columns;
+    private object $fileObject;
+    private ?string $error = null;
 
     public function __construct(string $fileName, array $columns)
     {
@@ -19,7 +18,7 @@ class ConverterCSV
         $this->columns = $columns;
     }
 
-    public function import(): void
+    public function generateSqlFile(string $tableName): void
     {
         if (!$this->validateColumns($this->columns)) {
             throw new ExceptionFileFormat("Заданы неверные заголовки столбцов!");
@@ -42,14 +41,25 @@ class ConverterCSV
             throw new ExceptionFileFormat("Исходный файл не содержит необходимых столбцов!");
         }
 
-        foreach ($this->getNextLine() as $line) {
-            $this->result[] = $line;
-        }
-    }
+        $this->tableName = $tableName;
+        $file = fopen("../$tableName.sql", "w");
 
-    public function getData(): array
-    {
-        return $this->result;
+        $columnNames = '';
+        foreach($this->getHeaderData() as $header) {
+            $columnNames .= "`$header`, ";
+        }
+        $columnNames = rtrim($columnNames, ", ");
+
+        foreach ($this->getNextLine() as $line) {
+            $lineValues = '';
+            foreach($line as $value) {
+                $lineValues .= "\"$value\", ";
+            }
+            $lineValues = rtrim($lineValues, ", ");
+            fputs($file, "INSERT INTO $tableName ($columnNames) VALUES ($lineValues);" . PHP_EOL);
+        }
+
+        fclose($file);
     }
 
     private function getHeaderData(): ?array
@@ -88,28 +98,4 @@ class ConverterCSV
 
         return $result;
     }
-
-    public function generateSqlFile(string $tableName): void
-    {
-        $this->tableName = $tableName;
-        $file = fopen("../$tableName.sql", "w");
-
-        $columnNames = '';
-        foreach($this->getHeaderData() as $header) {
-            $columnNames .= "`$header`, ";
-        }
-        $columnNames = rtrim($columnNames, ", ");
-
-        foreach($this->getData() as $line) {
-            $lineValues = '';
-            foreach($line as $value) {
-                $lineValues .= "\"$value\", ";
-            }
-            $lineValues = rtrim($lineValues, ", ");
-            fputs($file, "INSERT INTO $tableName ($columnNames) VALUES ($lineValues);" . PHP_EOL);
-        }
-
-        fclose($file);
-    }
-
 }
