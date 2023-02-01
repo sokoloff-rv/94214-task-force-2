@@ -1,5 +1,5 @@
 <?php
-require_once '../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 use Taskforce\Models\Task;
 use Taskforce\Actions\ActionCancel;
 use Taskforce\Actions\ActionAccept;

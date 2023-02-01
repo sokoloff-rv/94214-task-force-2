@@ -8,8 +8,8 @@ USE taskforce;
 CREATE TABLE cities (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    latitude DECIMAL(9, 7) NOT NULL,
-    longtitude DECIMAL(9, 7) NOT NULL
+    latitude DECIMAL(11, 8) NOT NULL,
+    longtitude DECIMAL(11, 8) NOT NULL
 );
 
 /* Пользователи */
