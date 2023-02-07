@@ -5,28 +5,25 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "reviews".
+ * This is the model class for table "responses".
  *
  * @property int $id
- * @property int $customer_id
  * @property int $executor_id
  * @property int $task_id
  * @property string|null $comment
- * @property int|null $grade
- * @property string|null $creation_date
+ * @property int|null $price
  *
- * @property Users $customer
  * @property Users $executor
  * @property Tasks $task
  */
-class Reviews extends \yii\db\ActiveRecord
+class Response extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'reviews';
+        return 'responses';
     }
 
     /**
@@ -35,11 +32,9 @@ class Reviews extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['customer_id', 'executor_id', 'task_id'], 'required'],
-            [['customer_id', 'executor_id', 'task_id', 'grade'], 'integer'],
-            [['creation_date'], 'safe'],
-            [['comment'], 'string', 'max' => 1],
-            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['customer_id' => 'id']],
+            [['executor_id', 'task_id'], 'required'],
+            [['executor_id', 'task_id', 'price'], 'integer'],
+            [['comment'], 'string'],
             [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['executor_id' => 'id']],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tasks::class, 'targetAttribute' => ['task_id' => 'id']],
         ];
@@ -52,23 +47,11 @@ class Reviews extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'customer_id' => 'Customer ID',
             'executor_id' => 'Executor ID',
             'task_id' => 'Task ID',
             'comment' => 'Comment',
-            'grade' => 'Grade',
-            'creation_date' => 'Creation Date',
+            'price' => 'Price',
         ];
-    }
-
-    /**
-     * Gets query for [[Customer]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCustomer()
-    {
-        return $this->hasOne(Users::class, ['id' => 'customer_id']);
     }
 
     /**

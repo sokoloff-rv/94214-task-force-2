@@ -13,8 +13,6 @@ use Yii;
  * @property string|null $description
  * @property int $category_id
  * @property int|null $city_id
- * @property float|null $latitude
- * @property float|null $longtitude
  * @property string|null $budget
  * @property string|null $deadline
  * @property string|null $creation_date
@@ -29,7 +27,7 @@ use Yii;
  * @property Responses[] $responses
  * @property Reviews[] $reviews
  */
-class Tasks extends \yii\db\ActiveRecord
+class Task extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -47,10 +45,9 @@ class Tasks extends \yii\db\ActiveRecord
         return [
             [['customer_id', 'title', 'category_id'], 'required'],
             [['customer_id', 'category_id', 'city_id', 'executor_id'], 'integer'],
-            [['latitude', 'longtitude'], 'number'],
+            [['description'], 'string'],
             [['deadline', 'creation_date'], 'safe'],
             [['title'], 'string', 'max' => 255],
-            [['description'], 'string', 'max' => 1],
             [['budget'], 'string', 'max' => 100],
             [['status'], 'string', 'max' => 50],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::class, 'targetAttribute' => ['category_id' => 'id']],
@@ -72,8 +69,6 @@ class Tasks extends \yii\db\ActiveRecord
             'description' => 'Description',
             'category_id' => 'Category ID',
             'city_id' => 'City ID',
-            'latitude' => 'Latitude',
-            'longtitude' => 'Longtitude',
             'budget' => 'Budget',
             'deadline' => 'Deadline',
             'creation_date' => 'Creation Date',

@@ -13,7 +13,7 @@ use Yii;
  *
  * @property Tasks $task
  */
-class Files extends \yii\db\ActiveRecord
+class File extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}

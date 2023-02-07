@@ -13,7 +13,7 @@ use Yii;
  *
  * @property Tasks[] $tasks
  */
-class Categories extends \yii\db\ActiveRecord
+class Category extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
