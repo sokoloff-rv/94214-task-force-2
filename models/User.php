@@ -54,7 +54,7 @@ class User extends \yii\db\ActiveRecord
             [['email', 'password', 'phone', 'telegram'], 'string', 'max' => 100],
             [['specializations', 'avatar'], 'string', 'max' => 255],
             [['email'], 'unique'],
-            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::class, 'targetAttribute' => ['city_id' => 'id']],
+            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::class, 'targetAttribute' => ['city_id' => 'id']],
         ];
     }
 
@@ -89,7 +89,7 @@ class User extends \yii\db\ActiveRecord
      */
     public function getCity()
     {
-        return $this->hasOne(Cities::class, ['id' => 'city_id']);
+        return $this->hasOne(City::class, ['id' => 'city_id']);
     }
 
     /**
@@ -99,7 +99,7 @@ class User extends \yii\db\ActiveRecord
      */
     public function getResponses()
     {
-        return $this->hasMany(Responses::class, ['executor_id' => 'id']);
+        return $this->hasMany(Response::class, ['executor_id' => 'id']);
     }
 
     /**
@@ -109,7 +109,7 @@ class User extends \yii\db\ActiveRecord
      */
     public function getReviews()
     {
-        return $this->hasMany(Reviews::class, ['customer_id' => 'id']);
+        return $this->hasMany(Review::class, ['customer_id' => 'id']);
     }
 
     /**
@@ -119,7 +119,7 @@ class User extends \yii\db\ActiveRecord
      */
     public function getReviews0()
     {
-        return $this->hasMany(Reviews::class, ['executor_id' => 'id']);
+        return $this->hasMany(Review::class, ['executor_id' => 'id']);
     }
 
     /**
@@ -129,7 +129,7 @@ class User extends \yii\db\ActiveRecord
      */
     public function getTasks()
     {
-        return $this->hasMany(Tasks::class, ['customer_id' => 'id']);
+        return $this->hasMany(Task::class, ['customer_id' => 'id']);
     }
 
     /**
@@ -139,6 +139,6 @@ class User extends \yii\db\ActiveRecord
      */
     public function getTasks0()
     {
-        return $this->hasMany(Tasks::class, ['executor_id' => 'id']);
+        return $this->hasMany(Task::class, ['executor_id' => 'id']);
     }
 }

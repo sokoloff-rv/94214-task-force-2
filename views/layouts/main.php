@@ -43,13 +43,13 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                     <a class="link link--nav">Новое</a>
                 </li>
                 <li class="list-item">
-                    <a href="#" class="link link--nav" >Мои задания</a>
+                    <a href="#" class="link link--nav">Мои задания</a>
                 </li>
                 <li class="list-item">
-                    <a href="#" class="link link--nav" >Создать задание</a>
+                    <a href="#" class="link link--nav">Создать задание</a>
                 </li>
                 <li class="list-item">
-                    <a href="#" class="link link--nav" >Настройки</a>
+                    <a href="#" class="link link--nav">Настройки</a>
                 </li>
             </ul>
         </div>

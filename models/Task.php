@@ -50,10 +50,10 @@ class Task extends \yii\db\ActiveRecord
             [['title'], 'string', 'max' => 255],
             [['budget'], 'string', 'max' => 100],
             [['status'], 'string', 'max' => 50],
-            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::class, 'targetAttribute' => ['category_id' => 'id']],
-            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['customer_id' => 'id']],
-            [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['executor_id' => 'id']],
-            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::class, 'targetAttribute' => ['city_id' => 'id']],
+            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
+            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['customer_id' => 'id']],
+            [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['executor_id' => 'id']],
+            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::class, 'targetAttribute' => ['city_id' => 'id']],
         ];
     }
 
@@ -84,7 +84,7 @@ class Task extends \yii\db\ActiveRecord
      */
     public function getCategory()
     {
-        return $this->hasOne(Categories::class, ['id' => 'category_id']);
+        return $this->hasOne(Category::class, ['id' => 'category_id']);
     }
 
     /**
@@ -94,7 +94,7 @@ class Task extends \yii\db\ActiveRecord
      */
     public function getCity()
     {
-        return $this->hasOne(Cities::class, ['id' => 'city_id']);
+        return $this->hasOne(City::class, ['id' => 'city_id']);
     }
 
     /**
@@ -104,7 +104,7 @@ class Task extends \yii\db\ActiveRecord
      */
     public function getCustomer()
     {
-        return $this->hasOne(Users::class, ['id' => 'customer_id']);
+        return $this->hasOne(User::class, ['id' => 'customer_id']);
     }
 
     /**
@@ -114,7 +114,7 @@ class Task extends \yii\db\ActiveRecord
      */
     public function getExecutor()
     {
-        return $this->hasOne(Users::class, ['id' => 'executor_id']);
+        return $this->hasOne(User::class, ['id' => 'executor_id']);
     }
 
     /**
@@ -124,7 +124,7 @@ class Task extends \yii\db\ActiveRecord
      */
     public function getFiles()
     {
-        return $this->hasMany(Files::class, ['task_id' => 'id']);
+        return $this->hasMany(File::class, ['task_id' => 'id']);
     }
 
     /**
@@ -134,7 +134,7 @@ class Task extends \yii\db\ActiveRecord
      */
     public function getResponses()
     {
-        return $this->hasMany(Responses::class, ['task_id' => 'id']);
+        return $this->hasMany(Response::class, ['task_id' => 'id']);
     }
 
     /**
@@ -144,6 +144,6 @@ class Task extends \yii\db\ActiveRecord
      */
     public function getReviews()
     {
-        return $this->hasMany(Reviews::class, ['task_id' => 'id']);
+        return $this->hasMany(Review::class, ['task_id' => 'id']);
     }
 }
