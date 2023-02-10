@@ -29,12 +29,6 @@ use Yii;
  */
 class Task extends \yii\db\ActiveRecord
 {
-    const STATUS_NEW = 'new';
-    const STATUS_CANCELLED = 'cancelled';
-    const STATUS_WORKING = 'working';
-    const STATUS_COMPLETED = 'completed';
-    const STATUS_FAILED = 'failed';
-
     /**
      * {@inheritdoc}
      */

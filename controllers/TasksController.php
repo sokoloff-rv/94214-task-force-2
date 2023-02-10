@@ -3,13 +3,14 @@ namespace app\controllers;
 
 use yii\db\Query;
 use yii\web\Controller;
-use app\models\Task;
+use app\models\Task as TaskDB;
+use Taskforce\Models\Task;
 
 class TasksController extends Controller
 {
     public function actionIndex()
     {
-        $query = Task::find();
+        $query = TaskDB::find();
         $query->where(['status' => Task::STATUS_NEW])
         ->orderBy(['creation_date' => SORT_DESC])
         ->with('category')
