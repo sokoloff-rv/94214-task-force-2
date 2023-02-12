@@ -1,14 +1,16 @@
 <?php
 use app\models\Category;
+use app\models\Response;
 use app\models\forms\TasksFilter;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 
+Yii::$app->formatter->defaultTimeZone = 'Asia/Bishkek';
 Yii::$app->formatter->locale = 'ru-RU';
 $this->title = 'Taskforce - Задания';
 
-$categoriesQuery = Category::find()->select(['alias', 'name'])->all();
-$categories = ArrayHelper::map($categoriesQuery, 'alias', 'name');
+$categoriesQuery = Category::find()->select(['id', 'name'])->all();
+$categories = ArrayHelper::map($categoriesQuery, 'id', 'name');
 ?>
 
 <div class="left-column">
@@ -27,6 +29,10 @@ $categories = ArrayHelper::map($categoriesQuery, 'alias', 'name');
             ) ?>
         </p>
         <p class="task-text"><?=$task->description?></p>
+
+        <!-- Подсчет количества откликов (для наглядности) -->
+        <p>Откликов: <?= Response::find()->where(['task_id' => $task->id])->count(); ?></p>
+
         <div class="footer-task">
             <p class="info-text town-text">
                 <?=isset($task->city->name) ? $task->city->name : 'Удаленная работа' ?>

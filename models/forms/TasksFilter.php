@@ -7,9 +7,10 @@ use Taskforce\Models\Task as TaskBasic;
 
 class TasksFilter extends Model
 {
-    const ONE_HOUR = '1 hour';
-    const HALF_DAY = '12 hours';
-    const ONE_DAY = '24 hours';
+    const ALL_TIME = 'ALL TIME';
+    const ONE_HOUR = '1 HOUR';
+    const HALF_DAY = '12 HOUR';
+    const ONE_DAY = '24 HOUR';
 
     public array $categories = [];
     public bool $distantWork = false;
@@ -36,6 +37,7 @@ class TasksFilter extends Model
     public static function getPeriodsMap(): array
     {
         return [
+            self::ALL_TIME => 'за всё время',
             self::ONE_HOUR => '1 час',
             self::HALF_DAY => '12 часов',
             self::ONE_DAY => '24 часа'
