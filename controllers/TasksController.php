@@ -1,21 +1,25 @@
 <?php
 namespace app\controllers;
 
-use yii\db\Query;
+use app\models\Task;
+use Taskforce\Models\Task as TaskBasic;
 use yii\web\Controller;
-use app\models\Task as TaskDB;
-use Taskforce\Models\Task;
+use yii\data\ActiveDataProvider;
+use app\models\forms\TasksFilter;
 
 class TasksController extends Controller
 {
     public function actionIndex()
     {
-        $query = TaskDB::find();
-        $query->where(['status' => Task::STATUS_NEW])
-        ->orderBy(['creation_date' => SORT_DESC])
-        ->with('category')
-        ->with('city');
-        $tasks = $query->all();
-        return $this->render('index', ['tasks' => $tasks]);
+        $tasks = Task::find()
+            ->where(['status' => TaskBasic::STATUS_NEW])
+            ->orderBy(['creation_date' => SORT_DESC])
+            ->with('category')
+            ->with('city')
+            ->all();
+
+        $filter = new TasksFilter();
+
+        return $this->render('index', ['tasks' => $tasks, 'filter' => $filter]);
     }
 }

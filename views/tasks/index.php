@@ -1,9 +1,12 @@
 <?php
-
-/** @var yii\web\View $this */
+use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use app\models\Category;
+use app\models\forms\TasksFilter;
 
 $this->title = 'Taskforce - Задания';
-
+$categoriesQuery = Category::find()->select(['alias', 'name'])->all();
+$categories = ArrayHelper::map($categoriesQuery, 'alias', 'name');
 ?>
 
 <div class="left-column">
@@ -12,21 +15,21 @@ $this->title = 'Taskforce - Задания';
 <?php foreach ($tasks as $task): ?>
     <div class="task-card">
         <div class="header-task">
-            <a  href="#" class="link link--block link--big"><?= $task->title ?></a>
-            <p class="price price--task"><?= $task->budget ?></p>
+            <a  href="#" class="link link--block link--big"><?=$task->title?></a>
+            <p class="price price--task"><?=$task->budget?></p>
         </div>
         <p class="info-text">
             <!-- <span class="current-time">4 часа </span>назад -->
-            <?= $task->creation_date ?>
+            <?=$task->creation_date?>
         </p>
-        <p class="task-text"><?= $task->description ?></p>
+        <p class="task-text"><?=$task->description?></p>
         <div class="footer-task">
-            <p class="info-text town-text"><?= $task->city->name ?></p>
-            <p class="info-text category-text"><?= $task->category->name ?></p>
+            <p class="info-text town-text"><?=$task->city->name?></p>
+            <p class="info-text category-text"><?=$task->category->name?></p>
             <a href="#" class="button button--black">Смотреть задание</a>
         </div>
-</div>
-<?php endforeach; ?>
+    </div>
+<?php endforeach;?>
 
 <div class="pagination-wrapper">
     <ul class="pagination-list">
@@ -50,39 +53,57 @@ $this->title = 'Taskforce - Задания';
 </div>
 <div class="right-column">
 <div class="right-card black">
-   <div class="search-form">
-        <form>
+	<div class="search-form">
+        <?php $form = ActiveForm::begin([
+            'id' => 'filter-form',
+            'method' => 'get',
+            'fieldConfig' => [
+                'template' => "{input}",
+            ],
+        ]); ?>
+
             <h4 class="head-card">Категории</h4>
-            <div class="form-group">
-                <div class="checkbox-wrapper">
-                    <label class="control-label" for="сourier-services">
-                        <input type="checkbox" id="сourier-services" checked>
-                        Курьерские услуги</label>
-                    <label class="control-label" for="cargo-transportation">
-                        <input id="cargo-transportation" type="checkbox">
-                        Грузоперевозки</label>
-                    <label class="control-label" for="translations">
-                        <input id="translations" type="checkbox">
-                        Переводы</label>
-                </div>
-            </div>
+            <?= $form->field($filter, 'categories')
+            ->checkboxList(
+                $categories,
+                [
+                    'class' => 'checkbox-wrapper',
+                    'itemOptions' => [
+                        'labelOptions' => [
+                            'class' => 'control-label',
+                        ],
+                    ],
+                ]
+            ); ?>
+
             <h4 class="head-card">Дополнительно</h4>
-            <div class="form-group">
-                <label class="control-label" for="without-performer">
-                    <input id="without-performer" type="checkbox" checked>
-                    Без исполнителя</label>
-            </div>
+            <?= $form->field($filter, 'distantWork')->checkbox(
+                [
+                    'id' => 'distant-work',
+                    'labelOptions' => [
+                        'class' => 'control-label'
+                    ]
+                ]
+            ); ?>
+            <?= $form->field($filter, 'noResponse')->checkbox(
+                [
+                    'id' => 'no-response',
+                    'labelOptions' => [
+                        'class' => 'control-label'
+                    ]
+                ]
+            ); ?>
+
             <h4 class="head-card">Период</h4>
-            <div class="form-group">
-                <label for="period-value"></label>
-                <select id="period-value">
-                    <option>1 час</option>
-                    <option>12 часов</option>
-                    <option>24 часа</option>
-                </select>
-            </div>
+            <?= $form->field($filter, 'period')->dropDownList(
+                TasksFilter::getPeriodsMap(),
+                [
+                    'id' => 'period-value'
+                ]
+            ); ?>
+
             <input type="submit" class="button button--blue" value="Искать">
-        </form>
+        <?php ActiveForm::end();?>
    </div>
 </div>
 </div>
