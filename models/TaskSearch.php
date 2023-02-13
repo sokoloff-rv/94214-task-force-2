@@ -6,6 +6,7 @@ use yii\base\Model;
 use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 use app\models\Response;
+use app\models\forms\TasksFilter;
 use app\models\Task;
 use Taskforce\Models\Task as TaskBasic;
 
@@ -44,7 +45,7 @@ class TaskSearch extends Model
                 $tasks = $tasks->andWhere(['not in', 'id', $tasksWithResponse]);
             }
 
-            if ($period !== 'ALL TIME') {
+            if ($period !== TasksFilter::ALL_TIME) {
                 $tasks = $tasks->andWhere(['>', 'creation_date', new Expression("CURRENT_TIMESTAMP() - INTERVAL $period")]);
             }
         }
