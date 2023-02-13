@@ -20,31 +20,33 @@ class TaskSearch extends Model
             ->with('city');
 
         $request = Yii::$app->getRequest();
+
         if ($request->get('TasksFilter')) {
+
             $categories = $request->get('TasksFilter')['categories'];
             $distantWork = $request->get('TasksFilter')['distantWork'];
             $noResponse = $request->get('TasksFilter')['noResponse'];
             $period = $request->get('TasksFilter')['period'];
-        }
 
-        if (isset($categories) && $categories) {
-            $tasks = $tasks->andWhere(['in', 'category_id', $categories]);
-        }
+            if ($categories) {
+                $tasks = $tasks->andWhere(['in', 'category_id', $categories]);
+            }
 
-        if (isset($distantWork) && $distantWork) {
-            $tasks = $tasks->andWhere(['city_id' => null]);
-        }
+            if ($distantWork) {
+                $tasks = $tasks->andWhere(['city_id' => null]);
+            }
 
-        if (isset($noResponse) && $noResponse) {
-            $tasksWithResponse = Response::find()
-                ->select(['task_id', 'id'])
-                ->all();
-            $tasksWithResponse = ArrayHelper::map($tasksWithResponse, 'id', 'task_id');
-            $tasks = $tasks->andWhere(['not in', 'id', $tasksWithResponse]);
-        }
+            if ($noResponse) {
+                $tasksWithResponse = Response::find()
+                    ->select(['task_id', 'id'])
+                    ->all();
+                $tasksWithResponse = ArrayHelper::map($tasksWithResponse, 'id', 'task_id');
+                $tasks = $tasks->andWhere(['not in', 'id', $tasksWithResponse]);
+            }
 
-        if (isset($period) && $period !== 'ALL TIME') {
-            $tasks = $tasks->andWhere(['>', 'creation_date', new Expression("CURRENT_TIMESTAMP() - INTERVAL $period")]);
+            if ($period !== 'ALL TIME') {
+                $tasks = $tasks->andWhere(['>', 'creation_date', new Expression("CURRENT_TIMESTAMP() - INTERVAL $period")]);
+            }
         }
 
         $tasks = $tasks->all();
