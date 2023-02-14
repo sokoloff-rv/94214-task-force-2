@@ -70,7 +70,6 @@ class Task
                 $status = 'Провалено';
                 break;
         }
-
         return $status;
     }
 
