@@ -1,20 +1,20 @@
 <?php
 namespace app\controllers;
 
-use yii\db\Query;
 use yii\web\Controller;
-use app\models\Task;
+use yii\data\ActiveDataProvider;
+use app\models\TaskSearch;
+use app\models\forms\TasksFilter;
 
 class TasksController extends Controller
 {
     public function actionIndex()
     {
-        $query = Task::find();
-        $query->where(['status' => 'new']);
-        $query->orderBy(['creation_date' => SORT_DESC]);
-        $query->with('category');
-        $query->with('city');
-        $tasks = $query->all();
-        return $this->render('index', ['tasks' => $tasks]);
+        $TaskSearch = new TaskSearch();
+
+        $tasks = $TaskSearch->getTasks();
+        $filter = new TasksFilter();
+
+        return $this->render('index', ['tasks' => $tasks, 'filter' => $filter]);
     }
 }
