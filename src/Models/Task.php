@@ -51,6 +51,29 @@ class Task
         ];
     }
 
+    public static function getStatusName($alias): string
+    {
+        switch ($alias) {
+            case self::STATUS_NEW:
+                $status = 'Новое';
+                break;
+            case self::STATUS_CANCELLED:
+                $status = 'Отменено';
+                break;
+            case self::STATUS_WORKING:
+                $status = 'В работе';
+                break;
+            case self::STATUS_COMPLETED:
+                $status = 'Выполнено';
+                break;
+            case self::STATUS_FAILED:
+                $status = 'Провалено';
+                break;
+        }
+
+        return $status;
+    }
+
     public function getActionsMap(): array
     {
         return [

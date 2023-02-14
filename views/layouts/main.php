@@ -26,7 +26,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title><?=Html::encode($this->title)?></title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <!-- <?php $this->head()?> Все вставки вида $this->method() просили сохранить, но эта ломает верстку -->
 </head>
 <body>
@@ -34,13 +34,13 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
 <header class="page-header">
     <nav class="main-nav">
-        <a href='#' class="header-logo">
-            <img class="logo-image" src="img/logotype.png" width=227 height=60 alt="taskforce">
+        <a href='/' class="header-logo">
+            <img class="logo-image" src="/img/logotype.png" width=227 height=60 alt="taskforce">
         </a>
         <div class="nav-wrapper">
             <ul class="nav-list">
                 <li class="list-item list-item--active">
-                    <a class="link link--nav">Новое</a>
+                    <a href="/tasks" class="link link--nav">Новое</a>
                 </li>
                 <li class="list-item">
                     <a href="#" class="link link--nav">Мои задания</a>
@@ -56,7 +56,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     </nav>
     <div class="user-block">
         <a href="#">
-            <img class="user-photo" src="img/man-glasses.png" width="55" height="55" alt="Аватар">
+            <img class="user-photo" src="/img/man-glasses.png" width="55" height="55" alt="Аватар">
         </a>
         <div class="user-menu">
             <p class="user-name">Василий</p>
@@ -77,13 +77,11 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     </div>
 </header>
 
-<main class="main-content container">
-    <?php if (!empty($this->params['breadcrumbs'])): ?>
-        <?=Breadcrumbs::widget(['links' => $this->params['breadcrumbs']])?>
-    <?php endif?>
-    <?=Alert::widget()?>
-    <?=$content?>
-</main>
+<?php if (!empty($this->params['breadcrumbs'])): ?>
+    <?=Breadcrumbs::widget(['links' => $this->params['breadcrumbs']])?>
+<?php endif?>
+<?=Alert::widget()?>
+<?=$content?>
 
 <?php $this->endBody()?>
 </body>
