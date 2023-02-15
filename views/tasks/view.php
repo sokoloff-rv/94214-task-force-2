@@ -1,4 +1,5 @@
 <?php
+use Taskforce\Helpers\RateHelper;
 use Taskforce\Models\Task as TaskBasic;
 
 Yii::$app->formatter->defaultTimeZone = 'Asia/Bishkek';
@@ -37,17 +38,27 @@ $this->title = "Taskforce - Просмотр задания c id $task->id";
                 <div class="response-card">
                     <img class="customer-photo" src="<?=$response->executor->avatar?>" width="146" height="156" alt="Фото исполнителя">
                     <div class="feedback-wrapper">
-                        <a href="#" class="link link--block link--big"><?=$response->executor->name?></a>
+                        <a href="/users/view/<?=$response->executor->id?>" class="link link--block link--big"><?=$response->executor->name?></a>
                         <div class="response-wrapper">
-                            <div class="stars-rating small"><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span>&nbsp;</span></div>
-                            <p class="reviews">2 отзыва</p>
+                            <div class="stars-rating small">
+                                <?= RateHelper::getStars($response->executor->UserRating) ?>
+                            </div>
+                            <p class="reviews">
+                                <?= Yii::t(
+                                    'app', '{n, plural, =0{# отзывов} one{# отзыв} =2{# отзыва} =3{# отзыва} =4{# отзыва} few{# отзыва} many{# отзывов} other{# отзывов}}', ['n' => count($response->executor->reviewsOnExecutor)]
+                                ); ?>
+                            </p>
                         </div>
                         <p class="response-message">
                             <?=$response->comment?>
                         </p>
                     </div>
                     <div class="feedback-wrapper">
-                        <p class="info-text"><span class="current-time">25 минут </span>назад</p>
+                        <p class="info-text"><span class="current-time">
+                            <?= Yii::$app->formatter->format(
+                                $response->creation_date, 'relativeTime'
+                            ) ?>
+                        </p>
                         <p class="price price--small"><?=$response->price?>&nbsp;₽</p>
                     </div>
                     <div class="button-popup">

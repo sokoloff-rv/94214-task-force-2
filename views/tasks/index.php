@@ -19,13 +19,12 @@ $categories = ArrayHelper::map($categoriesQuery, 'id', 'name');
         <?php foreach ($tasks as $task): ?>
             <div class="task-card">
                 <div class="header-task">
-                    <a  href="#" class="link link--block link--big"><?=$task->title?></a>
+                    <a  href="/tasks/view/<?=$task->id?>" class="link link--block link--big"><?=$task->title?></a>
                     <p class="price price--task"><?=$task->budget?>&nbsp;₽</p>
                 </div>
                 <p class="info-text">
                     <?= Yii::$app->formatter->format(
-                        $task->creation_date,
-                        'relativeTime'
+                        $task->creation_date, 'relativeTime'
                     ) ?>
                 </p>
                 <p class="task-text"><?=$task->description?></p>
