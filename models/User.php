@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use Taskforce\Models\Task as TaskBasic;
 
 /**
  * This is the model class for table "users".
@@ -151,8 +152,23 @@ class User extends \yii\db\ActiveRecord
             $sumOfGrades += $review['grade'];
         }
 
-        $rate = round($sumOfGrades / (count($reviews) + $this->failed_tasks));
+        if ($sumOfGrades > 0) {
+            $rate = round($sumOfGrades / (count($reviews) + $this->failed_tasks), 2);
+        } else {
+            $rate = 0;
+        }
 
         return $rate;
+    }
+
+    public function getUserStatus(): string
+    {
+        if (
+            Task::findOne(['executor_id' => $this->id,
+            'status' => TaskBasic::STATUS_WORKING])
+        ) {
+            return 'Занят';
+        }
+        return 'Открыт для новых заказов';
     }
 }
