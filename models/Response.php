@@ -12,9 +12,10 @@ use Yii;
  * @property int $task_id
  * @property string|null $comment
  * @property int|null $price
+ * @property string|null $creation_date
  *
- * @property Users $executor
- * @property Tasks $task
+ * @property User $executor
+ * @property Task $task
  */
 class Response extends \yii\db\ActiveRecord
 {
@@ -35,6 +36,7 @@ class Response extends \yii\db\ActiveRecord
             [['executor_id', 'task_id'], 'required'],
             [['executor_id', 'task_id', 'price'], 'integer'],
             [['comment'], 'string'],
+            [['creation_date'], 'safe'],
             [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['executor_id' => 'id']],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Task::class, 'targetAttribute' => ['task_id' => 'id']],
         ];
@@ -51,6 +53,7 @@ class Response extends \yii\db\ActiveRecord
             'task_id' => 'Task ID',
             'comment' => 'Comment',
             'price' => 'Price',
+            'creation_date' => 'Creation Date',
         ];
     }
 

@@ -29,31 +29,35 @@ $this->title = "Taskforce - Просмотр задания c id $task->id";
                 <p class="map-address">Здесь, видимо, будет адрес, хотя такого поля в БД пока нет</p>
             <?php endif; ?>
         </div>
-        <h4 class="head-regular">Отклики на задание</h4>
 
-        <?php foreach($task->responses as $response): ?>
-            <div class="response-card">
-                <img class="customer-photo" src="<?=$response->executor->avatar?>" width="146" height="156" alt="Фото исполнителя">
-                <div class="feedback-wrapper">
-                    <a href="#" class="link link--block link--big"><?=$response->executor->name?></a>
-                    <div class="response-wrapper">
-                        <div class="stars-rating small"><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span>&nbsp;</span></div>
-                        <p class="reviews">2 отзыва</p>
+        <?php if ($task->responses): ?>
+            <h4 class="head-regular">Отклики на задание</h4>
+
+            <?php foreach($task->responses as $response): ?>
+                <div class="response-card">
+                    <img class="customer-photo" src="<?=$response->executor->avatar?>" width="146" height="156" alt="Фото исполнителя">
+                    <div class="feedback-wrapper">
+                        <a href="#" class="link link--block link--big"><?=$response->executor->name?></a>
+                        <div class="response-wrapper">
+                            <div class="stars-rating small"><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span>&nbsp;</span></div>
+                            <p class="reviews">2 отзыва</p>
+                        </div>
+                        <p class="response-message">
+                            <?=$response->comment?>
+                        </p>
                     </div>
-                    <p class="response-message">
-                        <?=$response->comment?>
-                    </p>
+                    <div class="feedback-wrapper">
+                        <p class="info-text"><span class="current-time">25 минут </span>назад</p>
+                        <p class="price price--small"><?=$response->price?>&nbsp;₽</p>
+                    </div>
+                    <div class="button-popup">
+                        <a href="#" class="button button--blue button--small">Принять</a>
+                        <a href="#" class="button button--orange button--small">Отказать</a>
+                    </div>
                 </div>
-                <div class="feedback-wrapper">
-                    <p class="info-text"><span class="current-time">25 минут </span>назад</p>
-                    <p class="price price--small"><?=$response->price?>&nbsp;₽</p>
-                </div>
-                <div class="button-popup">
-                    <a href="#" class="button button--blue button--small">Принять</a>
-                    <a href="#" class="button button--orange button--small">Отказать</a>
-                </div>
-            </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+
+        <?php endif; ?>
 
     </div>
     <div class="right-column">
@@ -65,8 +69,7 @@ $this->title = "Taskforce - Просмотр задания c id $task->id";
                 <dt>Дата публикации</dt>
                 <dd>
                     <?= Yii::$app->formatter->format(
-                        $task->creation_date,
-                        'relativeTime'
+                        $task->creation_date, 'relativeTime'
                     ) ?>
                 </dd>
                 <dt>Срок выполнения</dt>

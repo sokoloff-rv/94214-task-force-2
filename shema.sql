@@ -73,6 +73,7 @@ CREATE TABLE responses (
     task_id INT NOT NULL,
     comment TEXT,
     price INT,
+    creation_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (executor_id) REFERENCES users(id),
     FOREIGN KEY (task_id) REFERENCES tasks(id)
 );
