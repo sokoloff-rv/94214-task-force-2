@@ -55,4 +55,9 @@ class Category extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Task::class, ['category_id' => 'id']);
     }
+
+    public static function getCategoryName($id): String
+    {
+        return self::find()->select('name')->where(['id' => $id])->one()['name'];
+    }
 }

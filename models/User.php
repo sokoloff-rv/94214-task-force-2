@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use Taskforce\Models\Task as TaskBasic;
 
 /**
  * This is the model class for table "users".
@@ -103,42 +104,71 @@ class User extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Reviews]].
+     * Gets query for [[CustomerReviews]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getReviews()
+    public function getCustomerReviews()
     {
         return $this->hasMany(Review::class, ['customer_id' => 'id']);
     }
 
     /**
-     * Gets query for [[Reviews0]].
+     * Gets query for [[ReviewsOnExecutor]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getReviews0()
+    public function getReviewsOnExecutor()
     {
         return $this->hasMany(Review::class, ['executor_id' => 'id']);
     }
 
     /**
-     * Gets query for [[Tasks]].
+     * Gets query for [[CustomerTasks]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getTasks()
+    public function getCustomerTasks()
     {
         return $this->hasMany(Task::class, ['customer_id' => 'id']);
     }
 
     /**
-     * Gets query for [[Tasks0]].
+     * Gets query for [[ExecutorTasks]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getTasks0()
+    public function getExecutorTasks()
     {
         return $this->hasMany(Task::class, ['executor_id' => 'id']);
+    }
+
+    public function getUserRating(): string
+    {
+        $sumOfGrades = 0;
+        $reviews = $this->reviewsOnExecutor;
+
+        foreach ($reviews as $review) {
+            $sumOfGrades += $review['grade'];
+        }
+
+        if ($sumOfGrades > 0) {
+            $rate = round($sumOfGrades / (count($reviews) + $this->failed_tasks), 2);
+        } else {
+            $rate = 0;
+        }
+
+        return $rate;
+    }
+
+    public function getUserStatus(): string
+    {
+        if (
+            Task::findOne(['executor_id' => $this->id,
+            'status' => TaskBasic::STATUS_WORKING])
+        ) {
+            return 'Занят';
+        }
+        return 'Открыт для новых заказов';
     }
 }

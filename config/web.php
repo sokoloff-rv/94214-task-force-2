@@ -44,14 +44,14 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'tasks/view/<id:\d+>' => 'tasks/view',
+                'users/view/<id:\d+>' => 'users/view'
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
