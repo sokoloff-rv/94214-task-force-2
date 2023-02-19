@@ -1,11 +1,16 @@
 <?php
-namespace app\models;
+namespace app\models\forms;
 
-use yii\db\ActiveRecord;
-use yii\web\IdentityInterface;
+use yii\base\Model;
 
-class User extends ActiveRecord implements IdentityInterface
+class Registration extends Model
 {
+    public string $name = '';
+    public string $email = '';
+    public string $city = '';
+    public string $password = '';
+    public string $passwordRepeat = '';
+    public bool $isExecutor = false;
 
     public function attributeLabels()
     {
@@ -14,28 +19,19 @@ class User extends ActiveRecord implements IdentityInterface
             'email' => 'Email',
             'city' => 'Город',
             'password' => 'Пароль',
-            'password_repeat' => 'Повтор пароля',
+            'passwordRepeat' => 'Повтор пароля',
+            'isExecutor' => 'Я собираюсь откликаться на задания'
         ];
     }
 
-    public static function findIdentity($id)
+    public function rules()
     {
-        return self::findOne($id);
-    }
-
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-    }
-
-    public function getId()
-    {
-    }
-
-    public function getAuthKey()
-    {
-    }
-
-    public function validateAuthKey($authKey)
-    {
+        return [
+            [['name', 'email', 'city', 'password', 'passwordRepeat', 'isExecutor'], 'safe'],
+            [['name', 'email', 'city', 'password', 'passwordRepeat'], 'required'],
+            ['email', 'email'],
+            [['passwordRepeat'], 'compare', 'compareAttribute' => 'password'],
+            [['isExecutor'], 'boolean']
+        ];
     }
 }
