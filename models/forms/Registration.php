@@ -2,6 +2,8 @@
 namespace app\models\forms;
 
 use yii\base\Model;
+use app\models\User;
+use app\models\City;
 
 class Registration extends Model
 {
@@ -30,8 +32,21 @@ class Registration extends Model
             [['name', 'email', 'city', 'password', 'passwordRepeat', 'isExecutor'], 'safe'],
             [['name', 'email', 'city', 'password', 'passwordRepeat'], 'required'],
             ['email', 'email'],
+            [['email'], 'unique', 'targetClass' => User::class, 'targetAttribute' => ['email' => 'email']],
+            [['city'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city' => 'id']],
             [['passwordRepeat'], 'compare', 'compareAttribute' => 'password'],
             [['isExecutor'], 'boolean']
         ];
+    }
+
+    public function newUser()
+    {
+        $user = new User;
+        $user->name = $this->name;
+        $user->email = $this->email;
+        $user->password = $this->password;
+        $user->city_id = $this->city;
+        $user->role = $this->isExecutor == 1 ? User::EXECUTOR : User::CUSTOMER;
+        return $user;
     }
 }

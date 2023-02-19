@@ -17,7 +17,7 @@ $cities = ArrayHelper::map(City::find()->all(), 'id', 'name');
                 'method' => 'post',
                 'fieldConfig' => [
                     'template' => "{label}{input}\n{error}",
-                ],
+                ]
             ]);?>
                 <h3 class="head-main head-task">Регистрация нового пользователя</h3>
                 <?=$form->field($registration, 'name');?>

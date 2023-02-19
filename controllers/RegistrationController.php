@@ -11,6 +11,17 @@ class RegistrationController extends Controller
     {
         $registration = new Registration();
 
+        if (Yii::$app->request->getIsPost()) {
+            $registration->load(Yii::$app->request->post());
+
+            if ($registration->validate()) {
+                $registration->password = Yii::$app->security->generatePasswordHash($registration->password);
+
+                $registration->newUser()->save(false);
+                Yii::$app->response->redirect(['tasks']);
+            }
+        }
+
         return $this->render('index', ['registration' => $registration]);
     }
 }

@@ -33,6 +33,9 @@ use Taskforce\Models\Task as TaskBasic;
  */
 class User extends \yii\db\ActiveRecord
 {
+    const CUSTOMER = 'customer';
+    const EXECUTOR = 'executor';
+
     /**
      * {@inheritdoc}
      */
