@@ -4,7 +4,7 @@ use Taskforce\Helpers\RateHelper;
 
 Yii::$app->formatter->defaultTimeZone = 'Asia/Bishkek';
 Yii::$app->formatter->locale = 'ru-RU';
-$this->title = "Taskforce - Просмотр пользователя c id $user->id";
+$this->title = "Просмотр пользователя c id $user->id";
 
 $categoriesId = explode(", ", $user->specializations);
 ?>

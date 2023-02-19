@@ -1,11 +1,12 @@
 <?php
 namespace app\models\forms;
 
+use Yii;
 use yii\base\Model;
 use app\models\User;
 use app\models\City;
 
-class Registration extends Model
+class RegistrationForm extends Model
 {
     public string $name = '';
     public string $email = '';
@@ -46,7 +47,16 @@ class Registration extends Model
         $user->email = $this->email;
         $user->password = $this->password;
         $user->city_id = $this->city;
-        $user->role = $this->isExecutor ? User::EXECUTOR : User::CUSTOMER;
+        $user->role = $this->isExecutor ? User::ROLE_EXECUTOR : User::ROLE_CUSTOMER;
         return $user;
+    }
+
+    public function createUser()
+    {
+        if ($this->validate()) {
+            $this->password = Yii::$app->security->generatePasswordHash($this->password);
+            $this->newUser()->save(false);
+            Yii::$app->response->redirect(['tasks']);
+        }
     }
 }

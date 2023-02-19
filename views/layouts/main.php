@@ -23,7 +23,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title><?=Html::encode($this->title)?></title>
+    <title><?=Html::encode($this->title).' - Taskforce'?></title>
     <link rel="stylesheet" href="/css/style.css">
     <!-- <?php $this->head()?> Все вставки вида $this->method() просили сохранить, но эта ломает верстку -->
 </head>

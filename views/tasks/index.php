@@ -6,7 +6,7 @@ use yii\widgets\ActiveForm;
 
 Yii::$app->formatter->defaultTimeZone = 'Asia/Bishkek';
 Yii::$app->formatter->locale = 'ru-RU';
-$this->title = 'Taskforce - Задания';
+$this->title = 'Задания';
 
 $categoriesQuery = Category::find()->select(['id', 'name'])->all();
 $categories = ArrayHelper::map($categoriesQuery, 'id', 'name');
@@ -69,8 +69,8 @@ $categories = ArrayHelper::map($categoriesQuery, 'id', 'name');
                     'id' => 'filter-form',
                     'method' => 'get',
                     'fieldConfig' => [
-                        'template' => "{input}"
-                    ]
+                        'template' => "{input}",
+                    ],
                 ]);?>
 
                     <h4 class="head-card">Категории</h4>
@@ -81,9 +81,9 @@ $categories = ArrayHelper::map($categoriesQuery, 'id', 'name');
                             'class' => 'checkbox-wrapper',
                             'itemOptions' => [
                                 'labelOptions' => [
-                                    'class' => 'control-label'
-                                ]
-                            ]
+                                    'class' => 'control-label',
+                                ],
+                            ],
                         ]
                     );?>
 
@@ -92,16 +92,16 @@ $categories = ArrayHelper::map($categoriesQuery, 'id', 'name');
                         [
                             'id' => 'distant-work',
                             'labelOptions' => [
-                                'class' => 'control-label'
-                            ]
+                                'class' => 'control-label',
+                            ],
                         ]
                     );?>
                     <?=$form->field($filter, 'noResponse')->checkbox(
                         [
                             'id' => 'no-response',
                             'labelOptions' => [
-                                'class' => 'control-label'
-                            ]
+                                'class' => 'control-label',
+                            ],
                         ]
                     );?>
 
@@ -109,7 +109,7 @@ $categories = ArrayHelper::map($categoriesQuery, 'id', 'name');
                     <?=$form->field($filter, 'period')->dropDownList(
                         TasksFilter::getPeriodsMap(),
                         [
-                            'id' => 'period-value'
+                            'id' => 'period-value',
                         ]
                     );?>
 

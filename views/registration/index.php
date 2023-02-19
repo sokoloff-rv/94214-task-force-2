@@ -5,7 +5,7 @@ use app\models\City;
 
 Yii::$app->formatter->defaultTimeZone = 'Asia/Bishkek';
 Yii::$app->formatter->locale = 'ru-RU';
-$this->title = 'Taskforce - Регистрация';
+$this->title = 'Регистрация';
 $cities = ArrayHelper::map(City::find()->all(), 'id', 'name');
 ?>
 
@@ -17,7 +17,7 @@ $cities = ArrayHelper::map(City::find()->all(), 'id', 'name');
                 'method' => 'post',
                 'fieldConfig' => [
                     'template' => "{label}{input}\n{error}",
-                ]
+                ],
             ]);?>
                 <h3 class="head-main head-task">Регистрация нового пользователя</h3>
                 <?=$form->field($registration, 'name');?>
@@ -34,8 +34,8 @@ $cities = ArrayHelper::map(City::find()->all(), 'id', 'name');
                 <?=$form->field($registration, 'isExecutor')->checkbox(
                     [
                         'labelOptions' => [
-                            'class' => 'control-label'
-                        ]
+                            'class' => 'control-label',
+                        ],
                     ]
                 );?>
                 <input type="submit" class="button button--blue" value="Создать аккаунт">
