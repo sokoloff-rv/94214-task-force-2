@@ -33,7 +33,7 @@ class Registration extends Model
             [['name', 'email', 'city', 'password', 'passwordRepeat'], 'required'],
             ['email', 'email'],
             [['email'], 'unique', 'targetClass' => User::class, 'targetAttribute' => ['email' => 'email']],
-            [['city'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city' => 'id']],
+            [['city'], 'exist', 'targetClass' => City::class, 'targetAttribute' => ['city' => 'id']],
             [['passwordRepeat'], 'compare', 'compareAttribute' => 'password'],
             [['isExecutor'], 'boolean']
         ];
@@ -46,7 +46,7 @@ class Registration extends Model
         $user->email = $this->email;
         $user->password = $this->password;
         $user->city_id = $this->city;
-        $user->role = $this->isExecutor == 1 ? User::EXECUTOR : User::CUSTOMER;
+        $user->role = $this->isExecutor ? User::EXECUTOR : User::CUSTOMER;
         return $user;
     }
 }
