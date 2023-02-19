@@ -4,7 +4,7 @@ use Taskforce\Models\Task as TaskBasic;
 
 Yii::$app->formatter->defaultTimeZone = 'Asia/Bishkek';
 Yii::$app->formatter->locale = 'ru-RU';
-$this->title = "Taskforce - Просмотр задания c id $task->id";
+$this->title = "Просмотр задания c id $task->id";
 ?>
 
 <main class="main-content container">

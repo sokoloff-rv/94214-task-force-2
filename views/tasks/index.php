@@ -6,7 +6,7 @@ use yii\widgets\ActiveForm;
 
 Yii::$app->formatter->defaultTimeZone = 'Asia/Bishkek';
 Yii::$app->formatter->locale = 'ru-RU';
-$this->title = 'Taskforce - Задания';
+$this->title = 'Задания';
 
 $categoriesQuery = Category::find()->select(['id', 'name'])->all();
 $categories = ArrayHelper::map($categoriesQuery, 'id', 'name');
