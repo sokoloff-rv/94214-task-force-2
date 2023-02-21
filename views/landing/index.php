@@ -43,7 +43,7 @@ $this->title = 'Главная страница';
                 <a href="#" class="header__account-enter open-modal" data-for="enter-form">
                     <span>Вход</span></a>
                 или
-                <a href="signup.html" class="header__account-registration">
+                <a href="/registration" class="header__account-registration">
                     Регистрация
                 </a>
             </div>
@@ -57,7 +57,7 @@ $this->title = 'Главная страница';
                <p>Сломался кран на кухне? Надо отправить документы? Нет времени самому гулять с собакой?
                    У нас вы быстро найдёте исполнителя для любой жизненной ситуации?<br>
                    Быстро, безопасно и с гарантией. Просто, как раз, два, три. </p>
-               <button class="button">Создать аккаунт</button>
+               <a href="/registration" class="button">Создать аккаунт</a>
            </div>
            <div class="landing-center">
                <div class="landing-instruction">
@@ -156,7 +156,7 @@ $this->title = 'Главная страница';
             <div class="page-footer__links">
                 <ul class="links__list">
                     <li class="links__item">
-                        <a href="">Задания</a>
+                        <a href="/tasks">Задания</a>
                     </li>
                     <li class="links__item">
                         <a href="">Мой профиль</a>
@@ -165,7 +165,7 @@ $this->title = 'Главная страница';
                         <a href="">Исполнители</a>
                     </li>
                     <li class="links__item">
-                        <a href="">Регистрация</a>
+                        <a href="/registration">Регистрация</a>
                     </li>
                     <li class="links__item">
                         <a href="">Создать задание</a>
