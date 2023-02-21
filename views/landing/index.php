@@ -1,5 +1,4 @@
 <?php
-use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 
 Yii::$app->formatter->defaultTimeZone = 'Asia/Bishkek';
@@ -187,17 +186,26 @@ $this->title = 'Главная страница';
     </footer>
     <section class="modal enter-form form-modal" id="enter-form">
         <h2>Вход на сайт</h2>
-        <form action="#" method="post">
-            <p>
-                <label class="form-modal-description" for="enter-email">Email</label>
-                <input class="enter-form-email input input-middle" type="email" name="enter-email" id="enter-email">
-            </p>
-            <p>
-                <label class="form-modal-description" for="enter-password">Пароль</label>
-                <input class="enter-form-email input input-middle" type="password" name="enter-email" id="enter-password">
-            </p>
+        <?php $form = ActiveForm::begin([
+            'id' => 'login-form',
+            'method' => 'post',
+            'enableAjaxValidation' => true,
+        ]);?>
+            <?=$form->field($login, 'email')->input(
+                'email',
+                ['class' => 'enter-form-email input input-middle'],
+            )->label(
+                'Email',
+                ['class' => 'form-modal-description']
+            );?>
+            <?=$form->field($login, 'password')->passwordInput(
+                ['class' => 'enter-form-email input input-middle']
+            )->label(
+                'Пароль',
+                ['class' => 'form-modal-description']
+            );?>
             <button class="button" type="submit">Войти</button>
-        </form>
+        <?php ActiveForm::end();?>
         <button class="form-modal-close" type="button">Закрыть</button>
     </section>
 </div>
