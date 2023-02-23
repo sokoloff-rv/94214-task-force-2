@@ -17,7 +17,6 @@ abstract class NotSecuredController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index'],
                         'roles' => ['?']
                     ]
                 ]
