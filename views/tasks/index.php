@@ -10,6 +10,7 @@ $this->title = 'Задания';
 
 $categoriesQuery = Category::find()->select(['id', 'name'])->all();
 $categories = ArrayHelper::map($categoriesQuery, 'id', 'name');
+$user_id = Yii::$app->user->getId();
 ?>
 
 <main class="main-content container">

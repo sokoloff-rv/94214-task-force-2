@@ -1,5 +1,6 @@
 <?php
 use yii\widgets\ActiveForm;
+use yii\widgets\ActiveField;
 
 Yii::$app->formatter->defaultTimeZone = 'Asia/Bishkek';
 Yii::$app->formatter->locale = 'ru-RU';
@@ -39,8 +40,8 @@ $this->title = 'Главная страница';
                <p>Работа там, где ты!</p>
             </div>
             <div class="header__account--index">
-                <a href="#" class="header__account-enter open-modal" data-for="enter-form">
-                    <span>Вход</span></a>
+                <span class="header__account-enter open-modal" data-for="enter-form" style="text-decoration: underline; cursor: pointer;">
+                    <span>Вход</span></span>
                 или
                 <a href="/registration" class="header__account-registration">
                     Регистрация
@@ -190,6 +191,9 @@ $this->title = 'Главная страница';
             'id' => 'login-form',
             'method' => 'post',
             'enableAjaxValidation' => true,
+            'fieldConfig' => [
+                'template' => "{label}{input}\n{error}",
+            ],
         ]);?>
             <?=$form->field($login, 'email')->input(
                 'email',

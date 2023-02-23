@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\web\IdentityInterface;
 use Taskforce\Models\Task as TaskBasic;
 
 /**
@@ -31,7 +32,7 @@ use Taskforce\Models\Task as TaskBasic;
  * @property Tasks[] $tasks
  * @property Tasks[] $tasks0
  */
-class User extends \yii\db\ActiveRecord
+class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
     const ROLE_CUSTOMER = 'customer';
     const ROLE_EXECUTOR = 'executor';
@@ -173,5 +174,32 @@ class User extends \yii\db\ActiveRecord
             return 'Занят';
         }
         return 'Открыт для новых заказов';
+    }
+
+    public static function findIdentity($id)
+    {
+        return self::findOne($id);
+    }
+
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getAuthKey()
+    {
+    }
+
+    public function validateAuthKey($authKey)
+    {
+    }
+
+    public function validatePassword($password)
+    {
+        return Yii::$app->security->validatePassword($password, $this->password);
     }
 }
