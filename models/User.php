@@ -147,7 +147,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return $this->hasMany(Task::class, ['executor_id' => 'id']);
     }
 
-    public static function getCurrentUser()
+    public static function getCurrentUser(): User
     {
         return User::findOne(Yii::$app->user->getId());
     }
