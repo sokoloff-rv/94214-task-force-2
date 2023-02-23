@@ -58,9 +58,11 @@ $user = User::getCurrentUser();
     </nav>
     <?php if (!Yii::$app->user->isGuest): ?>
         <div class="user-block">
-            <a href="#">
-                <img class="user-photo" src="<?=$user->avatar?>" width="55" height="55" alt="Аватар">
-            </a>
+            <?php if ($user->avatar): ?>
+                <a href="#">
+                    <img class="user-photo" src="<?=$user->avatar?>" width="55" height="55" alt="Аватар">
+                </a>
+            <?php endif;?>
             <div class="user-menu">
                 <p class="user-name"><?=$user->name?></p>
                 <div class="popup-head">
