@@ -17,7 +17,9 @@ $this->registerMetaTag(['name' => 'viewport', 'content' => 'width=device-width, 
 $this->registerMetaTag(['name' => 'description', 'content' => $this->params['meta_description'] ?? '']);
 $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_keywords'] ?? '']);
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii::getAlias('@web/favicon.ico')]);
-$user = User::getCurrentUser();
+if (!Yii::$app->user->isGuest) {
+    $user = User::getCurrentUser();
+}
 ?>
 <?php $this->beginPage()?>
 <!DOCTYPE html>

@@ -7,7 +7,7 @@ use yii\web\Controller;
 use yii\widgets\ActiveForm;
 use app\models\forms\LoginForm;
 
-class LandingController extends Controller
+class LandingController extends NotSecuredController
 {
     public $layout = 'landing';
 

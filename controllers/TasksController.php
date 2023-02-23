@@ -1,14 +1,13 @@
 <?php
 namespace app\controllers;
 
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
 use app\models\Task;
 use app\models\TaskSearch;
 use app\models\forms\TasksFilter;
 
-class TasksController extends Controller
+class TasksController extends SecuredController
 {
     public function actionIndex()
     {
