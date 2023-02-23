@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers;
 
+use Yii;
 use app\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -14,5 +15,11 @@ class UsersController extends Controller
             throw new NotFoundHttpException("Нет пользователя с id $id!");
         }
         return $this->render('view', ['user' => $user]);
+    }
+
+    public function actionLogout()
+    {
+        Yii::$app->user->logout();
+        return $this->goHome();
     }
 }

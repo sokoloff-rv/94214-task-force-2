@@ -147,6 +147,11 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return $this->hasMany(Task::class, ['executor_id' => 'id']);
     }
 
+    public static function getCurrentUser()
+    {
+        return User::findOne(Yii::$app->user->getId());
+    }
+
     public function getUserRating(): string
     {
         $sumOfGrades = 0;
