@@ -5,6 +5,7 @@ use Yii;
 use app\models\Task;
 use app\models\Category;
 use yii\base\Model;
+use yii\web\UploadedFile;
 use Taskforce\Models\Task as TaskBasic;
 
 class NewTaskForm extends Model
@@ -40,7 +41,7 @@ class NewTaskForm extends Model
             [['deadline'], 'compare', 'compareValue' => date('Y-m-d'),
             'operator' => '>', 'type' => 'date',
             'message' => 'Срок выполнения не может быть в прошлом'],
-            [['files'], 'file'],
+            [['files'], 'file', 'maxFiles' => 0],
         ];
     }
 
@@ -59,7 +60,13 @@ class NewTaskForm extends Model
 
     public function createTask()
     {
+        $files = UploadedFile::getInstance($this, 'files');
+
         if ($this->validate()) {
+            if ($files) {
+                $newFileName = uniqid('uploads') . '.' . $files->getExtension();
+                $files->saveAs('@webroot/uploads/' . $newFileName);
+            }
             $newTask = $this->newTask();
             $newTask->save(false);
             Yii::$app->response->redirect(["/tasks/view/$newTask->id"]);
