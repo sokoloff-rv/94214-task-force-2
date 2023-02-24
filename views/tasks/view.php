@@ -1,6 +1,7 @@
 <?php
 use Taskforce\Helpers\RateHelper;
 use Taskforce\Models\Task as TaskBasic;
+use yii\helpers\Url;
 
 Yii::$app->formatter->defaultTimeZone = 'Asia/Bishkek';
 Yii::$app->formatter->locale = 'ru-RU';
@@ -24,29 +25,27 @@ $this->title = "Просмотр задания c id $task->id";
         <div class="task-map">
             <img class="map" src="/img/map.png"  width="725" height="346" alt="">
             <p class="map-address town">
-                <?=isset($task->city->name) ? $task->city->name : 'Удаленная работа' ?>
+                <?=isset($task->city->name) ? $task->city->name : 'Удаленная работа'?>
             </p>
             <?php if (isset($task->city->name)): ?>
                 <p class="map-address">Здесь, видимо, будет адрес, хотя такого поля в БД пока нет</p>
-            <?php endif; ?>
+            <?php endif;?>
         </div>
 
         <?php if ($task->responses): ?>
             <h4 class="head-regular">Отклики на задание</h4>
 
-            <?php foreach($task->responses as $response): ?>
+            <?php foreach ($task->responses as $response): ?>
                 <div class="response-card">
                     <img class="customer-photo" src="<?=$response->executor->avatar?>" width="146" height="156" alt="Фото исполнителя">
                     <div class="feedback-wrapper">
-                        <a href="/users/view/<?=$response->executor->id?>" class="link link--block link--big"><?=$response->executor->name?></a>
+                        <a href="<?=Url::toRoute(['/users/view/', 'id' => $response->executor->id])?>" class="link link--block link--big"><?=$response->executor->name?></a>
                         <div class="response-wrapper">
                             <div class="stars-rating small">
-                                <?= RateHelper::getStars($response->executor->UserRating) ?>
+                                <?=RateHelper::getStars($response->executor->UserRating)?>
                             </div>
                             <p class="reviews">
-                                <?= Yii::t(
-                                    'app', '{n, plural, =0{# отзывов} one{# отзыв} =2{# отзыва} =3{# отзыва} =4{# отзыва} few{# отзыва} many{# отзывов} other{# отзывов}}', ['n' => count($response->executor->reviewsOnExecutor)]
-                                ); ?>
+                                <?=Yii::t('app', '{n, plural, =0{# отзывов} one{# отзыв} =2{# отзыва} =3{# отзыва} =4{# отзыва} few{# отзыва} many{# отзывов} other{# отзывов}}', ['n' => count($response->executor->reviewsOnExecutor)]);?>
                             </p>
                         </div>
                         <p class="response-message">
@@ -55,9 +54,9 @@ $this->title = "Просмотр задания c id $task->id";
                     </div>
                     <div class="feedback-wrapper">
                         <p class="info-text"><span class="current-time">
-                            <?= Yii::$app->formatter->format(
+                            <?=Yii::$app->formatter->format(
                                 $response->creation_date, 'relativeTime'
-                            ) ?>
+                            )?>
                         </p>
                         <p class="price price--small"><?=$response->price?>&nbsp;₽</p>
                     </div>
@@ -66,9 +65,9 @@ $this->title = "Просмотр задания c id $task->id";
                         <a href="#" class="button button--orange button--small">Отказать</a>
                     </div>
                 </div>
-            <?php endforeach; ?>
+            <?php endforeach;?>
 
-        <?php endif; ?>
+        <?php endif;?>
 
     </div>
     <div class="right-column">
@@ -79,18 +78,18 @@ $this->title = "Просмотр задания c id $task->id";
                 <dd><?=$task->category->name?></dd>
                 <dt>Дата публикации</dt>
                 <dd>
-                    <?= Yii::$app->formatter->format(
+                    <?=Yii::$app->formatter->format(
                         $task->creation_date, 'relativeTime'
-                    ) ?>
+                    )?>
                 </dd>
                 <dt>Срок выполнения</dt>
                 <dd>
-                    <?= Yii::$app->formatter->asDate(
+                    <?=Yii::$app->formatter->asDate(
                         $task->deadline, 'php:d F, H:i'
-                    ) ?>
+                    )?>
                 </dd>
                 <dt>Статус</dt>
-                <dd><?= TaskBasic::getStatusName($task->status) ?></dd>
+                <dd><?=TaskBasic::getStatusName($task->status)?></dd>
             </dl>
         </div>
         <div class="right-card white file-card">

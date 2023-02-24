@@ -4,10 +4,11 @@
 /** @var string $content */
 
 use app\assets\AppAsset;
+use app\models\User;
 use app\widgets\Alert;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
-use app\models\User;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 
@@ -27,7 +28,7 @@ if (!Yii::$app->user->isGuest) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title><?=Html::encode($this->title).' - Taskforce'?></title>
+    <title><?=Html::encode($this->title) . ' - Taskforce'?></title>
     <link rel="stylesheet" href="/css/style.css">
     <!-- <?php $this->head()?> Все вставки вида $this->method() просили сохранить, но эта ломает верстку -->
 </head>
@@ -43,7 +44,7 @@ if (!Yii::$app->user->isGuest) {
             <div class="nav-wrapper">
                 <ul class="nav-list">
                     <li class="list-item list-item--active">
-                        <a href="/tasks" class="link link--nav">Новое</a>
+                        <a href="<?=Url::to(['/tasks'])?>" class="link link--nav">Новое</a>
                     </li>
                     <li class="list-item">
                         <a href="#" class="link link--nav">Мои задания</a>
@@ -76,7 +77,7 @@ if (!Yii::$app->user->isGuest) {
                             <a href="#" class="link">Связаться с нами</a>
                         </li>
                         <li class="menu-item">
-                            <a href="/users/logout" class="link">Выход из системы</a>
+                            <a href="<?=Url::to(['/users/logout'])?>" class="link">Выход из системы</a>
                         </li>
                     </ul>
                 </div>
