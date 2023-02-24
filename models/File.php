@@ -58,4 +58,12 @@ class File extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Task::class, ['id' => 'task_id']);
     }
+
+    public static function saveFile($link, $taskId)
+    {
+        $newFile = new self;
+        $newFile->link = $link;
+        $newFile->task_id = $taskId;
+        $newFile->save(false);
+    }
 }

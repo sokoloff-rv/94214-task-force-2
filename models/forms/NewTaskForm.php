@@ -3,6 +3,7 @@ namespace app\models\forms;
 
 use app\models\Category;
 use app\models\Task;
+use app\models\File;
 use Taskforce\Models\Task as TaskBasic;
 use Yii;
 use yii\base\Model;
@@ -63,14 +64,16 @@ class NewTaskForm extends Model
         $files = UploadedFile::getInstances($this, 'files');
 
         if ($this->validate()) {
+            $newTask = $this->newTask();
+            $newTask->save(false);
             if ($files) {
                 foreach ($files as $file) {
                     $newFileName = uniqid('upload') . '.' . $file->getExtension();
                     $file->saveAs('@webroot/uploads/' . $newFileName);
+                    $fileLink = '/uploads/' . $newFileName;
+                    File::saveFile($fileLink, $newTask->id);
                 }
             }
-            $newTask = $this->newTask();
-            $newTask->save(false);
             Yii::$app->response->redirect(["/tasks/view/$newTask->id"]);
         }
     }
