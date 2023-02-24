@@ -2,9 +2,9 @@
 
 namespace app\models;
 
+use Taskforce\Models\Task as TaskBasic;
 use Yii;
 use yii\web\IdentityInterface;
-use Taskforce\Models\Task as TaskBasic;
 
 /**
  * This is the model class for table "users".
@@ -173,8 +173,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function getUserStatus(): string
     {
         if (
-            Task::findOne(['executor_id' => $this->id,
-            'status' => TaskBasic::STATUS_WORKING])
+            Task::findOne(['executor_id' => $this->id, 'status' => TaskBasic::STATUS_WORKING])
         ) {
             return 'Занят';
         }

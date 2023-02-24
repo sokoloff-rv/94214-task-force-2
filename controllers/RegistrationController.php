@@ -1,8 +1,8 @@
 <?php
 namespace app\controllers;
 
-use Yii;
 use app\models\forms\RegistrationForm;
+use Yii;
 
 class RegistrationController extends NotSecuredController
 {

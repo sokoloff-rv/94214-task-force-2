@@ -1,9 +1,9 @@
 <?php
 namespace app\models\forms;
 
+use app\models\User;
 use Yii;
 use yii\base\Model;
-use app\models\User;
 
 class LoginForm extends Model
 {
@@ -16,7 +16,7 @@ class LoginForm extends Model
     {
         return [
             'email' => 'Email',
-            'password' => 'Пароль'
+            'password' => 'Пароль',
         ];
     }
 

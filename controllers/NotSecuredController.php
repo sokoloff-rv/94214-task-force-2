@@ -1,8 +1,8 @@
 <?php
 namespace app\controllers;
 
-use yii\web\Controller;
 use yii\filters\AccessControl;
+use yii\web\Controller;
 
 abstract class NotSecuredController extends Controller
 {
@@ -17,10 +17,10 @@ abstract class NotSecuredController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['?']
-                    ]
-                ]
-            ]
+                        'roles' => ['?'],
+                    ],
+                ],
+            ],
         ];
     }
 }

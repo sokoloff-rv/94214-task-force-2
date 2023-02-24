@@ -1,11 +1,10 @@
 <?php
 namespace app\controllers;
 
+use app\models\forms\LoginForm;
 use Yii;
 use yii\web\Response;
-use yii\web\Controller;
 use yii\widgets\ActiveForm;
-use app\models\forms\LoginForm;
 
 class LandingController extends NotSecuredController
 {

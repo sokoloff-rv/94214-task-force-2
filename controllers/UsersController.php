@@ -1,8 +1,8 @@
 <?php
 namespace app\controllers;
 
-use Yii;
 use app\models\User;
+use Yii;
 use yii\web\NotFoundHttpException;
 
 class UsersController extends SecuredController
