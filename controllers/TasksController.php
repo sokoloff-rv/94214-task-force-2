@@ -2,6 +2,7 @@
 namespace app\controllers;
 
 use app\models\forms\TasksFilter;
+use app\models\forms\NewTaskForm;
 use app\models\Task;
 use app\models\TaskSearch;
 use yii\web\NotFoundHttpException;
@@ -18,12 +19,18 @@ class TasksController extends SecuredController
         return $this->render('index', ['tasks' => $tasks, 'filter' => $filter]);
     }
 
-    public function actionView($id): string
+    public function actionView($id)
     {
         $task = Task::findOne($id);
         if (!$task) {
             throw new NotFoundHttpException("Нет задания с id $id!");
         }
         return $this->render('view', ['task' => $task]);
+    }
+
+    public function actionNew()
+    {
+        $taskForm = new NewTaskForm();
+        return $this->render('new', ['newTask' => $taskForm]);
     }
 }
