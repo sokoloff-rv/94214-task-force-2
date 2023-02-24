@@ -1,14 +1,14 @@
 <?php
 namespace app\models;
 
+use app\models\forms\TasksFilter;
+use app\models\Response;
+use app\models\Task;
+use Taskforce\Models\Task as TaskBasic;
 use Yii;
 use yii\base\Model;
 use yii\db\Expression;
 use yii\helpers\ArrayHelper;
-use app\models\Response;
-use app\models\forms\TasksFilter;
-use app\models\Task;
-use Taskforce\Models\Task as TaskBasic;
 
 class TaskSearch extends Model
 {

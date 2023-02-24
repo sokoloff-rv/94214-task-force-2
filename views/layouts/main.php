@@ -4,9 +4,11 @@
 /** @var string $content */
 
 use app\assets\AppAsset;
+use app\models\User;
 use app\widgets\Alert;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 
@@ -16,6 +18,9 @@ $this->registerMetaTag(['name' => 'viewport', 'content' => 'width=device-width, 
 $this->registerMetaTag(['name' => 'description', 'content' => $this->params['meta_description'] ?? '']);
 $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_keywords'] ?? '']);
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii::getAlias('@web/favicon.ico')]);
+if (!Yii::$app->user->isGuest) {
+    $user = User::getCurrentUser();
+}
 ?>
 <?php $this->beginPage()?>
 <!DOCTYPE html>
@@ -23,7 +28,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title><?=Html::encode($this->title).' - Taskforce'?></title>
+    <title><?=Html::encode($this->title) . ' - Taskforce'?></title>
     <link rel="stylesheet" href="/css/style.css">
     <!-- <?php $this->head()?> Все вставки вида $this->method() просили сохранить, но эта ломает верстку -->
 </head>
@@ -39,7 +44,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             <div class="nav-wrapper">
                 <ul class="nav-list">
                     <li class="list-item list-item--active">
-                        <a href="/tasks" class="link link--nav">Новое</a>
+                        <a href="<?=Url::to(['/tasks'])?>" class="link link--nav">Новое</a>
                     </li>
                     <li class="list-item">
                         <a href="#" class="link link--nav">Мои задания</a>
@@ -56,11 +61,13 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     </nav>
     <?php if (!Yii::$app->user->isGuest): ?>
         <div class="user-block">
-            <a href="#">
-                <img class="user-photo" src="/img/man-glasses.png" width="55" height="55" alt="Аватар">
-            </a>
+            <?php if ($user->avatar): ?>
+                <a href="#">
+                    <img class="user-photo" src="<?=$user->avatar?>" width="55" height="55" alt="Аватар">
+                </a>
+            <?php endif;?>
             <div class="user-menu">
-                <p class="user-name">Василий</p>
+                <p class="user-name"><?=$user->name?></p>
                 <div class="popup-head">
                     <ul class="popup-menu">
                         <li class="menu-item">
@@ -70,7 +77,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                             <a href="#" class="link">Связаться с нами</a>
                         </li>
                         <li class="menu-item">
-                            <a href="#" class="link">Выход из системы</a>
+                            <a href="<?=Url::to(['/users/logout'])?>" class="link">Выход из системы</a>
                         </li>
                     </ul>
                 </div>

@@ -1,10 +1,10 @@
 <?php
 namespace app\models\forms;
 
+use app\models\City;
+use app\models\User;
 use Yii;
 use yii\base\Model;
-use app\models\User;
-use app\models\City;
 
 class RegistrationForm extends Model
 {
@@ -23,20 +23,19 @@ class RegistrationForm extends Model
             'city' => 'Город',
             'password' => 'Пароль',
             'passwordRepeat' => 'Повтор пароля',
-            'isExecutor' => 'Я собираюсь откликаться на задания'
+            'isExecutor' => 'Я собираюсь откликаться на задания',
         ];
     }
 
     public function rules()
     {
         return [
-            [['name', 'email', 'city', 'password', 'passwordRepeat', 'isExecutor'], 'safe'],
             [['name', 'email', 'city', 'password', 'passwordRepeat'], 'required'],
             ['email', 'email'],
             [['email'], 'unique', 'targetClass' => User::class, 'targetAttribute' => ['email' => 'email']],
             [['city'], 'exist', 'targetClass' => City::class, 'targetAttribute' => ['city' => 'id']],
             [['passwordRepeat'], 'compare', 'compareAttribute' => 'password'],
-            [['isExecutor'], 'boolean']
+            [['isExecutor'], 'boolean'],
         ];
     }
 

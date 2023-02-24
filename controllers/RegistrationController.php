@@ -1,11 +1,10 @@
 <?php
 namespace app\controllers;
 
-use Yii;
-use yii\web\Controller;
 use app\models\forms\RegistrationForm;
+use Yii;
 
-class RegistrationController extends Controller
+class RegistrationController extends NotSecuredController
 {
     public function actionIndex()
     {

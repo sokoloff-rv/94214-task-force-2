@@ -2,8 +2,6 @@
 namespace app\models\forms;
 
 use yii\base\Model;
-use app\models\Task;
-use Taskforce\Models\Task as TaskBasic;
 
 class TasksFilter extends Model
 {
@@ -15,15 +13,15 @@ class TasksFilter extends Model
     public array $categories = [];
     public bool $distantWork = false;
     public bool $noResponse = false;
-    public ?string $period = NULL;
+    public ?string $period = null;
 
-    public function attributeLabels(): array
+    public function attributeLabels() : array
     {
         return [
             'categories' => 'Категории',
             'distantWork' => 'Удаленная работа',
             'noResponse' => 'Без откликов',
-            'period' => 'Период'
+            'period' => 'Период',
         ];
     }
 
@@ -40,7 +38,7 @@ class TasksFilter extends Model
             self::ALL_TIME => 'за всё время',
             self::ONE_HOUR => '1 час',
             self::HALF_DAY => '12 часов',
-            self::ONE_DAY => '24 часа'
+            self::ONE_DAY => '24 часа',
         ];
     }
 }
