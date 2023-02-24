@@ -21,7 +21,9 @@ $categories = ArrayHelper::map($categoriesQuery, 'id', 'name');
             <div class="task-card">
                 <div class="header-task">
                     <a href="<?=Url::toRoute(['/tasks/view/', 'id' => $task->id])?>" class="link link--block link--big"><?=$task->title?></a>
-                    <p class="price price--task"><?=$task->budget?>&nbsp;₽</p>
+                    <p class="price price--task">
+                        <?=$task->budget?><?=$task->budget ? '&nbsp;₽' : ''?>
+                    </p>
                 </div>
                 <p class="info-text">
                     <?=Yii::$app->formatter->format(

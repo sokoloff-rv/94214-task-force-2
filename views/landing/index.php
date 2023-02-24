@@ -168,7 +168,7 @@ $this->title = 'Главная страница';
                         <a href="<?=Url::to(['/registration'])?>">Регистрация</a>
                     </li>
                     <li class="links__item">
-                        <a href="">Создать задание</a>
+                        <a href="<?=Url::to(['/tasks/new'])?>">Создать задание</a>
                     </li>
                     <li class="links__item">
                         <a href="">Справка</a>

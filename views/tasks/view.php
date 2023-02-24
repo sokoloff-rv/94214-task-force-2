@@ -12,7 +12,9 @@ $this->title = "Просмотр задания c id $task->id";
     <div class="left-column">
         <div class="head-wrapper">
             <h3 class="head-main"><?=$task->title?></h3>
-            <p class="price price--big"><?=$task->budget?>&nbsp;₽</p>
+            <p class="price price--big">
+                <?=$task->budget?><?=$task->budget ? '&nbsp;₽' : ''?>
+            </p>
         </div>
         <p class="task-description">
             <?=$task->description?>

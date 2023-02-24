@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers;
 
+use Yii;
 use app\models\forms\TasksFilter;
 use app\models\forms\NewTaskForm;
 use app\models\Task;
@@ -31,6 +32,12 @@ class TasksController extends SecuredController
     public function actionNew()
     {
         $taskForm = new NewTaskForm();
+
+        if (Yii::$app->request->getIsPost()) {
+            $taskForm->load(Yii::$app->request->post());
+            $taskForm->createTask();
+        }
+
         return $this->render('new', ['newTask' => $taskForm]);
     }
 }
