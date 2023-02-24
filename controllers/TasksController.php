@@ -1,15 +1,31 @@
 <?php
 namespace app\controllers;
 
-use Yii;
-use app\models\forms\TasksFilter;
 use app\models\forms\NewTaskForm;
+use app\models\forms\TasksFilter;
 use app\models\Task;
 use app\models\TaskSearch;
+use app\models\User;
+use Yii;
 use yii\web\NotFoundHttpException;
 
 class TasksController extends SecuredController
 {
+    public function behaviors(): array
+    {
+        $rules = parent::behaviors();
+        $rule = [
+            'allow' => false,
+            'actions' => ['new'],
+            'matchCallback' => function ($rule, $action) {
+                return Yii::$app->user->getIdentity()->role === User::ROLE_EXECUTOR;
+            },
+        ];
+        array_unshift($rules['access']['rules'], $rule);
+
+        return $rules;
+    }
+
     public function actionIndex()
     {
         $TaskSearch = new TaskSearch();
