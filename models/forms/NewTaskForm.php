@@ -1,12 +1,12 @@
 <?php
 namespace app\models\forms;
 
-use Yii;
-use app\models\Task;
 use app\models\Category;
+use app\models\Task;
+use Taskforce\Models\Task as TaskBasic;
+use Yii;
 use yii\base\Model;
 use yii\web\UploadedFile;
-use Taskforce\Models\Task as TaskBasic;
 
 class NewTaskForm extends Model
 {
@@ -16,7 +16,7 @@ class NewTaskForm extends Model
     public string $location = '';
     public string $budget = '';
     public string $deadline = '';
-    public string $files = '';
+    public array $files = [];
 
     public function attributeLabels()
     {
@@ -27,7 +27,7 @@ class NewTaskForm extends Model
             'location' => 'Локация',
             'budget' => 'Бюджет',
             'deadline' => 'Срок исполнения',
-            'files' => 'Файлы'
+            'files' => 'Файлы',
         ];
     }
 
@@ -39,8 +39,8 @@ class NewTaskForm extends Model
             ['budget', 'integer', 'min' => 1],
             [['deadline'], 'date', 'format' => 'php:Y-m-d'],
             [['deadline'], 'compare', 'compareValue' => date('Y-m-d'),
-            'operator' => '>', 'type' => 'date',
-            'message' => 'Срок выполнения не может быть в прошлом'],
+                'operator' => '>', 'type' => 'date',
+                'message' => 'Срок выполнения не может быть в прошлом'],
             [['files'], 'file', 'maxFiles' => 0],
         ];
     }
@@ -60,12 +60,14 @@ class NewTaskForm extends Model
 
     public function createTask()
     {
-        $files = UploadedFile::getInstance($this, 'files');
+        $files = UploadedFile::getInstances($this, 'files');
 
         if ($this->validate()) {
             if ($files) {
-                $newFileName = uniqid('uploads') . '.' . $files->getExtension();
-                $files->saveAs('@webroot/uploads/' . $newFileName);
+                foreach ($files as $file) {
+                    $newFileName = uniqid('upload') . '.' . $file->getExtension();
+                    $file->saveAs('@webroot/uploads/' . $newFileName);
+                }
             }
             $newTask = $this->newTask();
             $newTask->save(false);

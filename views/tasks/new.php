@@ -33,8 +33,8 @@ $categories = ArrayHelper::map($categoriesQuery, 'id', 'name');
                 );?>
                 <?=$form->field($newTask, 'deadline')->input('date');?>
             </div>
-            <?=$form->field($newTask, 'files')->fileInput(
-                ['class' => 'new-file']
+            <?=$form->field($newTask, 'files[]')->fileInput(
+                ['class' => 'new-file', 'multiple' => true]
             );?>
             <input type="submit" class="button button--blue" value="Опубликовать">
         <?php ActiveForm::end();?>
