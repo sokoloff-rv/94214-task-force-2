@@ -30,7 +30,6 @@ class RegistrationForm extends Model
     public function rules()
     {
         return [
-            [['name', 'email', 'city', 'password', 'passwordRepeat', 'isExecutor'], 'safe'],
             [['name', 'email', 'city', 'password', 'passwordRepeat'], 'required'],
             ['email', 'email'],
             [['email'], 'unique', 'targetClass' => User::class, 'targetAttribute' => ['email' => 'email']],
