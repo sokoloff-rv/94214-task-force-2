@@ -74,7 +74,8 @@ class NewTaskForm extends Model
                     File::saveFile($fileLink, $newTask->id);
                 }
             }
-            Yii::$app->response->redirect(["/tasks/view/$newTask->id"]);
+            return $newTask->id;
         }
+        return false;
     }
 }

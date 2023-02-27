@@ -51,7 +51,10 @@ class TasksController extends SecuredController
 
         if (Yii::$app->request->getIsPost()) {
             $taskForm->load(Yii::$app->request->post());
-            $taskForm->createTask();
+            $newTaskId = $taskForm->createTask();
+            if ($newTaskId) {
+                return Yii::$app->response->redirect(["/tasks/view/$newTaskId"]);
+            }
         }
 
         return $this->render('new', ['newTask' => $taskForm]);
