@@ -5,10 +5,8 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
-Yii::$app->formatter->defaultTimeZone = 'Asia/Bishkek';
-Yii::$app->formatter->locale = 'ru-RU';
 $this->title = 'Задания';
-
+$formatter = Yii::$app->formatter;
 $categoriesQuery = Category::find()->select(['id', 'name'])->all();
 $categories = ArrayHelper::map($categoriesQuery, 'id', 'name');
 ?>
@@ -21,10 +19,12 @@ $categories = ArrayHelper::map($categoriesQuery, 'id', 'name');
             <div class="task-card">
                 <div class="header-task">
                     <a href="<?=Url::toRoute(['/tasks/view/', 'id' => $task->id])?>" class="link link--block link--big"><?=$task->title?></a>
-                    <p class="price price--task"><?=$task->budget?>&nbsp;₽</p>
+                    <p class="price price--task">
+                        <?=$task->budget ? $formatter->asCurrency($task->budget) : 'Бюджен не указан'?>
+                    </p>
                 </div>
                 <p class="info-text">
-                    <?=Yii::$app->formatter->format(
+                    <?=$formatter->format(
                         $task->creation_date, 'relativeTime'
                     )?>
                 </p>

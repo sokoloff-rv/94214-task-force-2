@@ -12,7 +12,7 @@ $config = [
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
     ],
     'components' => [
         'request' => [
@@ -50,7 +50,14 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 'tasks/view/<id:\d+>' => 'tasks/view',
-                'users/view/<id:\d+>' => 'users/view'
+                'users/view/<id:\d+>' => 'users/view',
+            ],
+        ],
+        'formatter' => [
+            'locale' => 'ru-RU',
+            'defaultTimeZone' => 'Asia/Bishkek',
+            'numberFormatterOptions' => [
+                NumberFormatter::FRACTION_DIGITS => 0,
             ],
         ],
     ],

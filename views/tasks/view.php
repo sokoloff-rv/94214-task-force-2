@@ -3,16 +3,17 @@ use Taskforce\Helpers\RateHelper;
 use Taskforce\Models\Task as TaskBasic;
 use yii\helpers\Url;
 
-Yii::$app->formatter->defaultTimeZone = 'Asia/Bishkek';
-Yii::$app->formatter->locale = 'ru-RU';
 $this->title = "Просмотр задания c id $task->id";
+$formatter = Yii::$app->formatter;
 ?>
 
 <main class="main-content container">
     <div class="left-column">
         <div class="head-wrapper">
             <h3 class="head-main"><?=$task->title?></h3>
-            <p class="price price--big"><?=$task->budget?>&nbsp;₽</p>
+            <p class="price price--big">
+                <?=$task->budget ? $formatter->asCurrency($task->budget) : 'Бюджен не указан'?>
+            </p>
         </div>
         <p class="task-description">
             <?=$task->description?>
@@ -54,11 +55,13 @@ $this->title = "Просмотр задания c id $task->id";
                     </div>
                     <div class="feedback-wrapper">
                         <p class="info-text"><span class="current-time">
-                            <?=Yii::$app->formatter->format(
+                            <?=$formatter->format(
                                 $response->creation_date, 'relativeTime'
                             )?>
                         </p>
-                        <p class="price price--small"><?=$response->price?>&nbsp;₽</p>
+                        <p class="price price--small">
+                            <?=$response->price ? $formatter->asCurrency($response->price) : 'Бюджет не указан'?>
+                        </p>
                     </div>
                     <div class="button-popup">
                         <a href="#" class="button button--blue button--small">Принять</a>
@@ -78,13 +81,13 @@ $this->title = "Просмотр задания c id $task->id";
                 <dd><?=$task->category->name?></dd>
                 <dt>Дата публикации</dt>
                 <dd>
-                    <?=Yii::$app->formatter->format(
+                    <?=$formatter->format(
                         $task->creation_date, 'relativeTime'
                     )?>
                 </dd>
                 <dt>Срок выполнения</dt>
                 <dd>
-                    <?=Yii::$app->formatter->asDate(
+                    <?=$formatter->asDate(
                         $task->deadline, 'php:d F, H:i'
                     )?>
                 </dd>

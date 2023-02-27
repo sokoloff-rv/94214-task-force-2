@@ -3,10 +3,8 @@ use app\models\Category;
 use Taskforce\Helpers\RateHelper;
 use yii\helpers\Url;
 
-Yii::$app->formatter->defaultTimeZone = 'Asia/Bishkek';
-Yii::$app->formatter->locale = 'ru-RU';
 $this->title = "Просмотр пользователя c id $user->id";
-
+$formatter = Yii::$app->formatter;
 $categoriesId = explode(", ", $user->specializations);
 ?>
 
@@ -46,7 +44,7 @@ $categoriesId = explode(", ", $user->specializations);
                     <span class="country-info">Россия</span>, <!-- к этому, видимо, надо будет вернуться позже, так как страна явно в БД не хранится -->
                     <span class="town-info"><?=$user->city->name?></span>,
                     <span class="age-info">
-                        <?=trim(Yii::$app->formatter->format(
+                        <?=trim($formatter->format(
                             $user->birthday, 'relativeTime'
                         ), "назад")?>
                     </span></p>
@@ -68,7 +66,7 @@ $categoriesId = explode(", ", $user->specializations);
                             <?=RateHelper::getStars($review->grade)?>
                         </div>
 		    		    <p class="info-text"><span class="current-time">
-                        <?=Yii::$app->formatter->format(
+                        <?=$formatter->format(
                             $review->creation_date, 'relativeTime'
                         )?>
                         </span></p>
@@ -87,7 +85,7 @@ $categoriesId = explode(", ", $user->specializations);
 				<dd>25 место</dd> <!-- к этому вернусь позже, надо хорошо подумать как не сделать эту операцию очень дорогой -->
 				<dt>Дата регистрации</dt>
 				<dd>
-                    <?=Yii::$app->formatter->asDate(
+                    <?=$formatter->asDate(
                         $user->register_date, 'php:d F, H:i'
                     )?>
                 </dd>

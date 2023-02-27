@@ -2,9 +2,8 @@
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
-Yii::$app->formatter->defaultTimeZone = 'Asia/Bishkek';
-Yii::$app->formatter->locale = 'ru-RU';
 $this->title = 'Главная страница';
+$formatter = Yii::$app->formatter;
 ?>
 
 <div class="table-layout">
@@ -168,7 +167,7 @@ $this->title = 'Главная страница';
                         <a href="<?=Url::to(['/registration'])?>">Регистрация</a>
                     </li>
                     <li class="links__item">
-                        <a href="">Создать задание</a>
+                        <a href="<?=Url::to(['/tasks/new'])?>">Создать задание</a>
                     </li>
                     <li class="links__item">
                         <a href="">Справка</a>
