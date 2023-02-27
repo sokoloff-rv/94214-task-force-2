@@ -3,9 +3,8 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\City;
 
-Yii::$app->formatter->defaultTimeZone = 'Asia/Bishkek';
-Yii::$app->formatter->locale = 'ru-RU';
 $this->title = 'Регистрация';
+$formatter = Yii::$app->formatter;
 $cities = ArrayHelper::map(City::find()->all(), 'id', 'name');
 ?>
 

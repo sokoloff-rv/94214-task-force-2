@@ -3,10 +3,8 @@ use app\models\Category;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 
-Yii::$app->formatter->defaultTimeZone = 'Asia/Bishkek';
-Yii::$app->formatter->locale = 'ru-RU';
 $this->title = 'Новое задание';
-
+$formatter = Yii::$app->formatter;
 $categoriesQuery = Category::find()->select(['id', 'name'])->all();
 $categories = ArrayHelper::map($categoriesQuery, 'id', 'name');
 ?>

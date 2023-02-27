@@ -2,9 +2,8 @@
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
-Yii::$app->formatter->defaultTimeZone = 'Asia/Bishkek';
-Yii::$app->formatter->locale = 'ru-RU';
 $this->title = 'Главная страница';
+$formatter = Yii::$app->formatter;
 ?>
 
 <div class="table-layout">
