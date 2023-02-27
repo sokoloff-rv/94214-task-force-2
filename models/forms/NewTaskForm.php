@@ -76,6 +76,7 @@ class NewTaskForm extends Model
             }
             return $newTask->id;
         }
+
         return false;
     }
 }
