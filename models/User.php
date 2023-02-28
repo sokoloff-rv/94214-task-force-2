@@ -180,30 +180,34 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return 'Открыт для новых заказов';
     }
 
-    public static function findIdentity($id)
+    public static function findIdentity($id): ?User
     {
         return self::findOne($id);
     }
 
-    public static function findIdentityByAccessToken($token, $type = null)
+    public static function findIdentityByAccessToken($token, $type = null): ?User
     {
+        return null;
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getAuthKey()
+    public function getAuthKey(): ?string
     {
+        return null;
     }
 
-    public function validateAuthKey($authKey)
+    public function validateAuthKey($authKey): bool
     {
+        return false;
     }
 
-    public function validatePassword($password)
+    public function validatePassword($password): bool
     {
         return Yii::$app->security->validatePassword($password, $this->password);
     }
+
 }

@@ -22,7 +22,7 @@ class Response extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'responses';
     }
@@ -30,7 +30,7 @@ class Response extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['executor_id', 'task_id'], 'required'],
@@ -45,7 +45,7 @@ class Response extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -62,7 +62,7 @@ class Response extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getExecutor()
+    public function getExecutor(): \yii\db\ActiveQuery
     {
         return $this->hasOne(User::class, ['id' => 'executor_id']);
     }
@@ -72,7 +72,7 @@ class Response extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getTask()
+    public function getTask(): \yii\db\ActiveQuery
     {
         return $this->hasOne(Task::class, ['id' => 'task_id']);
     }

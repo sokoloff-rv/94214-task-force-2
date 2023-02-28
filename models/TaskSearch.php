@@ -1,4 +1,5 @@
 <?php
+
 namespace app\models;
 
 use app\models\forms\TasksFilter;
@@ -7,6 +8,7 @@ use app\models\Task;
 use Taskforce\Models\Task as TaskBasic;
 use Yii;
 use yii\base\Model;
+use yii\db\ActiveQuery;
 use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 
@@ -14,6 +16,7 @@ class TaskSearch extends Model
 {
     public function getTasks(): array
     {
+        /** @var ActiveQuery $tasks */
         $tasks = Task::find()
             ->where(['status' => TaskBasic::STATUS_NEW])
             ->orderBy(['creation_date' => SORT_DESC])

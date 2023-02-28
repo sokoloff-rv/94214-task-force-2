@@ -1,4 +1,5 @@
 <?php
+
 namespace app\models\forms;
 
 use yii\base\Model;
@@ -15,7 +16,7 @@ class TasksFilter extends Model
     public bool $noResponse = false;
     public ?string $period = null;
 
-    public function attributeLabels() : array
+    public function attributeLabels(): array
     {
         return [
             'categories' => 'Категории',

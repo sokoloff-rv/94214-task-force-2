@@ -1,4 +1,5 @@
 <?php
+
 namespace Taskforce\Utils;
 
 use SplFileObject;
@@ -9,7 +10,7 @@ class ConverterCSV
 {
     private string $fileName;
     private array $columns;
-    private object $fileObject;
+    private SplFileObject $fileObject;
     private ?string $error = null;
 
     public function __construct(string $fileName, array $columns)
@@ -31,7 +32,7 @@ class ConverterCSV
         try {
             $this->fileObject = new SplFileObject($this->fileName);
         }
-        catch (RuntimeException $exception) {
+        catch (\RuntimeException $exception) {
             throw new ExceptionSourceFile("Не удалось открыть файл на чтение!");
         }
 

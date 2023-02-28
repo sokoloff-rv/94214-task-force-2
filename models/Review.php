@@ -24,7 +24,7 @@ class Review extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'reviews';
     }
@@ -32,7 +32,7 @@ class Review extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['customer_id', 'executor_id', 'task_id'], 'required'],
@@ -48,7 +48,7 @@ class Review extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -66,7 +66,7 @@ class Review extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getCustomer()
+    public function getCustomer(): \yii\db\ActiveQuery
     {
         return $this->hasOne(User::class, ['id' => 'customer_id']);
     }
@@ -76,7 +76,7 @@ class Review extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getExecutor()
+    public function getExecutor(): \yii\db\ActiveQuery
     {
         return $this->hasOne(User::class, ['id' => 'executor_id']);
     }
@@ -86,7 +86,7 @@ class Review extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getTask()
+    public function getTask(): \yii\db\ActiveQuery
     {
         return $this->hasOne(Task::class, ['id' => 'task_id']);
     }

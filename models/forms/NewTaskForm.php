@@ -1,4 +1,5 @@
 <?php
+
 namespace app\models\forms;
 
 use app\models\Category;
@@ -13,13 +14,13 @@ class NewTaskForm extends Model
 {
     public string $title = '';
     public string $description = '';
-    public string $category = '';
+    public int $category = 0;
     public string $location = '';
     public string $budget = '';
     public string $deadline = '';
     public array $files = [];
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'title' => 'Опишите суть работы',
@@ -46,7 +47,7 @@ class NewTaskForm extends Model
         ];
     }
 
-    public function newTask()
+    public function newTask(): Task
     {
         $task = new Task;
         $task->title = $this->title;
@@ -59,7 +60,7 @@ class NewTaskForm extends Model
         return $task;
     }
 
-    public function createTask()
+    public function createTask(): int|bool
     {
         $files = UploadedFile::getInstances($this, 'files');
 

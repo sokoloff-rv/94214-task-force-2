@@ -1,4 +1,5 @@
 <?php
+
 namespace app\controllers;
 
 use app\models\forms\NewTaskForm;
@@ -26,7 +27,7 @@ class TasksController extends SecuredController
         return $rules;
     }
 
-    public function actionIndex()
+    public function actionIndex(): string
     {
         $TaskSearch = new TaskSearch();
 
@@ -36,7 +37,7 @@ class TasksController extends SecuredController
         return $this->render('index', ['tasks' => $tasks, 'filter' => $filter]);
     }
 
-    public function actionView($id)
+    public function actionView(int $id): string
     {
         $task = Task::findOne($id);
         if (!$task) {
@@ -45,7 +46,7 @@ class TasksController extends SecuredController
         return $this->render('view', ['task' => $task]);
     }
 
-    public function actionNew()
+    public function actionNew(): \yii\web\Response|string
     {
         $taskForm = new NewTaskForm();
 
