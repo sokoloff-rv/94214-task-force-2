@@ -27,7 +27,6 @@ class TaskSearch extends Model
         $request = Yii::$app->getRequest();
 
         if ($request->get('TasksFilter')) {
-
             $categories = $request->get('TasksFilter')['categories'];
             $distantWork = $request->get('TasksFilter')['distantWork'];
             $noResponse = $request->get('TasksFilter')['noResponse'];
@@ -54,10 +53,8 @@ class TaskSearch extends Model
             }
         }
 
-        $count = $tasks->count();
-
         $pagination = new Pagination([
-            'totalCount' => $count,
+            'totalCount' => $tasks->count(),
             'pageSize' => 10,
         ]);
 
