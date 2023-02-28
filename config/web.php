@@ -55,6 +55,7 @@ $config = [
         ],
         'formatter' => [
             'locale' => 'ru-RU',
+            'sizeFormatBase' => 1000,
             'defaultTimeZone' => 'Asia/Bishkek',
             'numberFormatterOptions' => [
                 NumberFormatter::FRACTION_DIGITS => 0,

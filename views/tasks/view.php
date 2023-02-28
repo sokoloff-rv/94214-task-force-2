@@ -1,10 +1,12 @@
 <?php
+use app\models\File;
 use Taskforce\Helpers\RateHelper;
 use Taskforce\Models\Task as TaskBasic;
 use yii\helpers\Url;
 
 $this->title = "Просмотр задания c id $task->id";
 $formatter = Yii::$app->formatter;
+$files = File::find()->where(['task_id' => $task->id])->all();
 ?>
 
 <main class="main-content container">
@@ -95,19 +97,25 @@ $formatter = Yii::$app->formatter;
                 <dd><?=TaskBasic::getStatusName($task->status)?></dd>
             </dl>
         </div>
-        <div class="right-card white file-card">
-            <h4 class="head-card">Файлы задания</h4>
-            <ul class="enumeration-list">
-                <li class="enumeration-item">
-                    <a href="#" class="link link--block link--clip">my_picture.jpg</a>
-                    <p class="file-size">356 Кб</p>
-                </li>
-                <li class="enumeration-item">
-                    <a href="#" class="link link--block link--clip">information.docx</a>
-                    <p class="file-size">12 Кб</p>
-                </li>
-            </ul>
-        </div>
+        <?php if ($files): ?>
+            <div class="right-card white file-card">
+                <h4 class="head-card">Файлы задания</h4>
+                <ul class="enumeration-list">
+                    <?php foreach ($files as $file): ?>
+                        <li class="enumeration-item">
+                            <a href="<?=Yii::$app->urlManager->baseUrl.$file->link?>" class="link link--block link--clip">
+                                <?=str_replace('/uploads/', '', $file->link)?>
+                            </a>
+                            <p class="file-size">
+                                <?= Yii::$app->formatter->asShortSize(
+                                    filesize(Yii::getAlias('@webroot').$file->link)
+                                )?>
+                            </p>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
     </div>
 </main>
 <section class="pop-up pop-up--refusal pop-up--close">
