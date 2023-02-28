@@ -7,6 +7,7 @@ use app\models\Response;
 use app\models\Task;
 use Taskforce\Models\Task as TaskBasic;
 use Yii;
+use yii\data\Pagination;
 use yii\base\Model;
 use yii\db\ActiveQuery;
 use yii\db\Expression;
@@ -53,8 +54,21 @@ class TaskSearch extends Model
             }
         }
 
-        $tasks = $tasks->all();
+        $count = $tasks->count();
 
-        return $tasks;
+        $pagination = new Pagination([
+            'totalCount' => $count,
+            'pageSize' => 10,
+        ]);
+
+        $tasks = $tasks->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+
+        return [
+            'tasks' => $tasks,
+            'pagination' => $pagination,
+        ];
     }
+
 }

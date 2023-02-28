@@ -30,11 +30,14 @@ class TasksController extends SecuredController
     public function actionIndex(): string
     {
         $TaskSearch = new TaskSearch();
-
-        $tasks = $TaskSearch->getTasks();
+        $result = $TaskSearch->getTasks();
         $filter = new TasksFilter();
 
-        return $this->render('index', ['tasks' => $tasks, 'filter' => $filter]);
+        return $this->render('index', [
+            'tasks' => $result['tasks'],
+            'pagination' => $result['pagination'],
+            'filter' => $filter,
+        ]);
     }
 
     public function actionView(int $id): string
@@ -46,7 +49,7 @@ class TasksController extends SecuredController
         return $this->render('view', ['task' => $task]);
     }
 
-    public function actionNew(): \yii\web\Response|string
+    public function actionNew(): \yii\web\Response | string
     {
         $taskForm = new NewTaskForm();
 

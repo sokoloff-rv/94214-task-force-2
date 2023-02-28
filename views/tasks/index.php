@@ -4,6 +4,7 @@ use app\models\forms\TasksFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use yii\widgets\LinkPager;
 
 $this->title = 'Задания';
 $formatter = Yii::$app->formatter;
@@ -44,23 +45,18 @@ $categories = ArrayHelper::map($categoriesQuery, 'id', 'name');
         <?php endforeach;?>
 
         <div class="pagination-wrapper">
-            <ul class="pagination-list">
-                <li class="pagination-item mark">
-                    <a href="#" class="link link--page"></a>
-                </li>
-                <li class="pagination-item">
-                    <a href="#" class="link link--page">1</a>
-                </li>
-                <li class="pagination-item pagination-item--active">
-                    <a href="#" class="link link--page">2</a>
-                </li>
-                <li class="pagination-item">
-                    <a href="#" class="link link--page">3</a>
-                </li>
-                <li class="pagination-item mark">
-                    <a href="#" class="link link--page"></a>
-                </li>
-            </ul>
+            <?= LinkPager::widget([
+                'pagination' => $pagination,
+                'options' => ['class' => 'pagination-list'],
+                'linkOptions' => ['class' => 'link link--page',],
+                'linkContainerOptions' => ['class' => 'pagination-item'],
+                'activePageCssClass' => 'pagination-item--active',
+                'nextPageCssClass' => 'mark',
+                'prevPageCssClass' => 'mark',
+                'disabledPageCssClass' => 'disabled',
+                'prevPageLabel' => '',
+                'nextPageLabel' => '',
+            ]) ?>
         </div>
     </div>
     <div class="right-column">
