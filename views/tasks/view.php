@@ -1,4 +1,5 @@
 <?php
+use app\models\User;
 use app\models\File;
 use Taskforce\Helpers\RateHelper;
 use Taskforce\Models\Task as TaskBasic;
@@ -7,6 +8,9 @@ use yii\helpers\Url;
 $this->title = "Просмотр задания c id $task->id";
 $formatter = Yii::$app->formatter;
 $files = File::find()->where(['task_id' => $task->id])->all();
+if (!Yii::$app->user->isGuest) {
+    $user = User::getCurrentUser();
+}
 ?>
 
 <main class="main-content container">
@@ -20,10 +24,12 @@ $files = File::find()->where(['task_id' => $task->id])->all();
         <p class="task-description">
             <?=$task->description?>
         </p>
+
         <a href="#" class="button button--blue action-btn" data-action="act_response">Откликнуться на задание</a>
 
-        <!-- <a href="#" class="button button--orange action-btn" data-action="refusal">Отказаться от задания</a>
-        <a href="#" class="button button--pink action-btn" data-action="completion">Завершить задание</a> -->
+        <a href="#" class="button button--orange action-btn" data-action="refusal">Отказаться от задания</a>
+
+        <a href="#" class="button button--pink action-btn" data-action="completion">Завершить задание</a>
 
         <div class="task-map">
             <img class="map" src="/img/map.png"  width="725" height="346" alt="">
@@ -35,7 +41,7 @@ $files = File::find()->where(['task_id' => $task->id])->all();
             <?php endif;?>
         </div>
 
-        <?php if ($task->responses): ?>
+        <?php if ($task->responses && $user->id === $task->customer_id): ?>
             <h4 class="head-regular">Отклики на задание</h4>
 
             <?php foreach ($task->responses as $response): ?>
