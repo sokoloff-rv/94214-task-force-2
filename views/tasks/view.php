@@ -2,6 +2,7 @@
 use app\models\User;
 use app\models\File;
 use Taskforce\Helpers\RateHelper;
+use Taskforce\Helpers\ResponsesHelper;
 use Taskforce\Models\Task as TaskBasic;
 use yii\helpers\Url;
 
@@ -41,41 +42,43 @@ if (!Yii::$app->user->isGuest) {
             <?php endif;?>
         </div>
 
-        <?php if ($task->responses && $user->id === $task->customer_id): ?>
+        <?php if ($task->responses && ($user->id === $task->customer_id || ResponsesHelper::userHadResponse($task->responses, $user->id))): ?>
             <h4 class="head-regular">Отклики на задание</h4>
 
             <?php foreach ($task->responses as $response): ?>
-                <div class="response-card">
-                    <img class="customer-photo" src="<?=$response->executor->avatar?>" width="146" height="156" alt="Фото исполнителя">
-                    <div class="feedback-wrapper">
-                        <a href="<?=Url::toRoute(['/users/view/', 'id' => $response->executor->id])?>" class="link link--block link--big"><?=$response->executor->name?></a>
-                        <div class="response-wrapper">
-                            <div class="stars-rating small">
-                                <?=RateHelper::getStars($response->executor->UserRating)?>
+                <?php if ($user->id === $task->customer_id || $user->id === $response->executor_id): ?>
+                    <div class="response-card">
+                        <img class="customer-photo" src="<?=$response->executor->avatar?>" width="146" height="156" alt="Фото исполнителя">
+                        <div class="feedback-wrapper">
+                            <a href="<?=Url::toRoute(['/users/view/', 'id' => $response->executor->id])?>" class="link link--block link--big"><?=$response->executor->name?></a>
+                            <div class="response-wrapper">
+                                <div class="stars-rating small">
+                                    <?=RateHelper::getStars($response->executor->UserRating)?>
+                                </div>
+                                <p class="reviews">
+                                    <?=Yii::t('app', '{n, plural, =0{# отзывов} one{# отзыв} =2{# отзыва} =3{# отзыва} =4{# отзыва} few{# отзыва} many{# отзывов} other{# отзывов}}', ['n' => count($response->executor->reviewsOnExecutor)]);?>
+                                </p>
                             </div>
-                            <p class="reviews">
-                                <?=Yii::t('app', '{n, plural, =0{# отзывов} one{# отзыв} =2{# отзыва} =3{# отзыва} =4{# отзыва} few{# отзыва} many{# отзывов} other{# отзывов}}', ['n' => count($response->executor->reviewsOnExecutor)]);?>
+                            <p class="response-message">
+                                <?=$response->comment?>
                             </p>
                         </div>
-                        <p class="response-message">
-                            <?=$response->comment?>
-                        </p>
+                        <div class="feedback-wrapper">
+                            <p class="info-text"><span class="current-time">
+                                <?=$formatter->format(
+                                    $response->creation_date, 'relativeTime'
+                                )?>
+                            </p>
+                            <p class="price price--small">
+                                <?=$response->price ? $formatter->asCurrency($response->price) : 'Бюджет не указан'?>
+                            </p>
+                        </div>
+                        <div class="button-popup">
+                            <a href="#" class="button button--blue button--small">Принять</a>
+                            <a href="#" class="button button--orange button--small">Отказать</a>
+                        </div>
                     </div>
-                    <div class="feedback-wrapper">
-                        <p class="info-text"><span class="current-time">
-                            <?=$formatter->format(
-                                $response->creation_date, 'relativeTime'
-                            )?>
-                        </p>
-                        <p class="price price--small">
-                            <?=$response->price ? $formatter->asCurrency($response->price) : 'Бюджет не указан'?>
-                        </p>
-                    </div>
-                    <div class="button-popup">
-                        <a href="#" class="button button--blue button--small">Принять</a>
-                        <a href="#" class="button button--orange button--small">Отказать</a>
-                    </div>
-                </div>
+                <?php endif;?>
             <?php endforeach;?>
 
         <?php endif;?>
