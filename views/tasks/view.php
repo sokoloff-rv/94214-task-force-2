@@ -42,11 +42,11 @@ if (!Yii::$app->user->isGuest) {
             <?php endif;?>
         </div>
 
-        <?php if ($task->responses && ($user->id === $task->customer_id || ResponsesHelper::userHadResponse($task->responses, $user->id))): ?>
+        <?php if (ResponsesHelper::userCanSeeResponsesList($task->responses, $user->id, $task->customer_id)): ?>
             <h4 class="head-regular">Отклики на задание</h4>
 
             <?php foreach ($task->responses as $response): ?>
-                <?php if ($user->id === $task->customer_id || $user->id === $response->executor_id): ?>
+                <?php if (ResponsesHelper::userCanSeeResponse($user->id, $task->customer_id, $response->executor_id)): ?>
                     <div class="response-card">
                         <img class="customer-photo" src="<?=$response->executor->avatar?>" width="146" height="156" alt="Фото исполнителя">
                         <div class="feedback-wrapper">
