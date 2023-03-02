@@ -1,4 +1,5 @@
 <?php
+
 namespace Taskforce\Helpers;
 
 use Taskforce\Models\Response;
