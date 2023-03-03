@@ -32,6 +32,8 @@ if (!Yii::$app->user->isGuest) {
 
         <a href="#" class="button button--pink action-btn" data-action="completion">Завершить задание</a>
 
+        <a href="#" class="button button--yellow action-btn" data-action="cancel">Отменить задание</a>
+
         <div class="task-map">
             <img class="map" src="/img/map.png"  width="725" height="346" alt="">
             <p class="map-address town">
@@ -186,6 +188,20 @@ if (!Yii::$app->user->isGuest) {
                 <input type="submit" class="button button--pop-up button--blue" value="Завершить">
             </form>
         </div>
+        <div class="button-container">
+            <button class="button--close" type="button">Закрыть окно</button>
+        </div>
+    </div>
+</section>
+<section class="pop-up pop-up--cancel pop-up--close">
+    <div class="pop-up--wrapper">
+        <h4>Отмена задания</h4>
+        <p class="pop-up-text">
+            <b>Внимание!</b><br>
+            Вы собираетесь отменить это задание.<br>
+            Это действие удалит задание из ленты заданий и вы не сможете найти исполнителя.
+        </p>
+        <a class="button button--pop-up button--yellow">Отменить задание</a>
         <div class="button-container">
             <button class="button--close" type="button">Закрыть окно</button>
         </div>
