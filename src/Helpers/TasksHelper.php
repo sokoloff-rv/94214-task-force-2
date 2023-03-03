@@ -19,4 +19,9 @@ class TasksHelper
         }
         return false;
     }
+
+    public static function userCanSeeRefusalButton(int $userId, string $taskStatus, ?int $executorId): bool
+    {
+        return $userId === $executorId && $taskStatus === TaskBasic::STATUS_WORKING;
+    }
 }
