@@ -73,10 +73,12 @@ if (!Yii::$app->user->isGuest) {
                                 <?=$response->price ? $formatter->asCurrency($response->price) : 'Бюджет не указан'?>
                             </p>
                         </div>
-                        <div class="button-popup">
-                            <a href="#" class="button button--blue button--small">Принять</a>
-                            <a href="#" class="button button--orange button--small">Отказать</a>
-                        </div>
+                        <?php if (ResponsesHelper::userCanSeeResponseButtons($user->id, $task->customer_id, $task->status, $response->status)): ?>
+                            <div class="button-popup">
+                                <a href="#" class="button button--blue button--small">Принять</a>
+                                <a href="#" class="button button--orange button--small">Отказать</a>
+                            </div>
+                        <?php endif;?>
                     </div>
                 <?php endif;?>
             <?php endforeach;?>
