@@ -29,4 +29,9 @@ class TasksHelper
     {
         return $userId === $customerId && $taskStatus === TaskBasic::STATUS_WORKING;
     }
+
+    public static function userCanSeeCancelButton(int $userId, string $taskStatus, ?int $customerId): bool
+    {
+        return $userId === $customerId && $taskStatus === TaskBasic::STATUS_NEW;
+    }
 }

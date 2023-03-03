@@ -39,7 +39,9 @@ if (!Yii::$app->user->isGuest) {
             <a href="#" class="button button--pink action-btn" data-action="completion">Завершить задание</a>
         <?php endif;?>
 
-        <a href="#" class="button button--yellow action-btn" data-action="cancel">Отменить задание</a>
+        <?php if (TasksHelper::userCanSeeCancelButton($user->id, $task->status, $task->customer_id)): ?>
+            <a href="#" class="button button--yellow action-btn" data-action="cancel">Отменить задание</a>
+        <?php endif;?>
 
         <div class="task-map">
             <img class="map" src="/img/map.png"  width="725" height="346" alt="">
