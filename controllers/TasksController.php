@@ -10,6 +10,7 @@ use app\models\User;
 use app\models\Response;
 use Yii;
 use yii\web\NotFoundHttpException;
+use Taskforce\Models\Task as TaskBasic;
 
 class TasksController extends SecuredController
 {
@@ -63,6 +64,20 @@ class TasksController extends SecuredController
         }
 
         return $this->render('new', ['newTask' => $taskForm]);
+    }
+
+    public function actionAccept(int $responseId, int $taskId, int $executorId): \yii\web\Response
+    {
+        $response = Response::findOne($responseId);
+        $response->status = Response::STATUS_ACCEPTED;
+        $response->save();
+
+        $task = Task::findOne($taskId);
+        $task->status = TaskBasic::STATUS_WORKING;
+        $task->executor_id = $executorId;
+        $task->save();
+
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionRefuse(int $responseId): \yii\web\Response
