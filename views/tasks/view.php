@@ -3,6 +3,7 @@ use app\models\User;
 use app\models\File;
 use Taskforce\Helpers\RateHelper;
 use Taskforce\Helpers\ResponsesHelper;
+use Taskforce\Helpers\TasksHelper;
 use Taskforce\Models\Task as TaskBasic;
 use yii\helpers\Url;
 
@@ -26,7 +27,9 @@ if (!Yii::$app->user->isGuest) {
             <?=$task->description?>
         </p>
 
-        <a href="#" class="button button--blue action-btn" data-action="act_response">Откликнуться на задание</a>
+        <?php if (TasksHelper::userCanSeeResponseButton($user->id, $user->role, $task->status, $task->responses)): ?>
+            <a href="#" class="button button--blue action-btn" data-action="act_response">Откликнуться на задание</a>
+        <?php endif;?>
 
         <a href="#" class="button button--orange action-btn" data-action="refusal">Отказаться от задания</a>
 
