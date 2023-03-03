@@ -35,7 +35,9 @@ if (!Yii::$app->user->isGuest) {
             <a href="#" class="button button--orange action-btn" data-action="refusal">Отказаться от задания</a>
         <?php endif;?>
 
-        <a href="#" class="button button--pink action-btn" data-action="completion">Завершить задание</a>
+        <?php if (TasksHelper::userCanSeeCompletionButton($user->id, $task->status, $task->customer_id)): ?>
+            <a href="#" class="button button--pink action-btn" data-action="completion">Завершить задание</a>
+        <?php endif;?>
 
         <a href="#" class="button button--yellow action-btn" data-action="cancel">Отменить задание</a>
 

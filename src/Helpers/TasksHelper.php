@@ -24,4 +24,9 @@ class TasksHelper
     {
         return $userId === $executorId && $taskStatus === TaskBasic::STATUS_WORKING;
     }
+
+    public static function userCanSeeCompletionButton(int $userId, string $taskStatus, ?int $customerId): bool
+    {
+        return $userId === $customerId && $taskStatus === TaskBasic::STATUS_WORKING;
+    }
 }
