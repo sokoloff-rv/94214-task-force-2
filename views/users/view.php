@@ -59,7 +59,7 @@ $categoriesId = explode(", ", $user->specializations);
 		        		<p class="feedback">
                             <?=$review->comment?>
                         </p>
-		        		<p class="task">Задание «<a href="<?=Url::toRoute(['/tasks/view/', 'id' => $review->task->id])?>\" class="link link--small"><?=$review->task->title?></a>» выполнено</p>
+		        		<p class="task">Задание «<a href="<?=Url::toRoute(['/tasks/view/', 'id' => $review->task->id])?>" class="link link--small"><?=$review->task->title?></a>» выполнено</p>
 		        	</div>
 		        	<div class="feedback-wrapper">
 		        		<div class="stars-rating small">
