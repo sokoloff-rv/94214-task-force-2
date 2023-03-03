@@ -7,6 +7,7 @@ use app\models\forms\TasksFilter;
 use app\models\Task;
 use app\models\TaskSearch;
 use app\models\User;
+use app\models\Response;
 use Yii;
 use yii\web\NotFoundHttpException;
 
@@ -62,5 +63,14 @@ class TasksController extends SecuredController
         }
 
         return $this->render('new', ['newTask' => $taskForm]);
+    }
+
+    public function actionRefuse(int $responseId): \yii\web\Response
+    {
+        $response = Response::findOne($responseId);
+        $response->status = Response::STATUS_REJECTED;
+        $response->save();
+
+        return $this->redirect(Yii::$app->request->referrer);
     }
 }

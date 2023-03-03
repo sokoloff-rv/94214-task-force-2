@@ -76,7 +76,7 @@ if (!Yii::$app->user->isGuest) {
                         <?php if (ResponsesHelper::userCanSeeResponseButtons($user->id, $task->customer_id, $task->status, $response->status)): ?>
                             <div class="button-popup">
                                 <a href="#" class="button button--blue button--small">Принять</a>
-                                <a href="#" class="button button--orange button--small">Отказать</a>
+                                <a href="<?= Url::toRoute(['/tasks/refuse', 'responseId' => $response->id]) ?>" class="button button--orange button--small">Отказать</a>
                             </div>
                         <?php endif;?>
                     </div>
