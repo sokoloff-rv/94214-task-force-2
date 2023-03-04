@@ -27,22 +27,22 @@ class NewResponseForm extends Model
         ];
     }
 
-    public function newResponse($responseToTaskId)
+    public function newResponse($taskId)
     {
         $response = new Response;
         $response->comment = $this->comment;
         $response->price = $this->price;
-        $response->task_id = $responseToTaskId;
+        $response->task_id = $taskId;
         $response->executor_id = Yii::$app->user->getId();
         return $response;
     }
 
-    public function createResponse($responseToTaskId)
+    public function createResponse($taskId)
     {
         if ($this->validate()) {
-            $newResponse = $this->newResponse($responseToTaskId);
+            $newResponse = $this->newResponse($taskId);
             $newResponse->save(false);
-            return $responseToTaskId;
+            return true;
         }
         return false;
     }

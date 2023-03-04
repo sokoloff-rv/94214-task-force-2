@@ -53,10 +53,10 @@ class TasksController extends SecuredController
         $responseForm = new NewResponseForm();
         if (Yii::$app->request->getIsPost()) {
             $responseForm->load(Yii::$app->request->post());
-            $responseToTaskId = $responseForm->createResponse($id);
-            if ($responseToTaskId) {
-                return Yii::$app->response->redirect(["/tasks/view/$responseToTaskId"]);
+            if (!$responseForm->createResponse($id)) {
+                throw new NotFoundHttpException("Не получилось создать отклик для задания с id $id!");
             }
+            return Yii::$app->response->redirect(["/tasks/view/$id"]);
         }
 
         return $this->render('view', ['task' => $task, 'responseForm' => $responseForm]);
