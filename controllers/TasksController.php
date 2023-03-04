@@ -2,18 +2,17 @@
 
 namespace app\controllers;
 
-use app\models\forms\NewTaskForm;
 use app\models\forms\NewResponseForm;
 use app\models\forms\NewReviewForm;
+use app\models\forms\NewTaskForm;
 use app\models\forms\TasksFilter;
+use app\models\Response;
 use app\models\Task;
 use app\models\TaskSearch;
 use app\models\User;
-use app\models\Response;
 use Yii;
 use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
-use Taskforce\Models\Task as TaskBasic;
 
 class TasksController extends SecuredController
 {
@@ -100,15 +99,18 @@ class TasksController extends SecuredController
     public function actionAccept(int $responseId, int $taskId, int $executorId): \yii\web\Response
     {
         $response = Response::findOne($responseId);
-        $response->status = Response::STATUS_ACCEPTED;
-        if (!$response->save()) {
+        if (!$response) {
+            throw new NotFoundHttpException("Нет отклика с id $responseId!");
+        }
+        if (!$response->accept()) {
             throw new ServerErrorHttpException("Не получилось сохранить данные!");
         }
 
         $task = Task::findOne($taskId);
-        $task->status = TaskBasic::STATUS_WORKING;
-        $task->executor_id = $executorId;
-        if (!$task->save()) {
+        if (!$task) {
+            throw new NotFoundHttpException("Нет задания с id $taskId!");
+        }
+        if (!$task->startWorking($executorId)) {
             throw new ServerErrorHttpException("Не получилось сохранить данные!");
         }
 
@@ -118,8 +120,10 @@ class TasksController extends SecuredController
     public function actionRefuse(int $responseId): \yii\web\Response
     {
         $response = Response::findOne($responseId);
-        $response->status = Response::STATUS_REJECTED;
-        if (!$response->save()) {
+        if (!$response) {
+            throw new NotFoundHttpException("Нет отклика с id $responseId!");
+        }
+        if (!$response->reject()) {
             throw new ServerErrorHttpException("Не получилось сохранить данные!");
         }
 

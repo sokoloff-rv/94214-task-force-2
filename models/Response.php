@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "responses".
@@ -23,6 +24,18 @@ class Response extends \yii\db\ActiveRecord
     const STATUS_NEW = 'new';
     const STATUS_REJECTED = 'rejected';
     const STATUS_ACCEPTED = 'accepted';
+
+    public function accept(): bool
+    {
+        $this->status = self::STATUS_ACCEPTED;
+        return $this->save();
+    }
+
+    public function reject(): bool
+    {
+        $this->status = self::STATUS_REJECTED;
+        return $this->save();
+    }
 
     /**
      * {@inheritdoc}
