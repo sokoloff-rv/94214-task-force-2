@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\forms\NewTaskForm;
+use app\models\forms\NewResponseForm;
 use app\models\forms\TasksFilter;
 use app\models\Task;
 use app\models\TaskSearch;
@@ -42,13 +43,23 @@ class TasksController extends SecuredController
         ]);
     }
 
-    public function actionView(int $id): string
+    public function actionView(int $id): \yii\web\Response | string
     {
         $task = Task::findOne($id);
         if (!$task) {
             throw new NotFoundHttpException("Нет задания с id $id!");
         }
-        return $this->render('view', ['task' => $task]);
+
+        $responseForm = new NewResponseForm();
+        if (Yii::$app->request->getIsPost()) {
+            $responseForm->load(Yii::$app->request->post());
+            $responseToTaskId = $responseForm->createResponse($id);
+            if ($responseToTaskId) {
+                return Yii::$app->response->redirect(["/tasks/view/$responseToTaskId"]);
+            }
+        }
+
+        return $this->render('view', ['task' => $task, 'responseForm' => $responseForm]);
     }
 
     public function actionNew(): \yii\web\Response | string

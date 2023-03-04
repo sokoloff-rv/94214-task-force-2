@@ -5,6 +5,7 @@ use Taskforce\Helpers\RateHelper;
 use Taskforce\Helpers\ResponsesHelper;
 use Taskforce\Helpers\TasksHelper;
 use Taskforce\Models\Task as TaskBasic;
+use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 
 $this->title = "Просмотр задания c id $task->id";
@@ -185,17 +186,19 @@ if (!Yii::$app->user->isGuest) {
             Пожалуйста, укажите стоимость работы и добавьте комментарий, если необходимо.
         </p>
         <div class="addition-form pop-up--form regular-form">
-            <form>
-                <div class="form-group">
-                    <label class="control-label" for="addition-comment">Ваш комментарий</label>
-                    <textarea id="addition-comment"></textarea>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="addition-price">Стоимость</label>
-                    <input id="addition-price" type="text">
-                </div>
-                <input type="submit" class="button button--pop-up button--blue" value="Завершить">
-            </form>
+
+            <?php $form = ActiveForm::begin([
+                'id' => 'new-response',
+                'method' => 'post',
+                'fieldConfig' => [
+                    'template' => "{label}{input}\n{error}",
+                ],
+            ]);?>
+                <?=$form->field($responseForm, 'comment')->textarea();?>
+                <?=$form->field($responseForm, 'price');?>
+                <input type="submit" class="button button--pop-up button--blue" value="Отправить">
+            <?php ActiveForm::end();?>
+
         </div>
         <div class="button-container">
             <button class="button--close" type="button">Закрыть окно</button>
