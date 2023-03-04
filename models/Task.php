@@ -44,6 +44,12 @@ class Task extends \yii\db\ActiveRecord
         return $this->save();
     }
 
+    public function cancelTask(): bool
+    {
+        $this->status = TaskBasic::STATUS_CANCELLED;
+        return $this->save();
+    }
+
     /**
      * {@inheritdoc}
      */

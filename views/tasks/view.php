@@ -221,7 +221,7 @@ if (!Yii::$app->user->isGuest) {
             Вы собираетесь отменить это задание.<br>
             Это действие удалит задание из ленты заданий и вы не сможете найти исполнителя.
         </p>
-        <a class="button button--pop-up button--yellow">Отменить задание</a>
+        <a href="<?= Url::toRoute(['/tasks/cancel', 'taskId' => $task->id]) ?>" class="button button--pop-up button--yellow">Отменить задание</a>
         <div class="button-container">
             <button class="button--close" type="button">Закрыть окно</button>
         </div>

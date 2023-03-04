@@ -158,4 +158,17 @@ class TasksController extends SecuredController
 
         return $this->redirect(Yii::$app->request->referrer);
     }
+
+    public function actionCancel(int $taskId)
+    {
+        $task = Task::findOne($taskId);
+        if (!$task) {
+            throw new NotFoundHttpException("Нет задания с id $taskId!");
+        }
+        if (!$task->cancelTask()) {
+            throw new ServerErrorHttpException("Не получилось сохранить данные!");
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);
+    }
 }
