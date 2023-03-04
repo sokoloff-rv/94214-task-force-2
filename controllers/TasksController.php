@@ -78,14 +78,14 @@ class TasksController extends SecuredController
             $reviewForm->load(Yii::$app->request->post());
             if (!$reviewForm->createReview($taskId, $executorId)) {
                 throw new ServerErrorHttpException("Не получилось создать отзыв на пользователя по заданию с id $taskId!");
-            }
-
-            $user = User::findOne($executorId);
-            if (!$user) {
-                throw new NotFoundHttpException("Нет пользователя с id $executorId!");
-            }
-            if (!$user->increaseCounterCompletedTasks()) {
-                throw new ServerErrorHttpException("Не получилось сохранить данные!");
+            } else {
+                $user = User::findOne($executorId);
+                if (!$user) {
+                    throw new NotFoundHttpException("Нет пользователя с id $executorId!");
+                }
+                if (!$user->increaseCounterCompletedTasks()) {
+                    throw new ServerErrorHttpException("Не получилось сохранить данные!");
+                }
             }
 
             return Yii::$app->response->redirect(["/tasks/view/$taskId"]);
