@@ -12,7 +12,7 @@ use app\models\TaskSearch;
 use app\models\User;
 use Yii;
 use yii\web\NotFoundHttpException;
-use yii\web\ServerErrorHttpException;
+use yii\web\BadRequestHttpException;
 
 class TasksController extends SecuredController
 {
@@ -63,7 +63,7 @@ class TasksController extends SecuredController
         if (Yii::$app->request->getIsPost()) {
             $responseForm->load(Yii::$app->request->post());
             if (!$responseForm->createResponse($taskId)) {
-                throw new ServerErrorHttpException("Не получилось создать отклик для задания с id $taskId!");
+                throw new BadRequestHttpException("Не получилось создать отклик для задания с id $taskId!");
             }
             return Yii::$app->response->redirect(["/tasks/view/$taskId"]);
         }
@@ -77,14 +77,14 @@ class TasksController extends SecuredController
 
             $reviewForm->load(Yii::$app->request->post());
             if (!$reviewForm->createReview($taskId, $executorId)) {
-                throw new ServerErrorHttpException("Не получилось создать отзыв на пользователя по заданию с id $taskId!");
+                throw new BadRequestHttpException("Не получилось создать отзыв на пользователя по заданию с id $taskId!");
             } else {
                 $user = User::findOne($executorId);
                 if (!$user) {
                     throw new NotFoundHttpException("Нет пользователя с id $executorId!");
                 }
                 if (!$user->increaseCounterCompletedTasks()) {
-                    throw new ServerErrorHttpException("Не получилось сохранить данные!");
+                    throw new BadRequestHttpException("Не получилось сохранить данные!");
                 }
             }
 
@@ -114,7 +114,7 @@ class TasksController extends SecuredController
             throw new NotFoundHttpException("Нет отклика с id $responseId!");
         }
         if (!$response->accept()) {
-            throw new ServerErrorHttpException("Не получилось сохранить данные!");
+            throw new BadRequestHttpException("Не получилось сохранить данные!");
         }
 
         $task = Task::findOne($taskId);
@@ -122,7 +122,7 @@ class TasksController extends SecuredController
             throw new NotFoundHttpException("Нет задания с id $taskId!");
         }
         if (!$task->startWorking($executorId)) {
-            throw new ServerErrorHttpException("Не получилось сохранить данные!");
+            throw new BadRequestHttpException("Не получилось сохранить данные!");
         }
 
         return $this->redirect(Yii::$app->request->referrer);
@@ -135,7 +135,7 @@ class TasksController extends SecuredController
             throw new NotFoundHttpException("Нет отклика с id $responseId!");
         }
         if (!$response->reject()) {
-            throw new ServerErrorHttpException("Не получилось сохранить данные!");
+            throw new BadRequestHttpException("Не получилось сохранить данные!");
         }
 
         return $this->redirect(Yii::$app->request->referrer);
@@ -148,7 +148,7 @@ class TasksController extends SecuredController
             throw new NotFoundHttpException("Нет задания с id $taskId!");
         }
         if (!$task->failTask()) {
-            throw new ServerErrorHttpException("Не получилось сохранить данные!");
+            throw new BadRequestHttpException("Не получилось сохранить данные!");
         }
 
         $user = User::findOne($executorId);
@@ -156,7 +156,7 @@ class TasksController extends SecuredController
             throw new NotFoundHttpException("Нет пользователя с id $executorId!");
         }
         if (!$user->increaseCounterFailedTasks()) {
-            throw new ServerErrorHttpException("Не получилось сохранить данные!");
+            throw new BadRequestHttpException("Не получилось сохранить данные!");
         }
 
         return $this->redirect(Yii::$app->request->referrer);
@@ -169,7 +169,7 @@ class TasksController extends SecuredController
             throw new NotFoundHttpException("Нет задания с id $taskId!");
         }
         if (!$task->cancelTask()) {
-            throw new ServerErrorHttpException("Не получилось сохранить данные!");
+            throw new BadRequestHttpException("Не получилось сохранить данные!");
         }
 
         return $this->redirect(Yii::$app->request->referrer);
