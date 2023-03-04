@@ -137,4 +137,25 @@ class TasksController extends SecuredController
 
         return $this->redirect(Yii::$app->request->referrer);
     }
+
+    public function actionFail(int $taskId, int $executorId)
+    {
+        $task = Task::findOne($taskId);
+        if (!$task) {
+            throw new NotFoundHttpException("Нет задания с id $taskId!");
+        }
+        if (!$task->failTask()) {
+            throw new ServerErrorHttpException("Не получилось сохранить данные!");
+        }
+
+        $user = User::findOne($executorId);
+        if (!$user) {
+            throw new NotFoundHttpException("Нет пользователя с id $executorId!");
+        }
+        if (!$user->increaseCounterFailedTasks()) {
+            throw new ServerErrorHttpException("Не получилось сохранить данные!");
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);
+    }
 }

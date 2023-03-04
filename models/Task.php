@@ -38,6 +38,12 @@ class Task extends \yii\db\ActiveRecord
         return $this->save();
     }
 
+    public function failTask(): bool
+    {
+        $this->status = TaskBasic::STATUS_FAILED;
+        return $this->save();
+    }
+
     /**
      * {@inheritdoc}
      */

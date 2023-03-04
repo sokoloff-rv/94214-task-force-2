@@ -176,6 +176,12 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return $this->save();
     }
 
+    public function increaseCounterFailedTasks(): bool
+    {
+        $this->failed_tasks += 1;
+        return $this->save();
+    }
+
     public function getUserStatus(): string
     {
         if (
