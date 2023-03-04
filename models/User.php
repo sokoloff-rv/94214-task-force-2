@@ -170,7 +170,8 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return $rate;
     }
 
-    public function increaseCounterCompletedTasks() {
+    public function increaseCounterCompletedTasks(): bool
+    {
         $this->succesful_tasks += 1;
         return $this->save();
     }
