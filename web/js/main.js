@@ -53,6 +53,7 @@ if (starRating) {
     starRating.addEventListener("click", function (event) {
         let stars = event.currentTarget.childNodes;
         let rating = 0;
+        stars.forEach((star) => star.classList.remove("fill-star"));
 
         for (let i = 0; i < stars.length; i++) {
             let element = stars[i];
