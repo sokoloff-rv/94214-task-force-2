@@ -18,7 +18,7 @@ class Category extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'categories';
     }
@@ -26,7 +26,7 @@ class Category extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['name', 'alias'], 'required'],
@@ -37,7 +37,7 @@ class Category extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -51,12 +51,12 @@ class Category extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getTasks()
+    public function getTasks(): \yii\db\ActiveQuery
     {
         return $this->hasMany(Task::class, ['category_id' => 'id']);
     }
 
-    public static function getCategoryName($id): String
+    public static function getCategoryName(int $id): string
     {
         return self::find()->select('name')->where(['id' => $id])->one()['name'];
     }

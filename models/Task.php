@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
+use Taskforce\Models\Task as TaskBasic;
 
 /**
  * This is the model class for table "tasks".
@@ -29,10 +31,29 @@ use Yii;
  */
 class Task extends \yii\db\ActiveRecord
 {
+    public function startWorking(int $executorId): bool
+    {
+        $this->status = TaskBasic::STATUS_WORKING;
+        $this->executor_id = $executorId;
+        return $this->save();
+    }
+
+    public function failTask(): bool
+    {
+        $this->status = TaskBasic::STATUS_FAILED;
+        return $this->save();
+    }
+
+    public function cancelTask(): bool
+    {
+        $this->status = TaskBasic::STATUS_CANCELLED;
+        return $this->save();
+    }
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'tasks';
     }
@@ -40,7 +61,7 @@ class Task extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['customer_id', 'title', 'category_id'], 'required'],
@@ -60,7 +81,7 @@ class Task extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',

@@ -91,7 +91,7 @@ if (!Yii::$app->user->isGuest) {
 <?php endif?>
 <?=Alert::widget()?>
 <?=$content?>
-
+<script src="/js/main.js"></script>
 <?php $this->endBody()?>
 </body>
 </html>

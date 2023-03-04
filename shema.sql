@@ -74,6 +74,7 @@ CREATE TABLE responses (
     comment TEXT,
     price INT,
     creation_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(50) DEFAULT 'new' NOT NULL,
     FOREIGN KEY (executor_id) REFERENCES users(id),
     FOREIGN KEY (task_id) REFERENCES tasks(id)
 );

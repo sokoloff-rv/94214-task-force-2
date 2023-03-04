@@ -1,4 +1,5 @@
 <?php
+
 namespace app\controllers;
 
 use app\models\forms\LoginForm;
@@ -10,7 +11,7 @@ class LandingController extends NotSecuredController
 {
     public $layout = 'landing';
 
-    public function actionIndex()
+    public function actionIndex(): \yii\web\Response|string|array
     {
         $loginForm = new LoginForm();
 

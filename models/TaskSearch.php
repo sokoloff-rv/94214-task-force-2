@@ -1,4 +1,5 @@
 <?php
+
 namespace app\models;
 
 use app\models\forms\TasksFilter;
@@ -6,7 +7,9 @@ use app\models\Response;
 use app\models\Task;
 use Taskforce\Models\Task as TaskBasic;
 use Yii;
+use yii\data\Pagination;
 use yii\base\Model;
+use yii\db\ActiveQuery;
 use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 
@@ -14,6 +17,7 @@ class TaskSearch extends Model
 {
     public function getTasks(): array
     {
+        /** @var ActiveQuery $tasks */
         $tasks = Task::find()
             ->where(['status' => TaskBasic::STATUS_NEW])
             ->orderBy(['creation_date' => SORT_DESC])
@@ -23,7 +27,6 @@ class TaskSearch extends Model
         $request = Yii::$app->getRequest();
 
         if ($request->get('TasksFilter')) {
-
             $categories = $request->get('TasksFilter')['categories'];
             $distantWork = $request->get('TasksFilter')['distantWork'];
             $noResponse = $request->get('TasksFilter')['noResponse'];
@@ -50,8 +53,19 @@ class TaskSearch extends Model
             }
         }
 
-        $tasks = $tasks->all();
+        $pagination = new Pagination([
+            'totalCount' => $tasks->count(),
+            'pageSize' => 10,
+        ]);
 
-        return $tasks;
+        $tasks = $tasks->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+
+        return [
+            'tasks' => $tasks,
+            'pagination' => $pagination,
+        ];
     }
+
 }

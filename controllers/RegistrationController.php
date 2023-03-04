@@ -1,4 +1,5 @@
 <?php
+
 namespace app\controllers;
 
 use app\models\forms\RegistrationForm;
@@ -6,7 +7,7 @@ use Yii;
 
 class RegistrationController extends NotSecuredController
 {
-    public function actionIndex()
+    public function actionIndex(): string
     {
         $registration = new RegistrationForm();
 

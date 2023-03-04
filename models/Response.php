@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "responses".
@@ -13,16 +14,33 @@ use Yii;
  * @property string|null $comment
  * @property int|null $price
  * @property string|null $creation_date
+ * @property string $status
  *
  * @property User $executor
  * @property Task $task
  */
 class Response extends \yii\db\ActiveRecord
 {
+    const STATUS_NEW = 'new';
+    const STATUS_REJECTED = 'rejected';
+    const STATUS_ACCEPTED = 'accepted';
+
+    public function accept(): bool
+    {
+        $this->status = self::STATUS_ACCEPTED;
+        return $this->save();
+    }
+
+    public function reject(): bool
+    {
+        $this->status = self::STATUS_REJECTED;
+        return $this->save();
+    }
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'responses';
     }
@@ -30,13 +48,14 @@ class Response extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['executor_id', 'task_id'], 'required'],
             [['executor_id', 'task_id', 'price'], 'integer'],
             [['comment'], 'string'],
             [['creation_date'], 'safe'],
+            [['status'], 'string', 'max' => 50],
             [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['executor_id' => 'id']],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Task::class, 'targetAttribute' => ['task_id' => 'id']],
         ];
@@ -45,7 +64,7 @@ class Response extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -54,6 +73,7 @@ class Response extends \yii\db\ActiveRecord
             'comment' => 'Comment',
             'price' => 'Price',
             'creation_date' => 'Creation Date',
+            'status' => 'Status',
         ];
     }
 
@@ -62,7 +82,7 @@ class Response extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getExecutor()
+    public function getExecutor(): \yii\db\ActiveQuery
     {
         return $this->hasOne(User::class, ['id' => 'executor_id']);
     }
@@ -72,7 +92,7 @@ class Response extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getTask()
+    public function getTask(): \yii\db\ActiveQuery
     {
         return $this->hasOne(Task::class, ['id' => 'task_id']);
     }
