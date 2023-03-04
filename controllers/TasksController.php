@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\forms\NewTaskForm;
 use app\models\forms\NewResponseForm;
+use app\models\forms\NewReviewForm;
 use app\models\forms\TasksFilter;
 use app\models\Task;
 use app\models\TaskSearch;
@@ -11,6 +12,7 @@ use app\models\User;
 use app\models\Response;
 use Yii;
 use yii\web\NotFoundHttpException;
+use yii\web\ServerErrorHttpException;
 use Taskforce\Models\Task as TaskBasic;
 
 class TasksController extends SecuredController
@@ -51,21 +53,40 @@ class TasksController extends SecuredController
         }
 
         $responseForm = new NewResponseForm();
+        $reviewForm = new NewReviewForm();
+
+        return $this->render('view', ['task' => $task, 'responseForm' => $responseForm, 'reviewForm' => $reviewForm]);
+    }
+
+    public function actionResponse(int $taskId): \yii\web\Response
+    {
+        $responseForm = new NewResponseForm();
         if (Yii::$app->request->getIsPost()) {
             $responseForm->load(Yii::$app->request->post());
-            if (!$responseForm->createResponse($id)) {
-                throw new NotFoundHttpException("Не получилось создать отклик для задания с id $id!");
+            if (!$responseForm->createResponse($taskId)) {
+                throw new ServerErrorHttpException("Не получилось создать отклик для задания с id $taskId!");
             }
-            return Yii::$app->response->redirect(["/tasks/view/$id"]);
+            return Yii::$app->response->redirect(["/tasks/view/$taskId"]);
         }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
 
-        return $this->render('view', ['task' => $task, 'responseForm' => $responseForm]);
+    public function actionReview(int $taskId, int $executorId): \yii\web\Response
+    {
+        $reviewForm = new NewReviewForm();
+        if (Yii::$app->request->getIsPost()) {
+            $reviewForm->load(Yii::$app->request->post());
+            if (!$reviewForm->createReview($taskId, $executorId)) {
+                throw new ServerErrorHttpException("Не получилось создать отзыв на пользователя по заданию с id $taskId!");
+            }
+            return Yii::$app->response->redirect(["/tasks/view/$taskId"]);
+        }
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionNew(): \yii\web\Response | string
     {
         $taskForm = new NewTaskForm();
-
         if (Yii::$app->request->getIsPost()) {
             $taskForm->load(Yii::$app->request->post());
             $newTaskId = $taskForm->createTask();
@@ -73,7 +94,6 @@ class TasksController extends SecuredController
                 return Yii::$app->response->redirect(["/tasks/view/$newTaskId"]);
             }
         }
-
         return $this->render('new', ['newTask' => $taskForm]);
     }
 
@@ -82,14 +102,14 @@ class TasksController extends SecuredController
         $response = Response::findOne($responseId);
         $response->status = Response::STATUS_ACCEPTED;
         if (!$response->save()) {
-            throw new NotFoundHttpException("Не получилось сохранить данные!");
+            throw new ServerErrorHttpException("Не получилось сохранить данные!");
         }
 
         $task = Task::findOne($taskId);
         $task->status = TaskBasic::STATUS_WORKING;
         $task->executor_id = $executorId;
         if (!$task->save()) {
-            throw new NotFoundHttpException("Не получилось сохранить данные!");
+            throw new ServerErrorHttpException("Не получилось сохранить данные!");
         }
 
         return $this->redirect(Yii::$app->request->referrer);
@@ -100,7 +120,7 @@ class TasksController extends SecuredController
         $response = Response::findOne($responseId);
         $response->status = Response::STATUS_REJECTED;
         if (!$response->save()) {
-            throw new NotFoundHttpException("Не получилось сохранить данные!");
+            throw new ServerErrorHttpException("Не получилось сохранить данные!");
         }
 
         return $this->redirect(Yii::$app->request->referrer);

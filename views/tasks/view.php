@@ -21,7 +21,7 @@ if (!Yii::$app->user->isGuest) {
         <div class="head-wrapper">
             <h3 class="head-main"><?=$task->title?></h3>
             <p class="price price--big">
-                <?=$task->budget ? $formatter->asCurrency($task->budget) : 'Бюджен не указан'?>
+                <?=$task->budget ? $formatter->asCurrency($task->budget) : 'Бюджет не указан'?>
             </p>
         </div>
         <p class="task-description">
@@ -163,15 +163,22 @@ if (!Yii::$app->user->isGuest) {
             Пожалуйста, оставьте отзыв об исполнителе и отметьте отдельно, если возникли проблемы.
         </p>
         <div class="completion-form pop-up--form regular-form">
-            <form>
-                <div class="form-group">
-                    <label class="control-label" for="completion-comment">Ваш комментарий</label>
-                    <textarea id="completion-comment"></textarea>
-                </div>
+
+            <?php $form = ActiveForm::begin([
+                'id' => 'new-review',
+                'method' => 'post',
+                'action' => Url::toRoute(['/tasks/review/', 'taskId' => $task->id, 'executorId' => $task->executor_id]),
+                'fieldConfig' => [
+                    'template' => "{label}{input}\n{error}",
+                ],
+            ]);?>
+                <?=$form->field($reviewForm, 'comment')->textarea();?>
                 <p class="completion-head control-label">Оценка работы</p>
                 <div class="stars-rating big active-stars"><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span></div>
+                <?=$form->field($reviewForm, 'grade')->hiddenInput(['id' => 'acceptance-form-rate'])->label(false);?>
                 <input type="submit" class="button button--pop-up button--blue" value="Завершить">
-            </form>
+            <?php ActiveForm::end();?>
+
         </div>
         <div class="button-container">
             <button class="button--close" type="button">Закрыть окно</button>
@@ -190,6 +197,7 @@ if (!Yii::$app->user->isGuest) {
             <?php $form = ActiveForm::begin([
                 'id' => 'new-response',
                 'method' => 'post',
+                'action' => Url::toRoute(['/tasks/response/', 'taskId' => $task->id]),
                 'fieldConfig' => [
                     'template' => "{label}{input}\n{error}",
                 ],
