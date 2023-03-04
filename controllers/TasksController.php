@@ -114,6 +114,14 @@ class TasksController extends SecuredController
             throw new ServerErrorHttpException("Не получилось сохранить данные!");
         }
 
+        $user = User::findOne($executorId);
+        if (!$user) {
+            throw new NotFoundHttpException("Нет пользователя с id $executorId!");
+        }
+        if (!$user->increaseCounterCompletedTasks()) {
+            throw new ServerErrorHttpException("Не получилось сохранить данные!");
+        }
+
         return $this->redirect(Yii::$app->request->referrer);
     }
 
