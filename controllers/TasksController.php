@@ -138,7 +138,7 @@ class TasksController extends SecuredController
         return $this->redirect(Yii::$app->request->referrer);
     }
 
-    public function actionFail(int $taskId, int $executorId)
+    public function actionFail(int $taskId, int $executorId): \yii\web\Response
     {
         $task = Task::findOne($taskId);
         if (!$task) {
@@ -159,7 +159,7 @@ class TasksController extends SecuredController
         return $this->redirect(Yii::$app->request->referrer);
     }
 
-    public function actionCancel(int $taskId)
+    public function actionCancel(int $taskId): \yii\web\Response
     {
         $task = Task::findOne($taskId);
         if (!$task) {
