@@ -81,12 +81,16 @@ class TasksController extends SecuredController
     {
         $response = Response::findOne($responseId);
         $response->status = Response::STATUS_ACCEPTED;
-        $response->save();
+        if (!$response->save()) {
+            throw new NotFoundHttpException("Не получилось сохранить данные!");
+        }
 
         $task = Task::findOne($taskId);
         $task->status = TaskBasic::STATUS_WORKING;
         $task->executor_id = $executorId;
-        $task->save();
+        if (!$task->save()) {
+            throw new NotFoundHttpException("Не получилось сохранить данные!");
+        }
 
         return $this->redirect(Yii::$app->request->referrer);
     }
@@ -95,7 +99,9 @@ class TasksController extends SecuredController
     {
         $response = Response::findOne($responseId);
         $response->status = Response::STATUS_REJECTED;
-        $response->save();
+        if (!$response->save()) {
+            throw new NotFoundHttpException("Не получилось сохранить данные!");
+        }
 
         return $this->redirect(Yii::$app->request->referrer);
     }

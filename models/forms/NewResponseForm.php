@@ -27,7 +27,7 @@ class NewResponseForm extends Model
         ];
     }
 
-    public function newResponse($taskId)
+    public function newResponse(int $taskId): Response
     {
         $response = new Response;
         $response->comment = $this->comment;
@@ -37,7 +37,7 @@ class NewResponseForm extends Model
         return $response;
     }
 
-    public function createResponse($taskId)
+    public function createResponse(int $taskId): bool
     {
         if ($this->validate()) {
             $newResponse = $this->newResponse($taskId);
