@@ -2,9 +2,8 @@
 
 namespace app\models;
 
-use Yii;
-use yii\db\ActiveRecord;
 use Taskforce\Models\Task as TaskBasic;
+use Yii;
 
 /**
  * This is the model class for table "tasks".
@@ -17,6 +16,9 @@ use Taskforce\Models\Task as TaskBasic;
  * @property int|null $city_id
  * @property string|null $budget
  * @property string|null $deadline
+ * @property string $location
+ * @property float|null $latitude
+ * @property float|null $longtitude
  * @property string|null $creation_date
  * @property string $status
  * @property int|null $executor_id
@@ -30,6 +32,7 @@ use Taskforce\Models\Task as TaskBasic;
  * @property Reviews[] $reviews
  */
 class Task extends \yii\db\ActiveRecord
+
 {
     public function startWorking(int $executorId): bool
     {
@@ -68,7 +71,8 @@ class Task extends \yii\db\ActiveRecord
             [['customer_id', 'category_id', 'city_id', 'executor_id'], 'integer'],
             [['description'], 'string'],
             [['deadline', 'creation_date'], 'safe'],
-            [['title'], 'string', 'max' => 255],
+            [['latitude', 'longtitude'], 'number'],
+            [['title', 'location'], 'string', 'max' => 255],
             [['budget'], 'string', 'max' => 100],
             [['status'], 'string', 'max' => 50],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
@@ -92,6 +96,9 @@ class Task extends \yii\db\ActiveRecord
             'city_id' => 'City ID',
             'budget' => 'Budget',
             'deadline' => 'Deadline',
+            'location' => 'Location',
+            'latitude' => 'Latitude',
+            'longtitude' => 'Longtitude',
             'creation_date' => 'Creation Date',
             'status' => 'Status',
             'executor_id' => 'Executor ID',
