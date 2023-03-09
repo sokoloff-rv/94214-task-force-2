@@ -31,7 +31,6 @@ class Geocoder
 
         $content = $response->getBody()->getContents();
         $responseData = json_decode($content, true);
-
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new \RuntimeException('Ошибка при парсинге ответа от API: ' . json_last_error_msg());
         }
