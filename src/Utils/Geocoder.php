@@ -3,6 +3,7 @@
 namespace Taskforce\Utils;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 
 class Geocoder
 {
@@ -20,12 +21,20 @@ class Geocoder
             'base_uri' => 'https://geocode-maps.yandex.ru/',
         ]);
 
-        $response = $client->request('GET', '1.x', [
-            'query' => ['geocode' => $location, 'apikey' => $apiKey, 'format' => 'json']
-        ]);
+        try {
+            $response = $client->request('GET', '1.x', [
+                'query' => ['geocode' => $location, 'apikey' => $apiKey, 'format' => 'json']
+            ]);
+        } catch (GuzzleException $error) {
+            throw new \RuntimeException('Ошибка при запросе к API: ' . $error->getMessage());
+        }
 
         $content = $response->getBody()->getContents();
         $responseData = json_decode($content, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \RuntimeException('Ошибка при парсинге ответа от API: ' . json_last_error_msg());
+        }
 
         $coordinates = $responseData['response']['GeoObjectCollection']['featureMember']['0']['GeoObject']['Point']['pos'];
 
