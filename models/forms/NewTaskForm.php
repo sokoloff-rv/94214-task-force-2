@@ -63,7 +63,7 @@ class NewTaskForm extends Model
 
             $task->city_id = City::findOne(['name' => $locationData['city']])->id;
             $task->location = $locationData['address'];
-            $task->longtitude = $locationData['coordinates'][0];
+            $task->longitude = $locationData['coordinates'][0];
             $task->latitude = $locationData['coordinates'][1];
         }
 

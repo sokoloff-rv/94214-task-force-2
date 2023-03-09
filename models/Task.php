@@ -18,7 +18,7 @@ use Yii;
  * @property string|null $deadline
  * @property string $location
  * @property float|null $latitude
- * @property float|null $longtitude
+ * @property float|null $longitude
  * @property string|null $creation_date
  * @property string $status
  * @property int|null $executor_id
@@ -71,7 +71,7 @@ class Task extends \yii\db\ActiveRecord
             [['customer_id', 'category_id', 'city_id', 'executor_id'], 'integer'],
             [['description'], 'string'],
             [['deadline', 'creation_date'], 'safe'],
-            [['latitude', 'longtitude'], 'number'],
+            [['latitude', 'longitude'], 'number'],
             [['title', 'location'], 'string', 'max' => 255],
             [['budget'], 'string', 'max' => 100],
             [['status'], 'string', 'max' => 50],
@@ -98,7 +98,7 @@ class Task extends \yii\db\ActiveRecord
             'deadline' => 'Deadline',
             'location' => 'Location',
             'latitude' => 'Latitude',
-            'longtitude' => 'Longtitude',
+            'longitude' => 'longitude',
             'creation_date' => 'Creation Date',
             'status' => 'Status',
             'executor_id' => 'Executor ID',

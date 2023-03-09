@@ -9,7 +9,7 @@ CREATE TABLE cities (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     latitude DECIMAL(11, 8) NOT NULL,
-    longtitude DECIMAL(11, 8) NOT NULL
+    longitude DECIMAL(11, 8) NOT NULL
 );
 
 /* Пользователи */
@@ -51,7 +51,7 @@ CREATE TABLE tasks (
     deadline DATETIME,
     location VARCHAR(255),
     latitude DECIMAL(11, 8),
-    longtitude DECIMAL(11, 8),
+    longitude DECIMAL(11, 8),
     creation_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     status VARCHAR(50) DEFAULT 'new' NOT NULL,
     executor_id INT,

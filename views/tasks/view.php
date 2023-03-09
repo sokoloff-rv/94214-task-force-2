@@ -240,11 +240,11 @@ if (!Yii::$app->user->isGuest) {
     ymaps.ready(init);
     function init(){
         var myMap = new ymaps.Map("map", {
-            center: [<?=$task->latitude . ',' . $task->longtitude?>],
+            center: [<?=$task->latitude . ',' . $task->longitude?>],
             zoom: 15
         });
 
-        var myPlacemark = new ymaps.Placemark([<?=$task->latitude . ',' . $task->longtitude?>], {
+        var myPlacemark = new ymaps.Placemark([<?=$task->latitude . ',' . $task->longitude?>], {
             hintContent: 'Метка'
         }, {
             preset: 'islands#redIcon'
