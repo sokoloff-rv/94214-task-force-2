@@ -5,10 +5,12 @@ namespace app\models\forms;
 use app\models\Category;
 use app\models\Task;
 use app\models\File;
+use app\models\City;
 use Taskforce\Models\Task as TaskBasic;
 use Yii;
 use yii\base\Model;
 use yii\web\UploadedFile;
+use Taskforce\Utils\Geocoder;
 
 class NewTaskForm extends Model
 {
@@ -38,6 +40,7 @@ class NewTaskForm extends Model
         return [
             [['title', 'description'], 'required'],
             [['category'], 'exist', 'targetClass' => Category::class, 'targetAttribute' => ['category' => 'id']],
+            [['location'], 'app\validators\LocationValidator'],
             ['budget', 'integer', 'min' => 1],
             [['deadline'], 'date', 'format' => 'php:Y-m-d'],
             [['deadline'], 'compare', 'compareValue' => date('Y-m-d'),
@@ -50,9 +53,20 @@ class NewTaskForm extends Model
     public function newTask(): Task
     {
         $task = new Task;
+
         $task->title = $this->title;
         $task->description = $this->description;
         $task->category_id = $this->category;
+
+        if ($this->location) {
+            $locationData = Geocoder::getLocationData($this->location);
+
+            $task->city_id = City::findOne(['name' => $locationData['city']])->id;
+            $task->location = $locationData['address'];
+            $task->longtitude = $locationData['coordinates'][0];
+            $task->latitude = $locationData['coordinates'][1];
+        }
+
         $task->budget = $this->budget;
         $task->deadline = $this->deadline;
         $task->status = TaskBasic::STATUS_NEW;

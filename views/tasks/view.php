@@ -49,8 +49,8 @@ if (!Yii::$app->user->isGuest) {
             <p class="map-address town">
                 <?=isset($task->city->name) ? $task->city->name : 'Удаленная работа'?>
             </p>
-            <?php if (isset($task->city->name)): ?>
-                <p class="map-address">Здесь, видимо, будет адрес, хотя такого поля в БД пока нет</p>
+            <?php if (isset($task->location)): ?>
+                <p class="map-address"><?=$task->location?></p>
             <?php endif;?>
         </div>
 
