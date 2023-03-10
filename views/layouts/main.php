@@ -29,8 +29,7 @@ if (!Yii::$app->user->isGuest) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title><?=Html::encode($this->title) . ' - Taskforce'?></title>
-    <link rel="stylesheet" href="/css/style.css">
-    <!-- <?php $this->head()?> Все вставки вида $this->method() просили сохранить, но эта ломает верстку -->
+    <?php $this->head()?>
 </head>
 <body>
 <?php $this->beginBody()?>
@@ -91,7 +90,6 @@ if (!Yii::$app->user->isGuest) {
 <?php endif?>
 <?=Alert::widget()?>
 <?=$content?>
-<script src="/js/main.js"></script>
 <?php $this->endBody()?>
 </body>
 </html>

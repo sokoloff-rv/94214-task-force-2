@@ -4,7 +4,7 @@ namespace app\models\forms;
 
 use Yii;
 use yii\base\Model;
-use yii\web\ServerErrorHttpException;
+use yii\web\BadRequestHttpException;
 use app\models\Review;
 use app\models\Task;
 use Taskforce\Models\Task as TaskBasic;
@@ -51,7 +51,7 @@ class NewReviewForm extends Model
             $task = Task::findOne($taskId);
             $task->status = TaskBasic::STATUS_COMPLETED;
             if (!$task->save()) {
-                throw new ServerErrorHttpException("Не получилось сохранить данные!");
+                throw new BadRequestHttpException("Не получилось сохранить данные!");
             }
             return true;
         }

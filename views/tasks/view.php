@@ -1,4 +1,5 @@
 <?php
+use app\assets\MapAsset;
 use app\models\User;
 use app\models\File;
 use Taskforce\Helpers\RateHelper;
@@ -7,6 +8,8 @@ use Taskforce\Helpers\TasksHelper;
 use Taskforce\Models\Task as TaskBasic;
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
+
+MapAsset::register($this);
 
 $this->title = "Просмотр задания c id $task->id";
 $formatter = Yii::$app->formatter;
@@ -45,12 +48,14 @@ if (!Yii::$app->user->isGuest) {
         <?php endif;?>
 
         <div class="task-map">
-            <img class="map" src="/img/map.png"  width="725" height="346" alt="">
-            <p class="map-address town">
+            <?php if ($task->city): ?>
+                <div id="map" style="width: 725px; height: 346px;"></div>
+            <?php endif;?>
+            <p class="map-address town" style="padding-top: 25px;">
                 <?=isset($task->city->name) ? $task->city->name : 'Удаленная работа'?>
             </p>
-            <?php if (isset($task->city->name)): ?>
-                <p class="map-address">Здесь, видимо, будет адрес, хотя такого поля в БД пока нет</p>
+            <?php if (isset($task->location)): ?>
+                <p class="map-address"><?=$task->location?></p>
             <?php endif;?>
         </div>
 
@@ -230,4 +235,21 @@ if (!Yii::$app->user->isGuest) {
     </div>
 </section>
 <div class="overlay"></div>
-<script src="js/main.js"></script>
+
+<script type="text/javascript">
+    ymaps.ready(init);
+    function init(){
+        var myMap = new ymaps.Map("map", {
+            center: [<?=$task->latitude . ',' . $task->longitude?>],
+            zoom: 15
+        });
+
+        var myPlacemark = new ymaps.Placemark([<?=$task->latitude . ',' . $task->longitude?>], {
+            hintContent: 'Метка'
+        }, {
+            preset: 'islands#redIcon'
+        });
+
+        myMap.geoObjects.add(myPlacemark);
+    }
+</script>
