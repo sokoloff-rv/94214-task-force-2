@@ -4,11 +4,13 @@
 /** @var string $content */
 
 use app\assets\AppAsset;
+use app\assets\LandingAsset;
 use app\widgets\Alert;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
 
 AppAsset::register($this);
+LandingAsset::register($this);
 
 $this->registerCsrfMetaTags();
 $this->registerMetaTag(['charset' => Yii::$app->charset], 'charset');
@@ -24,8 +26,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title><?=Html::encode($this->title) . ' - Taskforce'?></title>
-    <link rel="stylesheet" href="/css/normalize.css">
-    <link rel="stylesheet" href="/css/landing.css">
+    <?php $this->head()?>
 </head>
 <body class="landing">
 <?php $this->beginBody()?>
@@ -36,7 +37,6 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <?=Alert::widget()?>
 <?=$content?>
 <div class="overlay"></div>
-<script src="/js/landing.js"></script>
 
 <?php $this->endBody()?>
 </body>

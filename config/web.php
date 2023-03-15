@@ -61,6 +61,18 @@ $config = [
                 NumberFormatter::FRACTION_DIGITS => 0,
             ],
         ],
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'vkontakte' => [
+                    'class' => 'yii\authclient\clients\VKontakte',
+                    'clientId' => '51581820',
+                    'clientSecret' => 'BOv6nUHBuPOMv1u5wklh',
+                    'returnUrl' => 'http://94214-task-force-2/auth/vk',
+                    'scope' => 'email',
+                ],
+            ],
+        ],
     ],
     'params' => $params,
 ];
