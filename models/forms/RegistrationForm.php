@@ -56,7 +56,6 @@ class RegistrationForm extends Model
         if ($this->validate()) {
             $this->password = Yii::$app->security->generatePasswordHash($this->password);
             $this->newUser()->save(false);
-            Yii::$app->response->redirect(['tasks']);
         }
     }
 }

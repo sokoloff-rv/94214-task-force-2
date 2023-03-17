@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use yii\authclient\widgets\AuthChoice;
 
 $this->title = 'Главная страница';
 $formatter = Yii::$app->formatter;
@@ -210,5 +211,9 @@ $formatter = Yii::$app->formatter;
             <button class="button" type="submit">Войти</button>
         <?php ActiveForm::end();?>
         <button class="form-modal-close" type="button">Закрыть</button>
+        <?= AuthChoice::widget([
+            'baseAuthUrl' => ['auth/vk'],
+            'popupMode' => false,
+        ]) ?>
     </section>
 </div>

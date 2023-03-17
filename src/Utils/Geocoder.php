@@ -45,7 +45,7 @@ class Geocoder
         $geoObject = $responseData['response']['GeoObjectCollection']['featureMember']['0']['GeoObject'];
 
         $coordinates = explode(' ', $geoObject['Point']['pos']);
-        $city = self::getCityName($geoObject['metaDataProperty']['GeocoderMetaData']['AddressDetails']['Country']['AdministrativeArea']); // getCityName() выглядит как какая-то костыльная дичь, но я не нашел более вменяемого способа гарантированно получить название города, так как ключ 'LocalityName' может находиться по разным путям, а может и вовсе отсутствовать, тогда надо искать значение 'AdministrativeAreaName'. А в $geoObject['description'] тоже название города будет не всегда, хоть и часто. В общем, это лучшее, что я смог придумать.
+        $city = self::getCityName($geoObject['metaDataProperty']['GeocoderMetaData']['AddressDetails']['Country']['AdministrativeArea']);
         $address = $geoObject['name'];
 
         return match($format) {

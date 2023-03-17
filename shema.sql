@@ -29,6 +29,7 @@ CREATE TABLE users (
     succesful_tasks INT,
     failed_tasks INT,
     city_id INT,
+    vk_id INT,
     FOREIGN KEY (city_id) REFERENCES cities(id)
 );
 
