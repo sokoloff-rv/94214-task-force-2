@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-use TaskForce\exceptions\SourceFileException;
+use Taskforce\Exceptions\ExceptionData;
 
 /**
  * This is the model class for table "cities".
@@ -75,7 +75,7 @@ class City extends \yii\db\ActiveRecord
     {
         $city = City::findOne(['name' => $name]);
         if (!$city) {
-            throw new SourceFileException("Города $name нет в нашей базе!");
+            throw new ExceptionData("Города $name нет в нашей базе!");
         }
         return $city->id;
     }
