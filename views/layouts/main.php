@@ -46,7 +46,7 @@ if (!Yii::$app->user->isGuest) {
                         <a href="<?=Url::to(['/tasks'])?>" class="link link--nav">Новое</a>
                     </li>
                     <li class="list-item">
-                        <a href="#" class="link link--nav">Мои задания</a>
+                        <a href="<?=Url::to(['/my-tasks'])?>" class="link link--nav">Мои задания</a>
                     </li>
                     <li class="list-item">
                         <a href="<?=Url::to(['/tasks/new'])?>" class="link link--nav">Создать задание</a>
