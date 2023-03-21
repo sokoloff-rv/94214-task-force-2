@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\User;
 use app\models\TaskSearch;
+use Taskforce\Models\Task as TaskBasic;
 
 class MyTasksController extends SecuredController
 {
@@ -23,13 +24,15 @@ class MyTasksController extends SecuredController
         if ($this->user->role === User::ROLE_CUSTOMER) {
             return Yii::$app->response->redirect(["/my-tasks/new"]);
         } elseif ($this->user->role === User::ROLE_EXECUTOR) {
-            return Yii::$app->response->redirect(["/my-tasks/active"]);
+            return Yii::$app->response->redirect(["/my-tasks/working"]);
         }
     }
 
     public function actionNew(): string
     {
-        $result = $this->TaskSearch->getUserNewTasks($this->user->id);
+        $result = $this->TaskSearch->getUserTasks($this->user->id, $this->user->role, [
+            TaskBasic::STATUS_NEW,
+        ]);
 
         return $this->render('index', [
             'tasks' => $result['tasks'],
@@ -39,7 +42,9 @@ class MyTasksController extends SecuredController
 
     public function actionWorking(): string
     {
-        $result = $this->TaskSearch->getUserWorkingTasks($this->user->id);
+        $result = $this->TaskSearch->getUserTasks($this->user->id, $this->user->role, [
+            TaskBasic::STATUS_WORKING,
+        ]);
 
         return $this->render('index', [
             'tasks' => $result['tasks'],
@@ -49,17 +54,11 @@ class MyTasksController extends SecuredController
 
     public function actionClosed(): ?string
     {
-        $result = $this->TaskSearch->getUserClosedTasks($this->user->id);
-
-        return $this->render('index', [
-            'tasks' => $result['tasks'],
-            'pagination' => $result['pagination'],
+        $result = $this->TaskSearch->getUserTasks($this->user->id, $this->user->role, [
+            TaskBasic::STATUS_CANCELLED,
+            TaskBasic::STATUS_COMPLETED,
+            TaskBasic::STATUS_FAILED,
         ]);
-    }
-
-    public function actionActive(): string
-    {
-        $result = $this->TaskSearch->getUserActiveTasks($this->user->id);
 
         return $this->render('index', [
             'tasks' => $result['tasks'],
@@ -69,17 +68,10 @@ class MyTasksController extends SecuredController
 
     public function actionOverdue(): string
     {
-        $result = $this->TaskSearch->getUserOverdueTasks($this->user->id);
-
-        return $this->render('index', [
-            'tasks' => $result['tasks'],
-            'pagination' => $result['pagination'],
-        ]);
-    }
-
-    public function actionFinished(): string
-    {
-        $result = $this->TaskSearch->getUserFinishedTasks($this->user->id);
+        $isOverdue = true;
+        $result = $this->TaskSearch->getUserTasks($this->user->id, $this->user->role, [
+            TaskBasic::STATUS_WORKING,
+        ], $isOverdue);
 
         return $this->render('index', [
             'tasks' => $result['tasks'],

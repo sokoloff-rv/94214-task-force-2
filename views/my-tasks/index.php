@@ -29,13 +29,13 @@ if (!Yii::$app->user->isGuest) {
                 </li>
             <?php elseif ($user->role === User::ROLE_EXECUTOR): ?>
                 <li class="side-menu-item side-menu-item--active">
-                    <a href="<?=Url::toRoute(['/my-tasks/active'])?>" class="link link--nav">В процессе</a>
+                    <a href="<?=Url::toRoute(['/my-tasks/working'])?>" class="link link--nav">В процессе</a>
                 </li>
                 <li class="side-menu-item">
                     <a href="<?=Url::toRoute(['/my-tasks/overdue'])?>" class="link link--nav">Просрочено</a>
                 </li>
                 <li class="side-menu-item">
-                    <a href="<?=Url::toRoute(['/my-tasks/finished'])?>" class="link link--nav">Закрытые</a>
+                    <a href="<?=Url::toRoute(['/my-tasks/closed'])?>" class="link link--nav">Закрытые</a>
                 </li>
             <?php endif;?>
         </ul>
