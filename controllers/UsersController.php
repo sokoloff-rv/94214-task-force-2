@@ -5,8 +5,8 @@ namespace app\controllers;
 use app\models\forms\EditProfileForm;
 use app\models\User;
 use Yii;
-use yii\web\Response;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class UsersController extends SecuredController
 {
@@ -25,9 +25,16 @@ class UsersController extends SecuredController
         $user = User::getCurrentUser();
 
         if (Yii::$app->request->getIsPost()) {
-            $profileForm->load(Yii::$app->request->post());
+            $post = Yii::$app->request->post();
+
+            $specializations = $post['EditProfileForm']['specializations'];
+            if (isset($specializations) && is_string($specializations)) {
+                $post['EditProfileForm']['specializations'] = explode(',', $specializations);
+            }
+
+            $profileForm->load($post);
             $profileForm->saveProfile($user->id);
-            return $this->refresh();
+            return Yii::$app->response->redirect(["/users/edit"]);
         }
 
         return $this->render('edit', [

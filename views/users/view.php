@@ -5,7 +5,7 @@ use yii\helpers\Url;
 
 $this->title = "Просмотр пользователя c id $user->id";
 $formatter = Yii::$app->formatter;
-$categoriesId = explode(", ", $user->specializations);
+$categoriesId = $user->specializations ? explode(", ", $user->specializations) : '';
 ?>
 
 <main class="main-content container">
@@ -21,23 +21,27 @@ $categoriesId = explode(", ", $user->specializations);
 					<span class="current-rate"><?=$user->UserRating?></span>
 				</div>
 			</div>
-			<p class="user-description">
-                <?=$user->information?>
-			</p>
+            <?php if ($user->information): ?>
+			    <p class="user-description">
+                    <?=$user->information?>
+			    </p>
+            <?php endif;?>
 		</div>
 		<div class="specialization-bio">
-			<div class="specialization">
-				<p class="head-info">Специализации</p>
-				<ul class="special-list">
-                    <?php foreach ($categoriesId as $categoryId): ?>
-					    <li class="special-item">
-					    	<a href="#" class="link link--regular">
-                                <?=Category::getCategoryName($categoryId)?>
-                            </a>
-					    </li>
-                    <?php endforeach;?>
-				</ul>
-			</div>
+            <?php if ($categoriesId): ?>
+			    <div class="specialization">
+			    	<p class="head-info">Специализации</p>
+			    	<ul class="special-list">
+                        <?php foreach ($categoriesId as $categoryId): ?>
+			    		    <li class="special-item">
+			    		        <a href="#" class="link link--regular">
+                                    <?=Category::getCategoryName($categoryId)?>
+                                </a>
+			    		    </li>
+                        <?php endforeach;?>
+			    	</ul>
+			    </div>
+            <?php endif;?>
 			<div class="bio">
 				<p class="head-info">Био</p>
 				<p class="bio-info">
