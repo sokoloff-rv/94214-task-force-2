@@ -18,13 +18,20 @@ class UsersController extends SecuredController
         return $this->render('view', ['user' => $user]);
     }
 
-    public function actionEdit(): string
+    public function actionEdit(): string | \yii\web\Response
     {
-        $profile = new EditProfileForm();
+        $profileForm = new EditProfileForm();
         $user = User::getCurrentUser();
+
+        if (Yii::$app->request->getIsPost()) {
+            $profileForm->load(Yii::$app->request->post());
+            $profileForm->saveProfile($user->id);
+            return Yii::$app->response->redirect(["/users/edit"]);
+        }
+
         return $this->render('edit', [
             'user' => $user,
-            'profile' => $profile,
+            'profile' => $profileForm,
         ]);
     }
 

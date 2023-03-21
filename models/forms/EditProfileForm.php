@@ -3,9 +3,8 @@
 namespace app\models\forms;
 
 use app\models\User;
-use app\models\Category;
-use Yii;
 use yii\base\Model;
+use yii\web\UploadedFile;
 
 class EditProfileForm extends Model
 {
@@ -37,11 +36,45 @@ class EditProfileForm extends Model
     {
         return [
             [['name', 'email'], 'required'],
-            [['email'], 'unique'],
             [['birthday'], 'date', 'format' => 'php:Y-m-d'],
             [['phone'], 'match', 'pattern' => '/^\d{11}$/', 'message' => 'Номер телефона должен состоять из 11 цифр'],
             [['telegram'], 'string', 'max' => 64],
             [['avatar', 'information', 'specializations'], 'safe'],
         ];
     }
+
+    public function saveProfile(int $userId): bool
+    {
+        if (!$this->validate()) {
+            return false;
+        }
+
+        $user = User::findOne($userId);
+        if (!$user) {
+            return false;
+        }
+
+        $user->name = $this->name;
+        $user->email = $this->email;
+        $user->birthday = $this->birthday;
+        $user->phone = $this->phone;
+        $user->telegram = $this->telegram;
+        $user->information = $this->information;
+
+        if (!empty($this->specializations)) {
+            $user->specializations = implode(', ', $this->specializations);
+        }
+
+        $newAvatar = UploadedFile::getInstance($this, 'avatar');
+        if ($newAvatar) {
+            $avatarPath = 'uploads/avatars/' .
+            $userId . '_' . uniqid('upload') . '.' .
+            $newAvatar->getExtension();
+            $newAvatar->saveAs($avatarPath);
+            $user->avatar = '/' . $avatarPath;
+        }
+
+        return $user->save();
+    }
+
 }

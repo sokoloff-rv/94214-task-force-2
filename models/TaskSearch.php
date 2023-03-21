@@ -55,7 +55,7 @@ class TaskSearch extends Model
 
         $pagination = new Pagination([
             'totalCount' => $tasks->count(),
-            'pageSize' => 10,
+            'pageSize' => 5,
         ]);
 
         $tasks = $tasks->offset($pagination->offset)
@@ -84,7 +84,7 @@ class TaskSearch extends Model
 
         $pagination = new Pagination([
             'totalCount' => $tasks->count(),
-            'pageSize' => 10,
+            'pageSize' => 5,
         ]);
 
         $tasks = $tasks->offset($pagination->offset)

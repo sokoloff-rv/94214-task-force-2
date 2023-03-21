@@ -70,10 +70,7 @@ if (!Yii::$app->user->isGuest) {
                 <div class="popup-head">
                     <ul class="popup-menu">
                         <li class="menu-item">
-                            <a href="#" class="link">Настройки</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#" class="link">Связаться с нами</a>
+                            <a href="<?=Url::toRoute(['/users/edit'])?>" class="link">Настройки</a>
                         </li>
                         <li class="menu-item">
                             <a href="<?=Url::to(['/users/logout'])?>" class="link">Выход из системы</a>
