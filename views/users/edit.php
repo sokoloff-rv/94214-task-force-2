@@ -3,6 +3,7 @@ use app\models\Category;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use yii\widgets\Menu;
 
 $this->title = "Редактирование профиля";
 $categoriesQuery = Category::find()->select(['id', 'name'])->all();
@@ -15,14 +16,22 @@ $userSpecializations = explode(', ', $user->specializations);
 <main class="main-content main-content--left container">
     <div class="left-menu left-menu--edit">
         <h3 class="head-main head-task">Настройки</h3>
-        <ul class="side-menu-list">
-            <li class="side-menu-item side-menu-item--active">
-                <a href="<?=Url::toRoute(['/users/edit'])?>" class="link link--nav">Мой профиль</a>
-            </li>
-            <li class="side-menu-item">
-                <a href="<?=Url::toRoute(['/users/secure'])?>" class="link link--nav">Безопасность</a>
-            </li>
-        </ul>
+        <?= Menu::widget([
+            'options' => [
+                'class' => 'side-menu-list',
+            ],
+            'items' => [
+                ['label' => 'Мой профиль', 'url' => ['/users/edit']],
+                ['label' => 'Безопасность', 'url' => ['/users/secure']],
+            ],
+            'itemOptions' => [
+                'class' => 'side-menu-item',
+            ],
+            'linkTemplate' => '<a href="{url}" class="link link--nav">{label}</a>',
+            'activeCssClass' => 'side-menu-item--active',
+            'activateItems' => true,
+            'activateParents' => false,
+        ]); ?>
     </div>
     <div class="my-profile-form">
         <?php $form = ActiveForm::begin([
