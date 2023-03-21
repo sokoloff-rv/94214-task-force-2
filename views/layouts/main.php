@@ -9,6 +9,7 @@ use app\widgets\Alert;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
 use yii\helpers\Url;
+use yii\widgets\Menu;
 
 AppAsset::register($this);
 
@@ -21,6 +22,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 if (!Yii::$app->user->isGuest) {
     $user = User::getCurrentUser();
 }
+$currentRoute = Yii::$app->controller->getRoute();
 ?>
 <?php $this->beginPage()?>
 <!DOCTYPE html>
@@ -41,20 +43,25 @@ if (!Yii::$app->user->isGuest) {
         </a>
         <?php if (!Yii::$app->user->isGuest): ?>
             <div class="nav-wrapper">
-                <ul class="nav-list">
-                    <li class="list-item list-item--active">
-                        <a href="<?=Url::to(['/tasks'])?>" class="link link--nav">Новое</a>
-                    </li>
-                    <li class="list-item">
-                        <a href="<?=Url::to(['/my-tasks'])?>" class="link link--nav">Мои задания</a>
-                    </li>
-                    <li class="list-item">
-                        <a href="<?=Url::to(['/tasks/new'])?>" class="link link--nav">Создать задание</a>
-                    </li>
-                    <li class="list-item">
-                        <a href="<?=Url::toRoute(['/users/edit'])?>" class="link link--nav">Настройки</a>
-                    </li>
-                </ul>
+                <?php echo Menu::widget([
+                    'options' => [
+                        'class' => 'nav-list'
+                    ],
+                    'items' => [
+                        ['label' => 'Новое', 'url' => ['/tasks/index']],
+                        [
+                            'label' => 'Мои задания',
+                            'url' => ['/my-tasks'],
+                            'active' => strpos($currentRoute, 'my-tasks') === 0
+                        ],
+                        ['label' => 'Создать задание', 'url' => ['/tasks/new'], 'visible' => $user->role === User::ROLE_CUSTOMER],
+                        ['label' => 'Настройки', 'url' => ['/users/edit']]
+                    ],
+                    'itemOptions' => [
+                        'class' => 'list-item'],
+                    'linkTemplate' => '<a href="{url}" class="link link--nav">{label}</a>',
+                    'activeCssClass' => 'list-item--active'
+                ]) ?>
             </div>
         <?php endif;?>
     </nav>
