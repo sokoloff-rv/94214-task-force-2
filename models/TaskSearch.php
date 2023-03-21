@@ -68,7 +68,7 @@ class TaskSearch extends Model
         ];
     }
 
-    public function getUserTasks($userId, $role, $statuses, $isOverdue = false): array
+    public function getUserTasks(int $userId, string $role, array $statuses, bool $isOverdue = false): array
     {
         /** @var ActiveQuery $tasks */
         $tasks = Task::find()

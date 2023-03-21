@@ -6,20 +6,22 @@ use Yii;
 use app\models\User;
 use app\models\TaskSearch;
 use Taskforce\Models\Task as TaskBasic;
+use yii\base\Module;
+use yii\web\Response;
 
 class MyTasksController extends SecuredController
 {
-    private $user;
-    private $TaskSearch;
+    private User $user;
+    private TaskSearch $TaskSearch;
 
-    public function __construct($id, $module)
+    public function __construct(string $id, Module $module)
     {
         $this->user = User::getCurrentUser();
         $this->TaskSearch = new TaskSearch();
         parent::__construct($id, $module);
     }
 
-    public function actionIndex(): \yii\web\Response
+    public function actionIndex(): Response
     {
         if ($this->user->role === User::ROLE_CUSTOMER) {
             return Yii::$app->response->redirect(["/my-tasks/new"]);
@@ -28,7 +30,7 @@ class MyTasksController extends SecuredController
         }
     }
 
-    public function actionNew(): string
+    public function actionNew(): ?string
     {
         $result = $this->TaskSearch->getUserTasks($this->user->id, $this->user->role, [
             TaskBasic::STATUS_NEW,
@@ -40,7 +42,7 @@ class MyTasksController extends SecuredController
         ]);
     }
 
-    public function actionWorking(): string
+    public function actionWorking(): ?string
     {
         $result = $this->TaskSearch->getUserTasks($this->user->id, $this->user->role, [
             TaskBasic::STATUS_WORKING,
@@ -66,7 +68,7 @@ class MyTasksController extends SecuredController
         ]);
     }
 
-    public function actionOverdue(): string
+    public function actionOverdue(): ?string
     {
         $isOverdue = true;
         $result = $this->TaskSearch->getUserTasks($this->user->id, $this->user->role, [
