@@ -101,13 +101,13 @@ $categoriesId = $user->specializations ? explode(", ", $user->specializations) :
 			<h4 class="head-card">Контакты</h4>
 			<ul class="enumeration-list">
 				<li class="enumeration-item">
-					<a href="#" class="link link--block link--phone"><?=$user->phone?></a>
+					<a href="tel:<?=$user->phone;?>" class="link link--block link--phone"><?=$user->phone?></a>
 				</li>
 				<li class="enumeration-item">
-					<a href="#" class="link link--block link--email"><?=$user->email?></a>
+					<a href="mailto:<?=$user->email;?>" class="link link--block link--email"><?=$user->email?></a>
 				</li>
 				<li class="enumeration-item">
-					<a href="#" class="link link--block link--tg"><?=$user->telegram?></a>
+					<a href="https://t.me/<?=str_replace('@', '', $user->telegram);?>" class="link link--block link--tg"><?=$user->telegram?></a>
 				</li>
 			</ul>
 		</div>
