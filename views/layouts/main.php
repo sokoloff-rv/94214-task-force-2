@@ -43,7 +43,7 @@ $currentRoute = Yii::$app->controller->getRoute();
         </a>
         <?php if (!Yii::$app->user->isGuest): ?>
             <div class="nav-wrapper">
-                <?php echo Menu::widget([
+                <?= Menu::widget([
                     'options' => [
                         'class' => 'nav-list'
                     ],
@@ -61,7 +61,7 @@ $currentRoute = Yii::$app->controller->getRoute();
                         'class' => 'list-item'],
                     'linkTemplate' => '<a href="{url}" class="link link--nav">{label}</a>',
                     'activeCssClass' => 'list-item--active'
-                ]) ?>
+                ]); ?>
             </div>
         <?php endif;?>
     </nav>

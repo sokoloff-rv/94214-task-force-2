@@ -2,6 +2,7 @@
 use app\models\User;
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
+use yii\widgets\Menu;
 
 use Taskforce\Models\Task as TaskBasic;
 
@@ -16,29 +17,24 @@ if (!Yii::$app->user->isGuest) {
 
     <div class="left-menu">
         <h3 class="head-main head-task">Мои задания</h3>
-        <ul class="side-menu-list">
-            <?php if ($user->role === User::ROLE_CUSTOMER): ?>
-                <li class="side-menu-item side-menu-item--active">
-                    <a href="<?=Url::toRoute(['/my-tasks/new'])?>" class="link link--nav">Новые</a>
-                </li>
-                <li class="side-menu-item">
-                    <a href="<?=Url::toRoute(['/my-tasks/working'])?>" class="link link--nav">В процессе</a>
-                </li>
-                <li class="side-menu-item">
-                    <a href="<?=Url::toRoute(['/my-tasks/closed'])?>" class="link link--nav">Закрытые</a>
-                </li>
-            <?php elseif ($user->role === User::ROLE_EXECUTOR): ?>
-                <li class="side-menu-item side-menu-item--active">
-                    <a href="<?=Url::toRoute(['/my-tasks/working'])?>" class="link link--nav">В процессе</a>
-                </li>
-                <li class="side-menu-item">
-                    <a href="<?=Url::toRoute(['/my-tasks/overdue'])?>" class="link link--nav">Просрочено</a>
-                </li>
-                <li class="side-menu-item">
-                    <a href="<?=Url::toRoute(['/my-tasks/closed'])?>" class="link link--nav">Закрытые</a>
-                </li>
-            <?php endif;?>
-        </ul>
+        <?= Menu::widget([
+            'options' => [
+                'class' => 'side-menu-list',
+            ],
+            'items' => [
+                ['label' => 'Новые', 'url' => ['/my-tasks/new'], 'visible' => $user->role === User::ROLE_CUSTOMER],
+                ['label' => 'В процессе', 'url' => ['/my-tasks/working']],
+                ['label' => 'Просрочено', 'url' => ['/my-tasks/overdue'], 'visible' => $user->role === User::ROLE_EXECUTOR],
+                ['label' => 'Закрытые', 'url' => ['/my-tasks/closed']],
+            ],
+            'itemOptions' => [
+                'class' => 'side-menu-item',
+            ],
+            'linkTemplate' => '<a href="{url}" class="link link--nav">{label}</a>',
+            'activeCssClass' => 'side-menu-item--active',
+            'activateItems' => true,
+            'activateParents' => false,
+        ]); ?>
     </div>
 
     <div class="left-column left-column--task">
