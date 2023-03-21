@@ -8,7 +8,6 @@ use yii\web\UploadedFile;
 
 class EditProfileForm extends Model
 {
-
     public string $avatar = '';
     public string $name = '';
     public string $email = '';
@@ -76,5 +75,4 @@ class EditProfileForm extends Model
 
         return $user->save();
     }
-
 }
