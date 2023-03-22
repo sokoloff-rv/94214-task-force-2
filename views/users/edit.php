@@ -1,6 +1,7 @@
 <?php
 use app\assets\AvatarAsset;
 use app\models\Category;
+use app\models\User;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -63,16 +64,18 @@ $userSpecializations = explode(', ', $user->specializations);
                 <?=$form->field($profile, 'telegram')->textInput(['value' => $user->telegram]);?>
             </div>
             <?=$form->field($profile, 'information')->textarea(['value' => $user->information]);?>
-            <?=$form->field($profile, 'specializations')->checkboxList(
-                $categories,
-                [
-                    'class' => 'checkbox-profile',
-                    'item' => function ($index, $label, $name, $checked, $value) use ($userSpecializations) {
-                        $checked = in_array($value, $userSpecializations) ? 'checked' : '';
-                        return "<label class='control-label'><input type='checkbox' name='{$name}' value='{$value}' {$checked}> {$label}</label>";
-                    },
-                ]
-            );?>
+            <?php if ($user->role !== User::ROLE_CUSTOMER): ?>
+                <?=$form->field($profile, 'specializations')->checkboxList(
+                    $categories,
+                    [
+                        'class' => 'checkbox-profile',
+                        'item' => function ($index, $label, $name, $checked, $value) use ($userSpecializations) {
+                            $checked = in_array($value, $userSpecializations) ? 'checked' : '';
+                            return "<label class='control-label'><input type='checkbox' name='{$name}' value='{$value}' {$checked}> {$label}</label>";
+                        },
+                    ]
+                );?>
+            <?php endif;?>
             <input type="submit" class="button button--blue" value="Сохранить">
         <?php ActiveForm::end();?>
     </div>
