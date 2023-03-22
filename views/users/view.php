@@ -107,15 +107,21 @@ $categoriesId = $user->specializations ? explode(", ", $user->specializations) :
 		<div class="right-card white">
 			<h4 class="head-card">Контакты</h4>
 			<ul class="enumeration-list">
-				<li class="enumeration-item">
-					<a href="tel:<?=$user->phone;?>" class="link link--block link--phone"><?=$user->phone?></a>
-				</li>
-				<li class="enumeration-item">
-					<a href="mailto:<?=$user->email;?>" class="link link--block link--email"><?=$user->email?></a>
-				</li>
-				<li class="enumeration-item">
-					<a href="https://t.me/<?=str_replace('@', '', $user->telegram);?>" class="link link--block link--tg"><?=$user->telegram?></a>
-				</li>
+                <?php if ($user->phone): ?>
+				    <li class="enumeration-item">
+					    <a href="tel:<?=$user->phone;?>" class="link link--block link--phone"><?=$user->phone?></a>
+				    </li>
+                <?php endif;?>
+                <?php if ($user->email): ?>
+				    <li class="enumeration-item">
+					    <a href="mailto:<?=$user->email;?>" class="link link--block link--email"><?=$user->email?></a>
+				    </li>
+                <?php endif;?>
+                <?php if ($user->telegram): ?>
+				    <li class="enumeration-item">
+					    <a href="https://t.me/<?=str_replace('@', '', $user->telegram);?>" class="link link--block link--tg"><?=$user->telegram?></a>
+				    </li>
+                <?php endif;?>
 			</ul>
 		</div>
 	</div>
