@@ -1,5 +1,6 @@
 <?php
 use app\models\Category;
+use app\models\User;
 use Taskforce\Helpers\RateHelper;
 use yii\helpers\Url;
 
@@ -14,12 +15,14 @@ $categoriesId = $user->specializations ? explode(", ", $user->specializations) :
 		<div class="user-card">
 			<div class="photo-rate">
 				<img class="card-photo" src="<?=$user->avatar?>" width="191" height="190" alt="Фото пользователя">
-				<div class="card-rate">
-					<div class="stars-rating big">
-                        <?=RateHelper::getStars($user->UserRating)?>
-					</div>
-					<span class="current-rate"><?=$user->UserRating?></span>
-				</div>
+                <?php if ($user->role !== User::ROLE_CUSTOMER): ?>
+				    <div class="card-rate">
+				    	<div class="stars-rating big">
+                            <?=RateHelper::getStars($user->UserRating)?>
+				    	</div>
+				    	<span class="current-rate"><?=$user->UserRating?></span>
+				    </div>
+                <?php endif;?>
 			</div>
             <?php if ($user->information): ?>
 			    <p class="user-description">
@@ -82,23 +85,25 @@ $categoriesId = $user->specializations ? explode(", ", $user->specializations) :
         <?php endif;?>
 	</div>
 	<div class="right-column">
-		<div class="right-card black">
-			<h4 class="head-card">Статистика исполнителя</h4>
-			<dl class="black-list">
-				<dt>Всего заказов</dt>
-				<dd><?=$user->succesful_tasks?> выполнено, <?=$user->failed_tasks?> провалено</dd>
-				<dt>Место в рейтинге</dt>
-				<dd>25 место</dd> <!-- к этому вернусь позже, надо хорошо подумать как не сделать эту операцию очень дорогой -->
-				<dt>Дата регистрации</dt>
-				<dd>
-                    <?=$formatter->asDate(
-                        $user->register_date, 'php:d F, H:i'
-                    )?>
-                </dd>
-				<dt>Статус</dt>
-				<dd><?=$user->UserStatus;?></dd>
-			</dl>
-		</div>
+        <?php if ($user->role !== User::ROLE_CUSTOMER): ?>
+		    <div class="right-card black">
+		    	<h4 class="head-card">Статистика исполнителя</h4>
+		    	<dl class="black-list">
+		    		<dt>Всего заказов</dt>
+		    		<dd><?=$user->succesful_tasks?> выполнено, <?=$user->failed_tasks?> провалено</dd>
+		    		<dt>Место в рейтинге</dt>
+		    		<dd>25 место</dd>
+		    		<dt>Дата регистрации</dt>
+		    		<dd>
+                        <?=$formatter->asDate(
+                            $user->register_date, 'php:d F, H:i'
+                        )?>
+                    </dd>
+		    		<dt>Статус</dt>
+		    		<dd><?=$user->UserStatus;?></dd>
+		    	</dl>
+		    </div>
+        <?php endif;?>
 		<div class="right-card white">
 			<h4 class="head-card">Контакты</h4>
 			<ul class="enumeration-list">
