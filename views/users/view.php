@@ -2,6 +2,7 @@
 use app\models\Category;
 use app\models\User;
 use Taskforce\Helpers\RateHelper;
+use Taskforce\Helpers\UsersHelper;
 use yii\helpers\Url;
 
 $this->title = "Просмотр пользователя c id $user->id";
@@ -104,25 +105,27 @@ $categoriesId = $user->specializations ? explode(", ", $user->specializations) :
 		    	</dl>
 		    </div>
         <?php endif;?>
-		<div class="right-card white">
-			<h4 class="head-card">Контакты</h4>
-			<ul class="enumeration-list">
-                <?php if ($user->phone): ?>
-				    <li class="enumeration-item">
-					    <a href="tel:<?=$user->phone;?>" class="link link--block link--phone"><?=$user->phone?></a>
-				    </li>
-                <?php endif;?>
-                <?php if ($user->email): ?>
-				    <li class="enumeration-item">
-					    <a href="mailto:<?=$user->email;?>" class="link link--block link--email"><?=$user->email?></a>
-				    </li>
-                <?php endif;?>
-                <?php if ($user->telegram): ?>
-				    <li class="enumeration-item">
-					    <a href="https://t.me/<?=str_replace('@', '', $user->telegram);?>" class="link link--block link--tg"><?=$user->telegram?></a>
-				    </li>
-                <?php endif;?>
-			</ul>
-		</div>
+        <?php if (UsersHelper::userCanSeeContacts($user->id, $user->hidden_contacts)): ?>
+		    <div class="right-card white">
+		    	<h4 class="head-card">Контакты</h4>
+		    	<ul class="enumeration-list">
+                    <?php if ($user->phone): ?>
+		    		    <li class="enumeration-item">
+		    			    <a href="tel:<?=$user->phone;?>" class="link link--block link--phone"><?=$user->phone?></a>
+		    		    </li>
+                    <?php endif;?>
+                    <?php if ($user->email): ?>
+		    		    <li class="enumeration-item">
+		    			    <a href="mailto:<?=$user->email;?>" class="link link--block link--email"><?=$user->email?></a>
+		    		    </li>
+                    <?php endif;?>
+                    <?php if ($user->telegram): ?>
+		    		    <li class="enumeration-item">
+		    			    <a href="https://t.me/<?=str_replace('@', '', $user->telegram);?>" class="link link--block link--tg"><?=$user->telegram?></a>
+		    		    </li>
+                    <?php endif;?>
+		    	</ul>
+		    </div>
+        <?php endif;?>
 	</div>
 </main>
