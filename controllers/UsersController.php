@@ -62,6 +62,7 @@ class UsersController extends SecuredController
         }
 
         return $this->render('secure', [
+            'user' => $user,
             'secure' => $secureForm,
         ]);
     }

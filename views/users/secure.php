@@ -1,6 +1,7 @@
 <?php
 use yii\widgets\ActiveForm;
 use yii\widgets\Menu;
+use app\models\User;
 
 $this->title = "Редактирование профиля";
 ?>
@@ -37,7 +38,9 @@ $this->title = "Редактирование профиля";
             <?=$form->field($secure, 'oldPassword')->passwordInput();?>
             <?=$form->field($secure, 'newPassword')->passwordInput();?>
             <?=$form->field($secure, 'repeatPassword')->passwordInput();?>
-            <?=$form->field($secure, 'hiddenContacts')->checkbox();?>
+            <?php if ($user->role !== User::ROLE_CUSTOMER): ?>
+                <?=$form->field($secure, 'hiddenContacts')->checkbox();?>
+            <?php endif;?>
             <input type="submit" class="button button--blue" value="Сохранить">
         <?php ActiveForm::end();?>
     </div>
