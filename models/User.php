@@ -25,6 +25,7 @@ use yii\web\IdentityInterface;
  * @property int|null $failed_tasks
  * @property int|null $city_id
  * @property int|null $vk_id
+ * @property int $hidden_contacts
  *
  * @property Cities $city
  * @property Responses[] $responses
@@ -55,7 +56,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             [['name', 'email', 'password', 'role'], 'required'],
             [['birthday', 'register_date'], 'safe'],
             [['information', 'role'], 'string'],
-            [['succesful_tasks', 'failed_tasks', 'city_id', 'vk_id'], 'integer'],
+            [['succesful_tasks', 'failed_tasks', 'city_id', 'vk_id', 'hidden_contacts'], 'integer'],
             [['name'], 'string', 'max' => 150],
             [['email', 'password', 'phone', 'telegram'], 'string', 'max' => 100],
             [['specializations', 'avatar'], 'string', 'max' => 255],
@@ -86,6 +87,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'failed_tasks' => 'Failed Tasks',
             'city_id' => 'City ID',
             'vk_id' => 'Vk User ID',
+            'hidden_contacts' => 'Hide contacts for everyone except the customer',
         ];
     }
 

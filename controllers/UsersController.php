@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\forms\EditProfileForm;
+use app\models\forms\SecureProfileForm;
 use app\models\User;
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -32,9 +33,10 @@ class UsersController extends SecuredController
                 $post['EditProfileForm']['specializations'] = explode(',', $specializations);
             }
 
-            $profileForm->load($post);
-            $profileForm->saveProfile($user->id);
-            return Yii::$app->response->redirect(["/users/edit"]);
+            if ($profileForm->load($post) && $profileForm->validate()) {
+                $profileForm->saveProfile($user->id);
+                return $this->refresh();
+            }
         }
 
         return $this->render('edit', [
@@ -43,10 +45,25 @@ class UsersController extends SecuredController
         ]);
     }
 
-    public function actionSecure(): string
+    public function actionSecure(): string | \yii\web\Response
     {
+        $secureForm = new SecureProfileForm();
         $user = User::getCurrentUser();
-        return $this->render('secure', ['user' => $user]);
+
+        $secureForm->hiddenContacts = (bool) $user->hidden_contacts;
+
+        if (Yii::$app->request->getIsPost()) {
+            $post = Yii::$app->request->post();
+            $secureForm->load($post);
+            if ($secureForm->load($post) && $secureForm->validate()) {
+                $secureForm->saveProfile($user->id);
+                return $this->refresh();
+            }
+        }
+
+        return $this->render('secure', [
+            'secure' => $secureForm,
+        ]);
     }
 
     public function actionLogout(): Response
