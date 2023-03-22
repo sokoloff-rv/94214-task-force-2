@@ -1,9 +1,12 @@
 <?php
+use app\assets\AvatarAsset;
 use app\models\Category;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\widgets\Menu;
+
+AvatarAsset::register($this);
 
 $this->title = "Редактирование профиля";
 $categoriesQuery = Category::find()->select(['id', 'name'])->all();
