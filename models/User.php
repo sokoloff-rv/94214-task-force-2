@@ -26,7 +26,7 @@ use yii\web\IdentityInterface;
  * @property int|null $city_id
  * @property int|null $vk_id
  * @property int $hidden_contacts
- * @property float $rating
+ * @property float $total_score
  *
  * @property Cities $city
  * @property Responses[] $responses
@@ -58,7 +58,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             [['birthday', 'register_date'], 'safe'],
             [['information', 'role'], 'string'],
             [['succesful_tasks', 'failed_tasks', 'city_id', 'vk_id', 'hidden_contacts'], 'integer'],
-            [['rating'], 'number'],
+            [['total_score'], 'number'],
             [['name'], 'string', 'max' => 150],
             [['email', 'password', 'phone', 'telegram'], 'string', 'max' => 100],
             [['specializations', 'avatar'], 'string', 'max' => 255],
@@ -90,7 +90,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'city_id' => 'City ID',
             'vk_id' => 'Vk User ID',
             'hidden_contacts' => 'Hide contacts for everyone except the customer',
-            'rating' => 'User rating'
+            'total_score' => 'User total score'
         ];
     }
 
@@ -159,7 +159,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return User::findOne(Yii::$app->user->getId());
     }
 
-    public function calcUserRating(): string
+    public function getUserRating(): string
     {
         $sumOfGrades = 0;
         $reviews = $this->reviewsOnExecutor;
@@ -177,25 +177,57 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return $rate;
     }
 
-    public function updateRating(): bool
+    public function calcTotalScore(): string
     {
-        $rating = $this->calcUserRating();
-        $this->rating = $rating;
+        $reviews = $this->reviewsOnExecutor;
+        $sumOfGrades = array_sum(array_column($reviews, 'grade'));
+        $totalReviews = count($reviews);
+
+        if ($totalReviews > 0) {
+            $totalScore = round($sumOfGrades / $totalReviews, 2);
+        } else {
+            $totalScore = 0;
+        }
+
+        return $totalScore;
+    }
+
+    public function updateTotalScore(): bool
+    {
+        $totalScore = $this->calcTotalScore();
+        $this->total_score = $totalScore;
         return $this->save();
     }
 
     public function increaseCounterCompletedTasks(): bool
     {
         $this->succesful_tasks += 1;
-        $this->updateRating();
+        $this->updateTotalScore();
         return $this->save();
     }
 
     public function increaseCounterFailedTasks(): bool
     {
         $this->failed_tasks += 1;
-        $this->updateRating();
+        $this->updateTotalScore();
         return $this->save();
+    }
+
+    public function getUserRank(): int
+    {
+        $users = User::find()
+            ->orderBy(['total_score' => SORT_DESC, 'id' => SORT_ASC])
+            ->all();
+
+        $rank = 1;
+        foreach ($users as $user) {
+            if ($user->id == $this->id) {
+                return $rank;
+            }
+            $rank++;
+        }
+
+        return 0;
     }
 
     public function getUserStatus(): string

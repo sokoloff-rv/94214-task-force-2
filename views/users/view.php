@@ -19,9 +19,9 @@ $categoriesId = $user->specializations ? explode(", ", $user->specializations) :
                 <?php if ($user->role !== User::ROLE_CUSTOMER): ?>
 				    <div class="card-rate">
 				    	<div class="stars-rating big">
-                            <?=RateHelper::getStars($user->rating)?>
+                            <?=RateHelper::getStars($user->userRating)?>
 				    	</div>
-				    	<span class="current-rate"><?=$user->rating?></span>
+				    	<span class="current-rate"><?=$user->userRating?></span>
 				    </div>
                 <?php endif;?>
 			</div>
@@ -93,7 +93,7 @@ $categoriesId = $user->specializations ? explode(", ", $user->specializations) :
 		    		<dt>Всего заказов</dt>
 		    		<dd><?=$user->succesful_tasks?> выполнено, <?=$user->failed_tasks?> провалено</dd>
 		    		<dt>Место в рейтинге</dt>
-		    		<dd>25 место</dd>
+		    		<dd><?=$user->userRank?> место</dd>
 		    		<dt>Дата регистрации</dt>
 		    		<dd>
                         <?=$formatter->asDate(

@@ -31,7 +31,7 @@ CREATE TABLE users (
     city_id INT,
     vk_id INT,
     hidden_contacts INT DEFAULT 0 NOT NULL,
-    rating FLOAT DEFAULT 0 NOT NULL,
+    total_score FLOAT DEFAULT 0 NOT NULL,
     FOREIGN KEY (city_id) REFERENCES cities(id)
 );
 
