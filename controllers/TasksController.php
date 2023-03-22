@@ -14,8 +14,16 @@ use Yii;
 use yii\web\NotFoundHttpException;
 use yii\web\BadRequestHttpException;
 
+/**
+ * Контроллер для работы с заданиями.
+ */
 class TasksController extends SecuredController
 {
+    /**
+     * Определение правил доступа.
+     *
+     * @return array Массив с настройками поведения.
+     */
     public function behaviors(): array
     {
         $rules = parent::behaviors();
@@ -31,6 +39,11 @@ class TasksController extends SecuredController
         return $rules;
     }
 
+    /**
+     * Отображение списка заданий.
+     *
+     * @return string Рендер страницы.
+     */
     public function actionIndex(): string
     {
         $TaskSearch = new TaskSearch();
@@ -44,6 +57,13 @@ class TasksController extends SecuredController
         ]);
     }
 
+    /**
+     * Отображение задания по идентификатору.
+     *
+     * @param int $id Идентификатор задания.
+     * @return \yii\web\Response|string Рендер страницы или редирект.
+     * @throws NotFoundHttpException Если задание не найдено.
+     */
     public function actionView(int $id): \yii\web\Response | string
     {
         $task = Task::findOne($id);
@@ -57,6 +77,13 @@ class TasksController extends SecuredController
         return $this->render('view', ['task' => $task, 'responseForm' => $responseForm, 'reviewForm' => $reviewForm]);
     }
 
+    /**
+     * Создание отклика на задание.
+     *
+     * @param int $taskId Идентификатор задания.
+     * @return \yii\web\Response Редирект.
+     * @throws BadRequestHttpException Если не удалось создать отклик.
+     */
     public function actionResponse(int $taskId): \yii\web\Response
     {
         $responseForm = new NewResponseForm();
@@ -70,6 +97,15 @@ class TasksController extends SecuredController
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    /**
+     * Создание отзыва на задание.
+     *
+     * @param int $taskId Идентификатор задания.
+     * @param int $executorId Идентификатор исполнителя.
+     * @return \yii\web\Response Редирект.
+     * @throws BadRequestHttpException Если не удалось создать отзыв.
+     * @throws NotFoundHttpException Если пользователь не найден.
+     */
     public function actionReview(int $taskId, int $executorId): \yii\web\Response
     {
         $reviewForm = new NewReviewForm();
@@ -94,6 +130,11 @@ class TasksController extends SecuredController
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    /**
+     * Создание нового задания.
+     *
+     * @return \yii\web\Response|string Рендер страницы или редирект.
+     */
     public function actionNew(): \yii\web\Response | string
     {
         $taskForm = new NewTaskForm();
@@ -107,6 +148,16 @@ class TasksController extends SecuredController
         return $this->render('new', ['newTask' => $taskForm]);
     }
 
+    /**
+     * Принятие отклика на задание.
+     *
+     * @param int $responseId Идентификатор отклика.
+     * @param int $taskId Идентификатор задания.
+     * @param int $executorId Идентификатор исполнителя.
+     * @return \yii\web\Response Редирект.
+     * @throws NotFoundHttpException Если отклик или задание не найдены.
+     * @throws BadRequestHttpException Если не удалось сохранить данные.
+     */
     public function actionAccept(int $responseId, int $taskId, int $executorId): \yii\web\Response
     {
         $response = Response::findOne($responseId);
@@ -128,6 +179,14 @@ class TasksController extends SecuredController
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    /**
+     * Отклонение отклика на задание.
+     *
+     * @param int $responseId Идентификатор отклика.
+     * @return \yii\web\Response Редирект.
+     * @throws NotFoundHttpException Если отклик не найден.
+     * @throws BadRequestHttpException Если не удалось сохранить данные.
+     */
     public function actionRefuse(int $responseId): \yii\web\Response
     {
         $response = Response::findOne($responseId);
@@ -141,6 +200,15 @@ class TasksController extends SecuredController
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    /**
+     * Провал задания.
+     *
+     * @param int $taskId Идентификатор задания.
+     * @param int $executorId Идентификатор исполнителя.
+     * @return \yii\web\Response Редирект.
+     * @throws NotFoundHttpException Если задание или пользователь не найдены.
+     * @throws BadRequestHttpException Если не удалось сохранить данные.
+     */
     public function actionFail(int $taskId, int $executorId): \yii\web\Response
     {
         $task = Task::findOne($taskId);
@@ -162,6 +230,14 @@ class TasksController extends SecuredController
         return $this->redirect(Yii::$app->request->referrer);
     }
 
+    /**
+     * Отмена задания.
+     *
+     * @param int $taskId Идентификатор задания.
+     * @return \yii\web\Response Редирект.
+     * @throws NotFoundHttpException Если задание не найдено.
+     * @throws BadRequestHttpException Если не удалось сохранить данные.
+     */
     public function actionCancel(int $taskId): \yii\web\Response
     {
         $task = Task::findOne($taskId);

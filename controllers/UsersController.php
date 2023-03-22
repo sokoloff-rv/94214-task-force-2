@@ -9,8 +9,18 @@ use Yii;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
+/**
+ * Контроллер для работы с пользователями.
+ */
 class UsersController extends SecuredController
 {
+    /**
+     * Просмотр профиля пользователя.
+     *
+     * @param int $id Идентификатор пользователя.
+     * @return string Рендер страницы пользователя.
+     * @throws NotFoundHttpException Если пользователь не найден.
+     */
     public function actionView(int $id): string
     {
         $user = User::findOne($id);
@@ -20,6 +30,11 @@ class UsersController extends SecuredController
         return $this->render('view', ['user' => $user]);
     }
 
+    /**
+     * Редактирование профиля пользователя.
+     *
+     * @return string|\yii\web\Response Рендер страницы редактирования профиля или обновление страницы.
+     */
     public function actionEdit(): string | \yii\web\Response
     {
         $profileForm = new EditProfileForm();
@@ -45,6 +60,11 @@ class UsersController extends SecuredController
         ]);
     }
 
+    /**
+     * Изменение настроек безопасности профиля пользователя.
+     *
+     * @return string|\yii\web\Response Рендер страницы безопасности или обновление страницы.
+     */
     public function actionSecure(): string | \yii\web\Response
     {
         $secureForm = new SecureProfileForm();
@@ -67,6 +87,11 @@ class UsersController extends SecuredController
         ]);
     }
 
+    /**
+     * Выход из аккаунта пользователя.
+     *
+     * @return Response Редирект на главную страницу.
+     */
     public function actionLogout(): Response
     {
         Yii::$app->user->logout();

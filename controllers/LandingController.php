@@ -7,10 +7,18 @@ use Yii;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
+/**
+ * Контроллер для обработки действий на главной лендинге.
+ */
 class LandingController extends NotSecuredController
 {
     public $layout = 'landing';
 
+    /**
+     * Метод обрабатывает страницу лендинга и выполняет авторизацию в случае, если был выполнен вход на сайт.
+     *
+     * @return \yii\web\Response|string|array
+     */
     public function actionIndex(): \yii\web\Response|string|array
     {
         $loginForm = new LoginForm();
