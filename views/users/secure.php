@@ -3,7 +3,7 @@ use yii\widgets\ActiveForm;
 use yii\widgets\Menu;
 use app\models\User;
 
-$this->title = "Редактирование профиля";
+$this->title = "Настройки безопасности";
 ?>
 
 <main class="main-content main-content--left container">
