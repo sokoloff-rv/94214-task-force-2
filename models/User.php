@@ -29,10 +29,10 @@ use yii\web\IdentityInterface;
  *
  * @property Cities $city
  * @property Responses[] $responses
- * @property Reviews[] $reviews
- * @property Reviews[] $reviews0
- * @property Tasks[] $tasks
- * @property Tasks[] $tasks0
+ * @property CustomerReviews[] $CustomerReviews
+ * @property ReviewsOnExecutor[] $ReviewsOnExecutor
+ * @property CustomerTasks[] $CustomerTasks
+ * @property ExecutorTasks[] $ExecutorTasks
  */
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
