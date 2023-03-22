@@ -58,7 +58,9 @@ $categoriesId = $user->specializations ? explode(", ", $user->specializations) :
 		    <h4 class="head-regular">Отзывы заказчиков</h4>
             <?php foreach ($user->reviewsOnExecutor as $review): ?>
 		        <div class="response-card">
-		        	<img class="customer-photo" src="<?=$review->customer->avatar?>" width="120" height="127" alt="<?=$review->customer->name?>">
+                    <a class="image-wrapper" href="<?=Url::toRoute(['/users/view/', 'id' => $review->customer->id])?>">
+		        	    <img class="customer-photo" src="<?=$review->customer->avatar?>" width="120" height="127" alt="<?=$review->customer->name?>">
+                    </a>
 		        	<div class="feedback-wrapper">
 		        		<p class="feedback">
                             <?=$review->comment?>
