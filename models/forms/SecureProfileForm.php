@@ -7,6 +7,9 @@ use Yii;
 use yii\base\Model;
 use yii\base\InvalidParamException;
 
+/**
+ * Класс формы настроек безопасности профиля пользователя.
+ */
 class SecureProfileForm extends Model
 {
     public string $oldPassword = '';
@@ -14,6 +17,11 @@ class SecureProfileForm extends Model
     public string $repeatPassword = '';
     public bool $hiddenContacts = false;
 
+    /**
+     * Возвращает список меток атрибутов.
+     *
+     * @return array Список меток атрибутов.
+     */
     public function attributeLabels(): array
     {
         return [
@@ -24,6 +32,11 @@ class SecureProfileForm extends Model
         ];
     }
 
+    /**
+     * Возвращает список правил валидации для атрибутов модели.
+     *
+     * @return array Список правил валидации.
+     */
     public function rules(): array
     {
         return [
@@ -34,6 +47,12 @@ class SecureProfileForm extends Model
         ];
     }
 
+    /**
+     * Валидация старого пароля.
+     *
+     * @param string $attribute Атрибут для валидации.
+     * @param array $params Параметры валидации.
+     */
     public function validateOldPassword($attribute, $params): void
     {
         $user = User::findOne(Yii::$app->user->id);
@@ -43,6 +62,12 @@ class SecureProfileForm extends Model
         }
     }
 
+    /**
+     * Валидация нового пароля.
+     *
+     * @param string $attribute Атрибут для валидации.
+     * @param array $params Параметры валидации.
+     */
     public function validateNewPassword($attribute, $params): void
     {
         if (!empty($this->newPassword) && (empty($this->oldPassword))) {
@@ -56,6 +81,12 @@ class SecureProfileForm extends Model
         }
     }
 
+    /**
+     * Сохраняет данные профиля пользователя.
+     *
+     * @param int $userId Идентификатор пользователя.
+     * @return bool Результат сохранения данных профиля пользователя.
+     */
     public function saveProfile(int $userId): bool
     {
         if (!$this->validate()) {

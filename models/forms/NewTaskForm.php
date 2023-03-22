@@ -12,6 +12,9 @@ use yii\base\Model;
 use yii\web\UploadedFile;
 use Taskforce\Utils\Geocoder;
 
+/**
+ * Класс формы создания новой задачи.
+ */
 class NewTaskForm extends Model
 {
     public string $title = '';
@@ -22,6 +25,11 @@ class NewTaskForm extends Model
     public string $deadline = '';
     public array $files = [];
 
+    /**
+     * Возвращает список меток атрибутов.
+     *
+     * @return array Список меток атрибутов.
+     */
     public function attributeLabels(): array
     {
         return [
@@ -35,6 +43,11 @@ class NewTaskForm extends Model
         ];
     }
 
+    /**
+     * Возвращает список правил валидации для атрибутов модели.
+     *
+     * @return array Список правил валидации.
+     */
     public function rules(): array
     {
         return [
@@ -50,6 +63,11 @@ class NewTaskForm extends Model
         ];
     }
 
+    /**
+     * Создает новый объект задачи на основе данных формы.
+     *
+     * @return Task Новый объект задачи.
+     */
     public function newTask(): Task
     {
         $task = new Task;
@@ -74,6 +92,11 @@ class NewTaskForm extends Model
         return $task;
     }
 
+    /**
+     * Создает и сохраняет новую задачу, основанную на данных формы.
+     *
+     * @return int|bool Возвращает ID созданной задачи, если задача успешно создана и сохранена, иначе false.
+     */
     public function createTask(): int|bool
     {
         $files = UploadedFile::getInstances($this, 'files');

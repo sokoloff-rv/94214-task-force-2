@@ -6,6 +6,9 @@ use app\models\User;
 use yii\base\Model;
 use yii\web\UploadedFile;
 
+/**
+ * Класс формы редактирования профиля пользователя.
+ */
 class EditProfileForm extends Model
 {
     public string $avatar = '';
@@ -17,6 +20,11 @@ class EditProfileForm extends Model
     public string $information = '';
     public array $specializations = [];
 
+    /**
+     * Возвращает список меток атрибутов.
+     *
+     * @return array Список меток атрибутов.
+     */
     public function attributeLabels(): array
     {
         return [
@@ -31,6 +39,11 @@ class EditProfileForm extends Model
         ];
     }
 
+    /**
+     * Возвращает список правил валидации для атрибутов модели.
+     *
+     * @return array Список правил валидации.
+     */
     public function rules(): array
     {
         return [
@@ -42,6 +55,12 @@ class EditProfileForm extends Model
         ];
     }
 
+    /**
+     * Сохраняет профиль пользователя.
+     *
+     * @param int $userId Идентификатор пользователя.
+     * @return bool Возвращает true, если профиль успешно сохранен, иначе false.
+     */
     public function saveProfile(int $userId): bool
     {
         if (!$this->validate()) {

@@ -6,11 +6,19 @@ use Yii;
 use yii\base\Model;
 use app\models\Response;
 
+/**
+ * Класс формы добавления нового отклика.
+ */
 class NewResponseForm extends Model
 {
     public string $comment = '';
     public string $price = '';
 
+    /**
+     * Возвращает список меток атрибутов.
+     *
+     * @return array Список меток атрибутов.
+     */
     public function attributeLabels(): array
     {
         return [
@@ -19,6 +27,11 @@ class NewResponseForm extends Model
         ];
     }
 
+    /**
+     * Возвращает список правил валидации для атрибутов модели.
+     *
+     * @return array Список правил валидации.
+     */
     public function rules(): array
     {
         return [
@@ -27,6 +40,12 @@ class NewResponseForm extends Model
         ];
     }
 
+    /**
+     * Создает новый экземпляр отклика.
+     *
+     * @param int $taskId Идентификатор задачи.
+     * @return Response Экземпляр отклика.
+     */
     public function newResponse(int $taskId): Response
     {
         $response = new Response;
@@ -37,6 +56,12 @@ class NewResponseForm extends Model
         return $response;
     }
 
+    /**
+     * Создает и сохраняет новый отклик.
+     *
+     * @param int $taskId Идентификатор задачи.
+     * @return bool Возвращает true в случае успешного создания отклика, иначе false.
+     */
     public function createResponse(int $taskId): bool
     {
         if ($this->validate()) {
