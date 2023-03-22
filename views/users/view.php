@@ -19,9 +19,9 @@ $categoriesId = $user->specializations ? explode(", ", $user->specializations) :
                 <?php if ($user->role !== User::ROLE_CUSTOMER): ?>
 				    <div class="card-rate">
 				    	<div class="stars-rating big">
-                            <?=RateHelper::getStars($user->UserRating)?>
+                            <?=RateHelper::getStars($user->rating)?>
 				    	</div>
-				    	<span class="current-rate"><?=$user->UserRating?></span>
+				    	<span class="current-rate"><?=$user->rating?></span>
 				    </div>
                 <?php endif;?>
 			</div>

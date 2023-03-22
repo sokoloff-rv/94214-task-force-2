@@ -26,6 +26,7 @@ use yii\web\IdentityInterface;
  * @property int|null $city_id
  * @property int|null $vk_id
  * @property int $hidden_contacts
+ * @property float $rating
  *
  * @property Cities $city
  * @property Responses[] $responses
@@ -57,6 +58,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             [['birthday', 'register_date'], 'safe'],
             [['information', 'role'], 'string'],
             [['succesful_tasks', 'failed_tasks', 'city_id', 'vk_id', 'hidden_contacts'], 'integer'],
+            [['rating'], 'number'],
             [['name'], 'string', 'max' => 150],
             [['email', 'password', 'phone', 'telegram'], 'string', 'max' => 100],
             [['specializations', 'avatar'], 'string', 'max' => 255],
@@ -88,6 +90,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'city_id' => 'City ID',
             'vk_id' => 'Vk User ID',
             'hidden_contacts' => 'Hide contacts for everyone except the customer',
+            'rating' => 'User rating'
         ];
     }
 
@@ -156,7 +159,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return User::findOne(Yii::$app->user->getId());
     }
 
-    public function getUserRating(): string
+    public function calcUserRating(): string
     {
         $sumOfGrades = 0;
         $reviews = $this->reviewsOnExecutor;
@@ -174,23 +177,30 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return $rate;
     }
 
+    public function updateRating(): bool
+    {
+        $rating = $this->calcUserRating();
+        $this->rating = $rating;
+        return $this->save();
+    }
+
     public function increaseCounterCompletedTasks(): bool
     {
         $this->succesful_tasks += 1;
+        $this->updateRating();
         return $this->save();
     }
 
     public function increaseCounterFailedTasks(): bool
     {
         $this->failed_tasks += 1;
+        $this->updateRating();
         return $this->save();
     }
 
     public function getUserStatus(): string
     {
-        if (
-            Task::findOne(['executor_id' => $this->id, 'status' => TaskBasic::STATUS_WORKING])
-        ) {
+        if (Task::findOne(['executor_id' => $this->id, 'status' => TaskBasic::STATUS_WORKING])) {
             return 'Занят';
         }
         return 'Открыт для новых заказов';

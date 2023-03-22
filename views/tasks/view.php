@@ -74,7 +74,7 @@ if (!Yii::$app->user->isGuest) {
                             <a href="<?=Url::toRoute(['/users/view/', 'id' => $response->executor->id])?>" class="link link--block link--big"><?=$response->executor->name?></a>
                             <div class="response-wrapper">
                                 <div class="stars-rating small">
-                                    <?=RateHelper::getStars($response->executor->UserRating)?>
+                                    <?=RateHelper::getStars($response->executor->rating)?>
                                 </div>
                                 <p class="reviews">
                                     <?=Yii::t('app', '{n, plural, =0{# отзывов} one{# отзыв} =2{# отзыва} =3{# отзыва} =4{# отзыва} few{# отзыва} many{# отзывов} other{# отзывов}}', ['n' => count($response->executor->reviewsOnExecutor)]);?>
