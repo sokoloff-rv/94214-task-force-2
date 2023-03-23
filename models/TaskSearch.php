@@ -5,6 +5,7 @@ namespace app\models;
 use app\models\forms\TasksFilter;
 use app\models\Response;
 use app\models\Task;
+use app\models\User;
 use Taskforce\Models\Task as TaskBasic;
 use Yii;
 use yii\base\Model;
@@ -19,14 +20,16 @@ use yii\helpers\ArrayHelper;
 class TaskSearch extends Model
 {
     /**
-     * Возвращает список задач, удовлетворяющих заданным условиям.
+     * Возвращает список задач, удовлетворяющих заданным условиям. По умолчанию (без фильтрации) возвращает список задач в статусе "Новые" без привязки к городу, а также из города пользователя.
      *
      * @return array Массив с задачами и информацией о пагинации.
      */
     public function getTasks(?int $category = null): array
     {
+        $user = User::getCurrentUser();
         $tasks = Task::find()
             ->where(['status' => TaskBasic::STATUS_NEW])
+            ->andWhere(['or', ['city_id' => null], ['city_id' => $user->city_id]])
             ->orderBy(['creation_date' => SORT_DESC])
             ->with('category')
             ->with('city');
