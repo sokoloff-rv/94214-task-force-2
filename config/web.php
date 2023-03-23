@@ -51,6 +51,7 @@ $config = [
             'rules' => [
                 'tasks/view/<id:\d+>' => 'tasks/view',
                 'users/view/<id:\d+>' => 'users/view',
+                'tasks/index?category=<category:\d+>' => 'tasks/index',
             ],
         ],
         'formatter' => [

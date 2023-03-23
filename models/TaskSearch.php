@@ -23,13 +23,17 @@ class TaskSearch extends Model
      *
      * @return array Массив с задачами и информацией о пагинации.
      */
-    public function getTasks(): array
+    public function getTasks(?int $category = null): array
     {
         $tasks = Task::find()
             ->where(['status' => TaskBasic::STATUS_NEW])
             ->orderBy(['creation_date' => SORT_DESC])
             ->with('category')
             ->with('city');
+
+        if ($category) {
+            $tasks = $tasks->andWhere(['category_id' => $category]);
+        }
 
         $request = Yii::$app->getRequest();
 

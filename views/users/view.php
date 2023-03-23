@@ -38,7 +38,7 @@ $categoriesId = $user->specializations ? explode(", ", $user->specializations) :
 			    	<ul class="special-list">
                         <?php foreach ($categoriesId as $categoryId): ?>
 			    		    <li class="special-item">
-			    		        <a href="#" class="link link--regular">
+			    		        <a href="<?= Url::to(['tasks/index', 'category' => $categoryId]) ?>" class="link link--regular">
                                     <?=Category::getCategoryName($categoryId)?>
                                 </a>
 			    		    </li>
@@ -49,7 +49,7 @@ $categoriesId = $user->specializations ? explode(", ", $user->specializations) :
 			<div class="bio">
 				<p class="head-info">Био</p>
 				<p class="bio-info">
-                    <span class="country-info">Россия</span>, <!-- к этому, видимо, надо будет вернуться позже, так как страна явно в БД не хранится -->
+                    <span class="country-info">Россия</span>,
                     <span class="town-info"><?=$user->city->name?></span>,
                     <span class="age-info">
                         <?=trim($formatter->format(

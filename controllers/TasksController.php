@@ -44,10 +44,10 @@ class TasksController extends SecuredController
      *
      * @return string Рендер страницы.
      */
-    public function actionIndex(): string
+    public function actionIndex(?int $category = null): string
     {
         $TaskSearch = new TaskSearch();
-        $result = $TaskSearch->getTasks();
+        $result = $TaskSearch->getTasks($category);
         $filter = new TasksFilter();
 
         return $this->render('index', [
