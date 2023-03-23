@@ -7,33 +7,33 @@ use Yii;
 use yii\web\IdentityInterface;
 
 /**
- * This is the model class for table "users".
+ * Модель для таблицы "users".
  *
- * @property int $id
- * @property string $name
- * @property string $email
- * @property string $password
- * @property string|null $birthday
- * @property string|null $phone
- * @property string|null $telegram
- * @property string|null $information
- * @property string|null $specializations
- * @property string|null $avatar
- * @property string|null $register_date
- * @property string $role
- * @property int|null $succesful_tasks
- * @property int|null $failed_tasks
- * @property int|null $city_id
- * @property int|null $vk_id
- * @property int $hidden_contacts
- * @property float $total_score
+ * @property int $id Идентификатор пользователя.
+ * @property string $name Имя пользователя.
+ * @property string $email Электронная почта пользователя.
+ * @property string $password Хэшированный пароль пользователя.
+ * @property string|null $birthday Дата рождения пользователя.
+ * @property string|null $phone Номер телефона пользователя.
+ * @property string|null $telegram Имя пользователя в Telegram.
+ * @property string|null $information Информация о пользователе.
+ * @property string|null $specializations Специализации пользователя.
+ * @property string|null $avatar URL аватара пользователя.
+ * @property string|null $register_date Дата регистрации пользователя.
+ * @property string $role Роль пользователя (customer или executor).
+ * @property int|null $succesful_tasks Количество успешно выполненных задач.
+ * @property int|null $failed_tasks Количество проваленных задач.
+ * @property int|null $city_id Идентификатор города пользователя.
+ * @property int|null $vk_id Идентификатор пользователя ВКонтакте.
+ * @property int $hidden_contacts Скрыть контакты для всех, кроме заказчика.
+ * @property float $total_score Общий рейтинг пользователя.
  *
- * @property Cities $city
- * @property Responses[] $responses
- * @property CustomerReviews[] $CustomerReviews
- * @property ReviewsOnExecutor[] $ReviewsOnExecutor
- * @property CustomerTasks[] $CustomerTasks
- * @property ExecutorTasks[] $ExecutorTasks
+ * @property City $city Связь с моделью города.
+ * @property Response $responses Связь с моделью откликов.
+ * @property Review $CustomerReviews Связь с моделью отзывов заказчиков.
+ * @property Review $ReviewsOnExecutor Связь с моделью отзывов исполнителей.
+ * @property Task $CustomerTasks Связь с моделью задач заказчиков.
+ * @property Task $ExecutorTasks Связь с моделью задач исполнителей.
  */
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
@@ -41,7 +41,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     const ROLE_EXECUTOR = 'executor';
 
     /**
-     * {@inheritdoc}
+     * Возвращает название таблицы.
+     *
+     * @return string Название таблицы.
      */
     public static function tableName()
     {
@@ -49,7 +51,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Определяет правила валидации для атрибутов модели.
+     *
+     * @return array Правила валидации.
      */
     public function rules()
     {
@@ -68,7 +72,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Определяет метки атрибутов.
+     *
+     * @return array Метки атрибутов.
      */
     public function attributeLabels()
     {
@@ -95,9 +101,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Gets query for [[City]].
+     * Получает запрос для связи с моделью города.
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery Объект запроса ActiveQuery.
      */
     public function getCity()
     {
@@ -105,9 +111,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Gets query for [[Responses]].
+     * Получает запрос для связи с моделью откликов.
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery Объект запроса ActiveQuery.
      */
     public function getResponses()
     {
@@ -115,9 +121,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Gets query for [[CustomerReviews]].
+     * Получает запрос для связи с моделью отзывов от заказчиков.
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery Объект запроса ActiveQuery.
      */
     public function getCustomerReviews()
     {
@@ -125,9 +131,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Gets query for [[ReviewsOnExecutor]].
+     * Получает запрос для связи с моделью отзывов на исполнителя.
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery Объект запроса ActiveQuery.
      */
     public function getReviewsOnExecutor()
     {
@@ -135,9 +141,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Gets query for [[CustomerTasks]].
+     * Получает запрос для связи с моделью задач заказчика.
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery Объект запроса ActiveQuery.
      */
     public function getCustomerTasks()
     {
@@ -145,20 +151,30 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Gets query for [[ExecutorTasks]].
+     * Получает запрос для связи с моделью задач исполнителя.
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery Объект запроса ActiveQuery.
      */
     public function getExecutorTasks()
     {
         return $this->hasMany(Task::class, ['executor_id' => 'id']);
     }
 
+    /**
+     * Возвращает текущего пользователя.
+     *
+     * @return User Текущий пользователь.
+     */
     public static function getCurrentUser(): User
     {
         return User::findOne(Yii::$app->user->getId());
     }
 
+    /**
+     * Возвращает рейтинг пользователя.
+     *
+     * @return string Рейтинг пользователя.
+     */
     public function getUserRating(): string
     {
         $sumOfGrades = 0;
@@ -177,6 +193,11 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return $rate;
     }
 
+    /**
+     * Вычисляет общий балл пользователя.
+     *
+     * @return string Общий балл пользователя.
+     */
     public function calcTotalScore(): string
     {
         $reviews = $this->reviewsOnExecutor;
@@ -192,6 +213,11 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return $totalScore;
     }
 
+    /**
+     * Обновляет общий балл пользователя.
+     *
+     * @return bool Возвращает true, если обновление прошло успешно, иначе false.
+     */
     public function updateTotalScore(): bool
     {
         $totalScore = $this->calcTotalScore();
@@ -199,6 +225,11 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return $this->save();
     }
 
+    /**
+     * Увеличивает счетчик выполненных задач пользователя.
+     *
+     * @return bool Возвращает true, если обновление прошло успешно, иначе false.
+     */
     public function increaseCounterCompletedTasks(): bool
     {
         $this->succesful_tasks += 1;
@@ -206,6 +237,11 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return $this->save();
     }
 
+    /**
+     * Увеличивает счетчик проваленных задач пользователя.
+     *
+     * @return bool Возвращает true, если обновление прошло успешно, иначе false.
+     */
     public function increaseCounterFailedTasks(): bool
     {
         $this->failed_tasks += 1;
@@ -213,6 +249,11 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return $this->save();
     }
 
+    /**
+     * Возвращает место в рейтинге на основе общего балла.
+     *
+     * @return int Место в рейтинге.
+     */
     public function getUserRank(): int
     {
         $users = User::find()
@@ -230,6 +271,11 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return 0;
     }
 
+    /**
+     * Возвращает статус пользователя (занят или открыт для новых заказов).
+     *
+     * @return string Статус пользователя.
+     */
     public function getUserStatus(): string
     {
         if (Task::findOne(['executor_id' => $this->id, 'status' => TaskBasic::STATUS_WORKING])) {
@@ -238,31 +284,66 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return 'Открыт для новых заказов';
     }
 
+    /**
+     * Находит объект пользователя по идентификатору.
+     *
+     * @param int $id Идентификатор пользователя.
+     * @return User|null Возвращает найденного пользователя или null, если пользователь не найден.
+     */
     public static function findIdentity($id): ?User
     {
         return self::findOne($id);
     }
 
+    /**
+     * Находит объект пользователя по маркеру доступа (не реализовано).
+     *
+     * @param string $token Маркер доступа.
+     * @param string|null $type Тип маркера доступа.
+     * @return User|null Возвращает null, так как функционал не реализован.
+     */
     public static function findIdentityByAccessToken($token, $type = null): ?User
     {
         return null;
     }
 
+    /**
+     * Возвращает идентификатор пользователя.
+     *
+     * @return int|null Идентификатор пользователя.
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Возвращает ключ аутентификации (не реализовано).
+     *
+     * @return string|null Возвращает null, так как функционал не реализован.
+     */
     public function getAuthKey(): ?string
     {
         return null;
     }
 
+    /**
+     * Проверяет правильность ключа аутентификации (не реализовано).
+     *
+     * @param string $authKey Ключ аутентификации.
+     * @return bool Возвращает false, так как функционал не реализован.
+     */
     public function validateAuthKey($authKey): bool
     {
         return false;
     }
 
+    /**
+     * Проверяет правильность пароля пользователя.
+     *
+     * @param string $password Пароль для проверки.
+     * @return bool Возвращает true, если пароль правильный, иначе false.
+     */
     public function validatePassword($password): bool
     {
         return Yii::$app->security->validatePassword($password, $this->password);

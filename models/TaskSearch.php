@@ -13,11 +13,18 @@ use yii\db\ActiveQuery;
 use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 
+/**
+ * Класс TaskSearch предназначен для поиска и фильтрации задач.
+ */
 class TaskSearch extends Model
 {
+    /**
+     * Возвращает список задач, удовлетворяющих заданным условиям.
+     *
+     * @return array Массив с задачами и информацией о пагинации.
+     */
     public function getTasks(): array
     {
-        /** @var ActiveQuery $tasks */
         $tasks = Task::find()
             ->where(['status' => TaskBasic::STATUS_NEW])
             ->orderBy(['creation_date' => SORT_DESC])
@@ -68,9 +75,17 @@ class TaskSearch extends Model
         ];
     }
 
+    /**
+     * Возвращает список задач для пользователя, удовлетворяющих заданным условиям.
+     *
+     * @param int $userId ID пользователя.
+     * @param string $role Роль пользователя (исполнитель или заказчик).
+     * @param array $statuses Массив с допустимыми статусами задач.
+     * @param bool $isOverdue Флаг для фильтрации просроченных задач.
+     * @return array Массив с задачами и информацией о пагинации.
+     */
     public function getUserTasks(int $userId, string $role, array $statuses, bool $isOverdue = false): array
     {
-        /** @var ActiveQuery $tasks */
         $tasks = Task::find()
             ->andWhere(['in', 'status', $statuses])
             ->andWhere([$role . '_id' => $userId])

@@ -5,18 +5,20 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "categories".
+ * Класс модели для таблицы "categories" в базе данных.
  *
- * @property int $id
- * @property string $name
- * @property string $alias
+ * @property int $id Идентификатор категории.
+ * @property string $name Название категории.
+ * @property string $alias Псевдоним категории.
  *
- * @property Tasks[] $tasks
+ * @property Task $tasks Задачи, связанные с данной категорией.
  */
 class Category extends \yii\db\ActiveRecord
 {
     /**
-     * {@inheritdoc}
+     * Возвращает имя таблицы в базе данных.
+     *
+     * @return string Имя таблицы в базе данных.
      */
     public static function tableName(): string
     {
@@ -24,7 +26,9 @@ class Category extends \yii\db\ActiveRecord
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает список правил валидации для атрибутов модели.
+     *
+     * @return array Список правил валидации.
      */
     public function rules(): array
     {
@@ -35,7 +39,9 @@ class Category extends \yii\db\ActiveRecord
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает список меток атрибутов.
+     *
+     * @return array Список меток атрибутов.
      */
     public function attributeLabels(): array
     {
@@ -47,15 +53,21 @@ class Category extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Tasks]].
+     * Получает запрос для [[Task]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery Запрос для задач, связанных с данной категорией.
      */
     public function getTasks(): \yii\db\ActiveQuery
     {
         return $this->hasMany(Task::class, ['category_id' => 'id']);
     }
 
+    /**
+     * Возвращает название категории по ее идентификатору.
+     *
+     * @param int $id Идентификатор категории.
+     * @return string Название категории.
+     */
     public static function getCategoryName(int $id): string
     {
         return self::find()->select('name')->where(['id' => $id])->one()['name'];
