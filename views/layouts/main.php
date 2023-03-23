@@ -67,11 +67,9 @@ $currentRoute = Yii::$app->controller->getRoute();
     </nav>
     <?php if (!Yii::$app->user->isGuest): ?>
         <div class="user-block">
-            <?php if ($user->avatar): ?>
-                <a href="<?=Url::toRoute(['/users/view/', 'id' => $user->id])?>">
-                    <img class="user-photo" src="<?=$user->avatar?>" width="55" height="55" alt="Аватар">
-                </a>
-            <?php endif;?>
+            <a href="<?=Url::toRoute(['/users/view/', 'id' => $user->id])?>">
+                <img class="user-photo" src="<?=$user->avatar ? $user->avatar : "/img/default-avatar.webp"?>" width="55" height="55" alt="Аватар">
+            </a>
             <div class="user-menu">
                 <p class="user-name"><?=$user->name?></p>
                 <div class="popup-head">

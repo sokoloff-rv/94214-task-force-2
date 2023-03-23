@@ -15,7 +15,7 @@ $categoriesId = $user->specializations ? explode(", ", $user->specializations) :
 		<h3 class="head-main"><?=$user->name?></h3>
 		<div class="user-card">
 			<div class="photo-rate">
-				<img class="card-photo" src="<?=$user->avatar?>" width="191" height="190" alt="Фото пользователя">
+				<img class="card-photo" src="<?=$user->avatar ? $user->avatar : "/img/default-avatar.webp"?>" width="191" height="190" alt="Фото пользователя">
                 <?php if ($user->role !== User::ROLE_CUSTOMER): ?>
 				    <div class="card-rate">
 				    	<div class="stars-rating big">
@@ -63,7 +63,7 @@ $categoriesId = $user->specializations ? explode(", ", $user->specializations) :
             <?php foreach ($user->reviewsOnExecutor as $review): ?>
 		        <div class="response-card">
                     <a class="image-wrapper" href="<?=Url::toRoute(['/users/view/', 'id' => $review->customer->id])?>">
-		        	    <img class="customer-photo" src="<?=$review->customer->avatar?>" width="120" height="127" alt="<?=$review->customer->name?>">
+		        	    <img class="customer-photo" src="<?=$review->customer->avatar ? $review->customer->avatar : "/img/default-avatar.webp"?>" width="120" height="127" alt="<?=$review->customer->name?>">
                     </a>
 		        	<div class="feedback-wrapper">
 		        		<p class="feedback">

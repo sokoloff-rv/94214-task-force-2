@@ -49,7 +49,7 @@ $userSpecializations = explode(', ', $user->specializations);
             <div class="photo-editing">
                 <div>
                     <p class="form-label">Аватар</p>
-                    <img class="avatar-preview" src="<?=$user->avatar;?>" width="83" height="83">
+                    <img class="avatar-preview" src="<?=$user->avatar ? $user->avatar : "/img/default-avatar.webp";?>" width="83" height="83">
                 </div>
                 <?=$form->field($profile, 'avatar')->fileInput(['id' => 'profile-avatar', 'hidden' => true])->label(false);?>
                 <label for="profile-avatar" class="button button--black">Сменить аватар</label>
