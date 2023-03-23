@@ -51,7 +51,9 @@ class NewTaskForm extends Model
     public function rules(): array
     {
         return [
-            [['title', 'description'], 'required'],
+            [['title', 'description', 'category'], 'required'],
+            ['title', 'string', 'min' => 10],
+            ['description', 'string', 'min' => 30],
             [['category'], 'exist', 'targetClass' => Category::class, 'targetAttribute' => ['category' => 'id']],
             [['location'], 'app\validators\LocationValidator'],
             ['budget', 'integer', 'min' => 1],
