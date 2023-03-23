@@ -43,9 +43,11 @@ class UsersController extends SecuredController
         if (Yii::$app->request->getIsPost()) {
             $post = Yii::$app->request->post();
 
-            $specializations = $post['EditProfileForm']['specializations'];
-            if (isset($specializations) && is_string($specializations)) {
-                $post['EditProfileForm']['specializations'] = explode(',', $specializations);
+            if ($user->role === User::ROLE_EXECUTOR) {
+                $specializations = $post['EditProfileForm']['specializations'];
+                if (isset($specializations) && is_string($specializations)) {
+                    $post['EditProfileForm']['specializations'] = explode(',', $specializations);
+                }
             }
 
             if ($profileForm->load($post) && $profileForm->validate()) {
