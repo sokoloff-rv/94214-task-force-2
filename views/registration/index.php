@@ -25,10 +25,10 @@ $cities = ArrayHelper::map(City::find()->all(), 'id', 'name');
                     <?=$form->field($registration, 'city',)->dropDownList($cities); ?>
                 </div>
                 <div class="half-wrapper">
-                    <?=$form->field($registration, 'password');?>
+                    <?=$form->field($registration, 'password')->passwordInput();?>
                 </div>
                 <div class="half-wrapper">
-                    <?=$form->field($registration, 'passwordRepeat');?>
+                    <?=$form->field($registration, 'passwordRepeat')->passwordInput();?>
                 </div>
                 <?=$form->field($registration, 'isExecutor')->checkbox(
                     [
