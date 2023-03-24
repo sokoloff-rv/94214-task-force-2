@@ -1,10 +1,14 @@
+# vscode files
+.vscode
+
 # phpstorm project files
 .idea
+
 
 # netbeans project files
 nbproject
 
-# zend studio for eclipse project files
+# zend studio for eclips project files
 .buildpath
 .project
 .settings
