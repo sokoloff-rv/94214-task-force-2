@@ -12,8 +12,10 @@ AvatarAsset::register($this);
 $this->title = "Редактирование профиля";
 $categoriesQuery = Category::find()->select(['id', 'name'])->all();
 $categories = ArrayHelper::map($categoriesQuery, 'id', 'name');
-$dateTimeObject = new DateTime($user->birthday);
-$userBirthday = $dateTimeObject->format('Y-m-d');
+if ($user->birthday) {
+    $dateTimeObject = new DateTime($user->birthday);
+    $userBirthday = $dateTimeObject->format('Y-m-d');
+}
 $userSpecializations = explode(', ', $user->specializations);
 ?>
 
@@ -57,7 +59,7 @@ $userSpecializations = explode(', ', $user->specializations);
             <?=$form->field($profile, 'name')->textInput(['value' => $user->name]);?>
             <div class="half-wrapper">
                 <?=$form->field($profile, 'email')->input('email', ['value' => $user->email]);?>
-                <?=$form->field($profile, 'birthday')->input('date', ['value' => $userBirthday]);?>
+                <?=$form->field($profile, 'birthday')->input('date', ['value' => isset($userBirthday) ? $userBirthday : '']);?>
             </div>
             <div class="half-wrapper">
                 <?=$form->field($profile, 'phone')->input('tel', ['value' => $user->phone]);?>
