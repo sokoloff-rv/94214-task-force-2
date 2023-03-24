@@ -91,7 +91,10 @@ $categoriesId = $user->specializations ? explode(", ", $user->specializations) :
 		    	<h4 class="head-card">Статистика исполнителя</h4>
 		    	<dl class="black-list">
 		    		<dt>Всего заказов</dt>
-		    		<dd><?=$user->succesful_tasks?> выполнено, <?=$user->failed_tasks?> провалено</dd>
+		    		<dd>
+                        <?=$user->succesful_tasks ? $user->succesful_tasks : '0'?> выполнено,
+                        <?=$user->failed_tasks ? $user->failed_tasks : '0'?> провалено
+                    </dd>
 		    		<dt>Место в рейтинге</dt>
 		    		<dd><?=$user->userRank?> место</dd>
 		    		<dt>Дата регистрации</dt>
