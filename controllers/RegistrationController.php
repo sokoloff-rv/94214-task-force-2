@@ -5,8 +5,16 @@ namespace app\controllers;
 use app\models\forms\RegistrationForm;
 use Yii;
 
+/**
+ * Контроллер для обработки регистрации пользователя.
+ */
 class RegistrationController extends NotSecuredController
 {
+    /**
+     * Обрабатывает запрос на регистрацию нового пользователя.
+     *
+     * @return string Результат рендеринга страницы.
+     */
     public function actionIndex(): string
     {
         $registration = new RegistrationForm();

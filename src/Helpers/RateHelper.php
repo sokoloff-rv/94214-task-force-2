@@ -6,6 +6,7 @@ class RateHelper
 {
     /**
      * Возвращает HTML-код со звездами, отображающими рейтинг.
+     *
      * @param float $rate значение рейтинга.
      * @return string HTML-код со звездами.
      */

@@ -6,6 +6,9 @@ use app\models\User;
 use Yii;
 use yii\base\Model;
 
+/**
+ * Класс формы входа в систему.
+ */
 class LoginForm extends Model
 {
     public string $email = '';
@@ -13,6 +16,11 @@ class LoginForm extends Model
 
     private $_user;
 
+    /**
+     * Возвращает список меток атрибутов.
+     *
+     * @return array Список меток атрибутов.
+     */
     public function attributeLabels()
     {
         return [
@@ -21,6 +29,11 @@ class LoginForm extends Model
         ];
     }
 
+    /**
+     * Возвращает список правил валидации для атрибутов модели.
+     *
+     * @return array Список правил валидации.
+     */
     public function rules()
     {
         return [
@@ -30,6 +43,11 @@ class LoginForm extends Model
         ];
     }
 
+    /**
+     * Возвращает пользователя по email.
+     *
+     * @return User|null Возвращает экземпляр пользователя или null, если пользователь не найден.
+     */
     public function getUser()
     {
         if ($this->_user === null) {
@@ -39,6 +57,12 @@ class LoginForm extends Model
         return $this->_user;
     }
 
+    /**
+     * Проверяет корректность пароля.
+     *
+     * @param string $attribute Название атрибута, который валидируется.
+     * @param array $params Дополнительные параметры, переданные в правило.
+     */
     public function validatePassword($attribute, $params)
     {
         if (!$this->hasErrors()) {

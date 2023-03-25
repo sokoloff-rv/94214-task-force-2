@@ -7,6 +7,9 @@ use app\models\User;
 use Yii;
 use yii\base\Model;
 
+/**
+ * Класс формы регистрации нового пользователя.
+ */
 class RegistrationForm extends Model
 {
     public string $name = '';
@@ -16,6 +19,11 @@ class RegistrationForm extends Model
     public string $passwordRepeat = '';
     public bool $isExecutor = false;
 
+    /**
+     * Возвращает список меток атрибутов.
+     *
+     * @return array Список меток атрибутов.
+     */
     public function attributeLabels()
     {
         return [
@@ -28,6 +36,11 @@ class RegistrationForm extends Model
         ];
     }
 
+    /**
+     * Возвращает список правил валидации для атрибутов модели.
+     *
+     * @return array Список правил валидации.
+     */
     public function rules()
     {
         return [
@@ -40,6 +53,11 @@ class RegistrationForm extends Model
         ];
     }
 
+    /**
+     * Создает новый объект пользователя на основе данных формы.
+     *
+     * @return User Новый объект пользователя.
+     */
     public function newUser()
     {
         $user = new User;
@@ -51,6 +69,9 @@ class RegistrationForm extends Model
         return $user;
     }
 
+    /**
+     * Создает и сохраняет нового пользователя на основе данных формы.
+     */
     public function createUser()
     {
         if ($this->validate()) {

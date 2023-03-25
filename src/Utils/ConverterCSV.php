@@ -6,6 +6,9 @@ use SplFileObject;
 use Taskforce\Exceptions\ExceptionFileFormat;
 use Taskforce\Exceptions\ExceptionSourceFile;
 
+/**
+ * Класс ConverterCSV отвечает за конвертирование CSV файла в SQL файл.
+ */
 class ConverterCSV
 {
     private string $fileName;
@@ -13,12 +16,25 @@ class ConverterCSV
     private SplFileObject $fileObject;
     private ?string $error = null;
 
+    /**
+     * Конструктор класса ConverterCSV.
+     *
+     * @param string $fileName Имя файла CSV.
+     * @param array $columns Массив с названиями колонок.
+     */
     public function __construct(string $fileName, array $columns)
     {
         $this->fileName = $fileName;
         $this->columns = $columns;
     }
 
+    /**
+     * Генерирует SQL файл на основе данных из CSV файла.
+     *
+     * @param string $tableName Имя таблицы в базе данных.
+     * @throws ExceptionFileFormat Если заданы неверные заголовки столбцов.
+     * @throws ExceptionSourceFile Если файл не существует или не удалось открыть файл на чтение.
+     */
     public function generateSqlFile(string $tableName): void
     {
         if (!$this->validateColumns($this->columns)) {
@@ -63,6 +79,11 @@ class ConverterCSV
         fclose($file);
     }
 
+    /**
+     * Получает заголовки столбцов из файла CSV.
+     *
+     * @return ?array Массив с заголовками столбцов.
+     */
     private function getHeaderData(): ?array
     {
         $this->fileObject->rewind();
@@ -72,6 +93,11 @@ class ConverterCSV
         return $data;
     }
 
+    /**
+     * Возвращает итератор, который перебирает строки CSV файла.
+     *
+     * @return ?iterable Итератор для перебора строк.
+     */
     private function getNextLine(): ?iterable
     {
         $result = null;
@@ -83,6 +109,12 @@ class ConverterCSV
         return $result;
     }
 
+    /**
+     * Проверяет, что массив с колонками имеет правильный формат.
+     *
+     * @param array $columns Массив с названиями колонок.
+     * @return bool Возвращает true, если колонки имеют правильный формат, иначе false.
+     */
     private function validateColumns(array $columns): bool
     {
         $result = true;

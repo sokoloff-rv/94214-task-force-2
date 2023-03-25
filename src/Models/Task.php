@@ -9,6 +9,9 @@ use Taskforce\Exceptions\ExceptionStatusNotExist;
 use Taskforce\Exceptions\ExceptionActionNotExist;
 use Taskforce\Exceptions\ExceptionNoActionAvailable;
 
+/**
+ * Класс Task представляет базовую модель задания.
+ */
 class Task
 {
     const STATUS_NEW = 'new';
@@ -20,6 +23,14 @@ class Task
     private int $idCustomer;
     private int $idExecutor;
 
+    /**
+     * Task конструктор.
+     *
+     * @param int $idCustomer ID заказчика.
+     * @param int $idExecutor ID исполнителя.
+     * @param string $currentStatus Текущий статус задания (по умолчанию - STATUS_NEW).
+     * @throws ExceptionStatusNotExist Исключение при отсутствии статуса.
+     */
     public function __construct(int $idCustomer, int $idExecutor, string $currentStatus = Task::STATUS_NEW)
     {
         if (!array_key_exists($currentStatus, $this->getStatusesMap())) {
@@ -30,16 +41,31 @@ class Task
         $this->currentStatus = $currentStatus;
     }
 
+    /**
+     * Получить ID заказчика.
+     *
+     * @return int ID заказчика.
+     */
     public function getIdCustomer(): int
     {
         return $this->idCustomer;
     }
 
+    /**
+     * Получить ID исполнителя.
+     *
+     * @return int ID исполнителя.
+     */
     public function getIdExecutor(): int
     {
         return $this->idExecutor;
     }
 
+    /**
+     * Получить карту статусов.
+     *
+     * @return array Карта статусов.
+     */
     public function getStatusesMap(): array
     {
         return [
@@ -51,6 +77,12 @@ class Task
         ];
     }
 
+    /**
+     * Получить название статуса.
+     *
+     * @param string $alias Статус.
+     * @return string Название статуса.
+     */
     public static function getStatusName($alias): string
     {
         switch ($alias) {
@@ -73,6 +105,11 @@ class Task
         return $status;
     }
 
+    /**
+     * Получить карту действий.
+     *
+     * @return array Карта действий.
+     */
     public function getActionsMap(): array
     {
         return [
@@ -83,6 +120,13 @@ class Task
         ];
     }
 
+    /**
+     * Получить следующий статус после действия.
+     *
+     * @param string $action Действие.
+     * @return string Следующий статус.
+     * @throws ExceptionActionNotExist Исключение при отсутствии действия.
+     */
     public function getNextStatus($action): string
     {
         if (!array_key_exists($action, $this->getActionsMap())) {
@@ -106,6 +150,14 @@ class Task
         return $status;
     }
 
+    /**
+     * Получить доступные действия для статуса.
+     *
+     * @param string $status Статус.
+     * @return array Массив доступных действий.
+     * @throws ExceptionStatusNotExist Исключение при отсутствии статуса.
+     * @throws ExceptionNoActionAvailable Исключение при отсутствии доступных действий.
+     */
     public function getAvailableActions($status): array
     {
         if (!array_key_exists($status, $this->getStatusesMap())) {

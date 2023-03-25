@@ -8,8 +8,17 @@ use Yii;
 use yii\base\Exception;
 use yii\web\BadRequestHttpException;
 
+/**
+ * Контроллер авторизации.
+ */
 class AuthController extends NotSecuredController
 {
+    /**
+     * Метод обрабатывает запрос на авторизацию через ВКонтакте.
+     *
+     * @return \yii\web\Response
+     * @throws BadRequestHttpException если возникает ошибка при работе с клиентом авторизации.
+     */
     public function actionVk(): \yii\web\Response
     {
         try {
@@ -20,6 +29,12 @@ class AuthController extends NotSecuredController
         }
     }
 
+    /**
+     * Метод обрабатывает запрос на вход пользователя через ВКонтакте.
+     *
+     * @return \yii\web\Response
+     * @throws BadRequestHttpException если возникает ошибка при авторизации через ВКонтакте.
+     */
     public function actionLogin(): \yii\web\Response
     {
         try {

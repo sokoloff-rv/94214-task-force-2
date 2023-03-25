@@ -6,55 +6,38 @@ use Taskforce\Models\Task as TaskBasic;
 use Yii;
 
 /**
- * This is the model class for table "tasks".
+ * Класс модели для таблицы "tasks" в базе данных.
  *
- * @property int $id
- * @property int $customer_id
- * @property string $title
- * @property string|null $description
- * @property int $category_id
- * @property int|null $city_id
- * @property string|null $budget
- * @property string|null $deadline
- * @property string $location
- * @property float|null $latitude
- * @property float|null $longitude
- * @property string|null $creation_date
- * @property string $status
- * @property int|null $executor_id
+ * @property int $id Идентификатор задачи.
+ * @property int $customer_id Идентификатор заказчика.
+ * @property string $title Заголовок задачи.
+ * @property string|null $description Описание задачи.
+ * @property int $category_id Идентификатор категории.
+ * @property int|null $city_id Идентификатор города.
+ * @property string|null $budget Бюджет задачи.
+ * @property string|null $deadline Срок выполнения задачи.
+ * @property string $location Местоположение задачи.
+ * @property float|null $latitude Широта местоположения задачи.
+ * @property float|null $longitude Долгота местоположения задачи.
+ * @property string|null $creation_date Дата создания задачи.
+ * @property string $status Статус задачи.
+ * @property int|null $executor_id Идентификатор исполнителя.
  *
- * @property Categories $category
- * @property Cities $city
- * @property Users $customer
- * @property Users $executor
- * @property Files[] $files
- * @property Responses[] $responses
- * @property Reviews[] $reviews
+ * @property Category $category Категория задачи.
+ * @property City $city Город, в котором размещена задача.
+ * @property User $customer Заказчик задачи.
+ * @property User $executor Исполнитель задачи.
+ * @property File $files Файлы, прикрепленные к задаче.
+ * @property Response $responses Отклики на задачу.
+ * @property Review $reviews Отзывы о выполнении задачи.
  */
 class Task extends \yii\db\ActiveRecord
 
 {
-    public function startWorking(int $executorId): bool
-    {
-        $this->status = TaskBasic::STATUS_WORKING;
-        $this->executor_id = $executorId;
-        return $this->save();
-    }
-
-    public function failTask(): bool
-    {
-        $this->status = TaskBasic::STATUS_FAILED;
-        return $this->save();
-    }
-
-    public function cancelTask(): bool
-    {
-        $this->status = TaskBasic::STATUS_CANCELLED;
-        return $this->save();
-    }
-
     /**
-     * {@inheritdoc}
+     * Возвращает имя таблицы в базе данных.
+     *
+     * @return string Имя таблицы в базе данных.
      */
     public static function tableName(): string
     {
@@ -62,7 +45,9 @@ class Task extends \yii\db\ActiveRecord
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает список правил валидации для атрибутов модели.
+     *
+     * @return array Список правил валидации.
      */
     public function rules(): array
     {
@@ -82,8 +67,10 @@ class Task extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
+     /**
+     * Возвращает список меток атрибутов.
+     *
+     * @return array Список меток атрибутов.
      */
     public function attributeLabels(): array
     {
@@ -106,9 +93,9 @@ class Task extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Category]].
+     * Получает запрос для [[Category]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery Запрос для категории задачи.
      */
     public function getCategory()
     {
@@ -116,9 +103,9 @@ class Task extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[City]].
+     * Получает запрос для [[City]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery Запрос для города, в котором размещена задача.
      */
     public function getCity()
     {
@@ -126,9 +113,9 @@ class Task extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Customer]].
+     * Получает запрос для [[Customer]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery Запрос для пользователя-заказчика.
      */
     public function getCustomer()
     {
@@ -136,7 +123,7 @@ class Task extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Executor]].
+     * Получает запрос для [[Executor]].
      *
      * @return \yii\db\ActiveQuery
      */
@@ -146,9 +133,9 @@ class Task extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Files]].
+     * Получает запрос для [[Files]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery Запрос для файлов, прикрепленных к задаче.
      */
     public function getFiles()
     {
@@ -156,9 +143,9 @@ class Task extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Responses]].
+     * Получает запрос для [[Responses]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery Запрос для откликов на задачу.
      */
     public function getResponses()
     {
@@ -166,12 +153,47 @@ class Task extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Reviews]].
+     * Получает запрос для [[Reviews]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery Запрос для отзывов о выполнении задачи.
      */
     public function getReviews()
     {
         return $this->hasMany(Review::class, ['task_id' => 'id']);
+    }
+
+    /**
+     * Начинает выполнение задачи и назначает исполнителя.
+     *
+     * @param int $executorId Идентификатор исполнителя.
+     * @return bool Возвращает true, если задача успешно сохранена, иначе - false.
+     */
+    public function startWorking(int $executorId): bool
+    {
+        $this->status = TaskBasic::STATUS_WORKING;
+        $this->executor_id = $executorId;
+        return $this->save();
+    }
+
+    /**
+     * Помечает задачу как проваленную.
+     *
+     * @return bool Возвращает true, если задача успешно сохранена, иначе - false.
+     */
+    public function failTask(): bool
+    {
+        $this->status = TaskBasic::STATUS_FAILED;
+        return $this->save();
+    }
+
+    /**
+     * Отменяет задачу.
+     *
+     * @return bool Возвращает true, если задача успешно сохранена, иначе - false.
+     */
+    public function cancelTask(): bool
+    {
+        $this->status = TaskBasic::STATUS_CANCELLED;
+        return $this->save();
     }
 }

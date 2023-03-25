@@ -6,18 +6,18 @@ use Yii;
 use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "responses".
+ * Класс модели для таблицы "responses" в базе данных.
  *
- * @property int $id
- * @property int $executor_id
- * @property int $task_id
- * @property string|null $comment
- * @property int|null $price
- * @property string|null $creation_date
- * @property string $status
+ * @property int $id Идентификатор отклика.
+ * @property int $executor_id Идентификатор исполнителя.
+ * @property int $task_id Идентификатор задачи.
+ * @property string|null $comment Комментарий к отклику.
+ * @property int|null $price Цена, предложенная исполнителем.
+ * @property string|null $creation_date Дата создания отклика.
+ * @property string $status Статус отклика.
  *
- * @property User $executor
- * @property Task $task
+ * @property User $executor Исполнитель, оставивший отклик.
+ * @property Task $task Задача, на которую оставлен отклик.
  */
 class Response extends \yii\db\ActiveRecord
 {
@@ -25,12 +25,22 @@ class Response extends \yii\db\ActiveRecord
     const STATUS_REJECTED = 'rejected';
     const STATUS_ACCEPTED = 'accepted';
 
+    /**
+     * Принимает отклик.
+     *
+     * @return bool Успешность сохранения изменений.
+     */
     public function accept(): bool
     {
         $this->status = self::STATUS_ACCEPTED;
         return $this->save();
     }
 
+    /**
+     * Отклоняет отклик.
+     *
+     * @return bool Успешность сохранения изменений.
+     */
     public function reject(): bool
     {
         $this->status = self::STATUS_REJECTED;
@@ -38,7 +48,9 @@ class Response extends \yii\db\ActiveRecord
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает имя таблицы в базе данных.
+     *
+     * @return string Имя таблицы в базе данных.
      */
     public static function tableName(): string
     {
@@ -46,7 +58,9 @@ class Response extends \yii\db\ActiveRecord
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает список правил валидации для атрибутов модели.
+     *
+     * @return array Список правил валидации.
      */
     public function rules(): array
     {
@@ -62,7 +76,9 @@ class Response extends \yii\db\ActiveRecord
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает список меток атрибутов.
+     *
+     * @return array Список меток атрибутов.
      */
     public function attributeLabels(): array
     {
@@ -78,9 +94,9 @@ class Response extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Executor]].
+     * Получает запрос для [[Executor]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery Запрос для пользователя-исполнителя.
      */
     public function getExecutor(): \yii\db\ActiveQuery
     {
@@ -88,9 +104,9 @@ class Response extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Task]].
+     * Получает запрос для [[Task]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery Запрос для задачи, на которую оставлен отклик.
      */
     public function getTask(): \yii\db\ActiveQuery
     {

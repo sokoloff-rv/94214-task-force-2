@@ -65,14 +65,14 @@ if (!Yii::$app->user->isGuest) {
             <?php foreach ($task->responses as $response): ?>
                 <?php if (ResponsesHelper::userCanSeeResponse($user->id, $task->customer_id, $response->executor_id)): ?>
                     <div class="response-card">
-                        <?php if($response->executor->avatar):?>
-                            <img class="customer-photo" src="<?=$response->executor->avatar?>" width="146" height="156" alt="Фото исполнителя">
-                        <?php endif;?>
+                        <a class="image-wrapper" href="<?=Url::toRoute(['/users/view/', 'id' => $response->executor->id])?>"/>
+                            <img class="customer-photo" src="<?=$response->executor->avatar ? $response->executor->avatar : "/img/default-avatar.webp"?>" width="146" height="156" alt="Фото исполнителя">
+                        </a>
                         <div class="feedback-wrapper">
                             <a href="<?=Url::toRoute(['/users/view/', 'id' => $response->executor->id])?>" class="link link--block link--big"><?=$response->executor->name?></a>
                             <div class="response-wrapper">
                                 <div class="stars-rating small">
-                                    <?=RateHelper::getStars($response->executor->UserRating)?>
+                                    <?=RateHelper::getStars($response->executor->userRating)?>
                                 </div>
                                 <p class="reviews">
                                     <?=Yii::t('app', '{n, plural, =0{# отзывов} one{# отзыв} =2{# отзыва} =3{# отзыва} =4{# отзыва} few{# отзыва} many{# отзывов} other{# отзывов}}', ['n' => count($response->executor->reviewsOnExecutor)]);?>

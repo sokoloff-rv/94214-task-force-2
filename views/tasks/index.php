@@ -30,10 +30,6 @@ $categories = ArrayHelper::map($categoriesQuery, 'id', 'name');
                     )?>
                 </p>
                 <p class="task-text"><?=$task->description?></p>
-
-                <!-- Подсчет количества откликов (для наглядности) -->
-                <p>Откликов: <?=$task->getResponses()->count();?></p>
-
                 <div class="footer-task">
                     <p class="info-text town-text">
                         <?=isset($task->city->name) ? $task->city->name : 'Удаленная работа'?>

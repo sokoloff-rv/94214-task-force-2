@@ -5,24 +5,38 @@ namespace app\models;
 use app\models\forms\TasksFilter;
 use app\models\Response;
 use app\models\Task;
+use app\models\User;
 use Taskforce\Models\Task as TaskBasic;
 use Yii;
-use yii\data\Pagination;
 use yii\base\Model;
+use yii\data\Pagination;
 use yii\db\ActiveQuery;
 use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 
+/**
+ * Класс TaskSearch предназначен для поиска и фильтрации задач.
+ */
 class TaskSearch extends Model
 {
-    public function getTasks(): array
+    /**
+     * Возвращает список задач, удовлетворяющих заданным условиям. По умолчанию (без фильтрации) возвращает список задач в статусе "Новые" без привязки к городу, а также из города пользователя.
+     *
+     * @return array Массив с задачами и информацией о пагинации.
+     */
+    public function getTasks(?int $category = null): array
     {
-        /** @var ActiveQuery $tasks */
+        $user = User::getCurrentUser();
         $tasks = Task::find()
             ->where(['status' => TaskBasic::STATUS_NEW])
+            ->andWhere(['or', ['city_id' => null], ['city_id' => $user->city_id]])
             ->orderBy(['creation_date' => SORT_DESC])
             ->with('category')
             ->with('city');
+
+        if ($category) {
+            $tasks = $tasks->andWhere(['category_id' => $category]);
+        }
 
         $request = Yii::$app->getRequest();
 
@@ -55,7 +69,7 @@ class TaskSearch extends Model
 
         $pagination = new Pagination([
             'totalCount' => $tasks->count(),
-            'pageSize' => 10,
+            'pageSize' => 5,
         ]);
 
         $tasks = $tasks->offset($pagination->offset)
@@ -68,4 +82,40 @@ class TaskSearch extends Model
         ];
     }
 
+    /**
+     * Возвращает список задач для пользователя, удовлетворяющих заданным условиям.
+     *
+     * @param int $userId ID пользователя.
+     * @param string $role Роль пользователя (исполнитель или заказчик).
+     * @param array $statuses Массив с допустимыми статусами задач.
+     * @param bool $isOverdue Флаг для фильтрации просроченных задач.
+     * @return array Массив с задачами и информацией о пагинации.
+     */
+    public function getUserTasks(int $userId, string $role, array $statuses, bool $isOverdue = false): array
+    {
+        $tasks = Task::find()
+            ->andWhere(['in', 'status', $statuses])
+            ->andWhere([$role . '_id' => $userId])
+            ->orderBy(['creation_date' => SORT_DESC])
+            ->with('category')
+            ->with('city');
+
+        if ($isOverdue) {
+            $tasks = $tasks->andWhere(['<', 'deadline', new Expression('CURRENT_TIMESTAMP()')]);
+        }
+
+        $pagination = new Pagination([
+            'totalCount' => $tasks->count(),
+            'pageSize' => 5,
+        ]);
+
+        $tasks = $tasks->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+
+        return [
+            'tasks' => $tasks,
+            'pagination' => $pagination,
+        ];
+    }
 }

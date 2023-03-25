@@ -5,18 +5,20 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "files".
+ * Класс модели для таблицы "files" в базе данных.
  *
- * @property int $id
- * @property string $link
- * @property int $task_id
+ * @property int $id Идентификатор файла.
+ * @property string $link Ссылка на файл.
+ * @property int $task_id Идентификатор задачи, к которой относится файл.
  *
- * @property Task $task
+ * @property Task $task Задача, к которой относится данный файл.
  */
 class File extends \yii\db\ActiveRecord
 {
     /**
-     * {@inheritdoc}
+     * Возвращает имя таблицы в базе данных.
+     *
+     * @return string Имя таблицы в базе данных.
      */
     public static function tableName(): string
     {
@@ -24,7 +26,9 @@ class File extends \yii\db\ActiveRecord
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает список правил валидации для атрибутов модели.
+     *
+     * @return array Список правил валидации.
      */
     public function rules(): array
     {
@@ -38,7 +42,9 @@ class File extends \yii\db\ActiveRecord
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает список меток атрибутов.
+     *
+     * @return array Список меток атрибутов.
      */
     public function attributeLabels(): array
     {
@@ -50,15 +56,22 @@ class File extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Task]].
+     * Получает запрос для [[Task]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery Запрос для задачи, к которой относится данный файл.
      */
     public function getTask()
     {
         return $this->hasOne(Task::class, ['id' => 'task_id']);
     }
 
+    /**
+     * Сохраняет файл с заданными ссылкой и идентификатором задачи.
+     *
+     * @param string $link Ссылка на файл.
+     * @param int $taskId Идентификатор задачи, к которой относится файл.
+     * @return void
+     */
     public static function saveFile(string $link, int $taskId): void
     {
         $newFile = new self;

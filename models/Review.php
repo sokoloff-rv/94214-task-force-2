@@ -5,24 +5,26 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "reviews".
+ * Класс модели для таблицы "reviews" в базе данных.
  *
- * @property int $id
- * @property int $customer_id
- * @property int $executor_id
- * @property int $task_id
- * @property string|null $comment
- * @property int|null $grade
- * @property string|null $creation_date
+ * @property int $id Идентификатор отзыва.
+ * @property int $customer_id Идентификатор заказчика.
+ * @property int $executor_id Идентификатор исполнителя.
+ * @property int $task_id Идентификатор задачи.
+ * @property string|null $comment Комментарий к отзыву.
+ * @property int|null $grade Оценка, выставленная исполнителю.
+ * @property string|null $creation_date Дата создания отзыва.
  *
- * @property Users $customer
- * @property Users $executor
- * @property Tasks $task
+ * @property User $customer Заказчик, оставивший отзыв.
+ * @property User $executor Исполнитель, которому адресован отзыв.
+ * @property Task $task Задача, по которой оставлен отзыв.
  */
 class Review extends \yii\db\ActiveRecord
 {
     /**
-     * {@inheritdoc}
+     * Возвращает имя таблицы в базе данных.
+     *
+     * @return string Имя таблицы в базе данных.
      */
     public static function tableName(): string
     {
@@ -30,7 +32,9 @@ class Review extends \yii\db\ActiveRecord
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает список правил валидации для атрибутов модели.
+     *
+     * @return array Список правил валидации.
      */
     public function rules(): array
     {
@@ -46,7 +50,9 @@ class Review extends \yii\db\ActiveRecord
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает список меток атрибутов.
+     *
+     * @return array Список меток атрибутов.
      */
     public function attributeLabels(): array
     {
@@ -62,9 +68,9 @@ class Review extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Customer]].
+     * Получает запрос для [[Customer]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery Запрос для пользователя-заказчика.
      */
     public function getCustomer(): \yii\db\ActiveQuery
     {
@@ -72,9 +78,9 @@ class Review extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Executor]].
+     * Получает запрос для [[Executor]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery Запрос для пользователя-исполнителя.
      */
     public function getExecutor(): \yii\db\ActiveQuery
     {
@@ -82,9 +88,9 @@ class Review extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Task]].
+     * Получает запрос для [[Task]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return \yii\db\ActiveQuery Запрос для задачи, по которой оставлен отзыв.
      */
     public function getTask(): \yii\db\ActiveQuery
     {
