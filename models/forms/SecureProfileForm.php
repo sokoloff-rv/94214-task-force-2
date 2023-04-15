@@ -44,6 +44,7 @@ class SecureProfileForm extends Model
             ['newPassword', 'validateNewPassword', 'skipOnEmpty' => false],
             ['repeatPassword', 'compare', 'compareAttribute' => 'newPassword'],
             ['hiddenContacts', 'safe'],
+            [['hiddenContacts'], 'filter', 'filter' => 'strip_tags'],
         ];
     }
 

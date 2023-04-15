@@ -40,6 +40,7 @@ class LoginForm extends Model
             [['email', 'password'], 'required'],
             ['email', 'email'],
             ['password', 'validatePassword'],
+            [['email'], 'filter', 'filter' => 'strip_tags'],
         ];
     }
 

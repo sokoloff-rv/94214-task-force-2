@@ -52,6 +52,7 @@ class EditProfileForm extends Model
             [['phone'], 'match', 'pattern' => '/^\d{11}$/', 'message' => 'Номер телефона должен состоять из 11 цифр'],
             [['telegram'], 'string', 'max' => 64],
             [['avatar', 'information', 'specializations'], 'safe'],
+            [['avatar', 'name', 'email', 'birthday', 'phone', 'telegram', 'information'], 'filter', 'filter' => 'strip_tags'],
         ];
     }
 

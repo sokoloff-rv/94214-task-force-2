@@ -37,6 +37,7 @@ class NewResponseForm extends Model
         return [
             [['comment', 'price'], 'safe'],
             [['price'], 'compare', 'compareValue' => 0, 'operator' => '>', 'type' => 'number'],
+            [['comment', 'price'], 'filter', 'filter' => 'strip_tags'],
         ];
     }
 

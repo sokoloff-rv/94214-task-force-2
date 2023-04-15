@@ -62,6 +62,7 @@ class NewTaskForm extends Model
                 'operator' => '>', 'type' => 'date',
                 'message' => 'Срок выполнения не может быть в прошлом'],
             [['files'], 'file', 'maxFiles' => 0],
+            [['title', 'description', 'category', 'location', 'budget', 'deadline'], 'filter', 'filter' => 'strip_tags'],
         ];
     }
 

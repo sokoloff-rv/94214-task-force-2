@@ -50,6 +50,7 @@ class RegistrationForm extends Model
             [['city'], 'exist', 'targetClass' => City::class, 'targetAttribute' => ['city' => 'id']],
             [['passwordRepeat'], 'compare', 'compareAttribute' => 'password'],
             [['isExecutor'], 'boolean'],
+            [['name', 'email', 'city', 'isExecutor'], 'filter', 'filter' => 'strip_tags'],
         ];
     }
 

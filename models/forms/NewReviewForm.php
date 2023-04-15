@@ -41,6 +41,7 @@ class NewReviewForm extends Model
             [['comment', 'grade'], 'required'],
             [['grade'], 'compare', 'compareValue' => 0, 'operator' => '>', 'type' => 'number'],
             [['grade'], 'compare', 'compareValue' => 5, 'operator' => '<=', 'type' => 'number'],
+            [['comment', 'grade'], 'filter', 'filter' => 'strip_tags'],
         ];
     }
 
