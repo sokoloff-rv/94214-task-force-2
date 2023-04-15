@@ -8,7 +8,7 @@ use yii\web\Controller;
 /**
  * Абстрактный контроллер для обработки действий, доступных только незарегистрированным пользователям.
  */
-abstract class NotSecuredController extends Controller
+abstract class NotSecuredController extends Controller implements AccessRulesInterface
 {
     /**
      * Определяет правила доступа для незарегистрированных пользователей.
@@ -23,12 +23,17 @@ abstract class NotSecuredController extends Controller
                 'denyCallback' => function () {
                     return $this->redirect('/tasks');
                 },
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
-                ],
+                'rules' => $this->getAccessRules(),
+            ],
+        ];
+    }
+
+    public function getAccessRules(): array
+    {
+        return [
+            [
+                'allow' => true,
+                'roles' => ['?'],
             ],
         ];
     }

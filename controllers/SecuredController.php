@@ -8,7 +8,7 @@ use yii\web\Controller;
 /**
  * Абстрактный контроллер для обработки действий, доступных только авторизованным пользователям.
  */
-abstract class SecuredController extends Controller
+abstract class SecuredController extends Controller implements AccessRulesInterface
 {
     /**
      * Определяет правила доступа для авторизованных пользователей.
@@ -23,12 +23,17 @@ abstract class SecuredController extends Controller
                 'denyCallback' => function () {
                     return $this->redirect('/landing');
                 },
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
+                'rules' => $this->getAccessRules(),
+            ],
+        ];
+    }
+
+    public function getAccessRules(): array
+    {
+        return [
+            [
+                'allow' => true,
+                'roles' => ['@'],
             ],
         ];
     }
