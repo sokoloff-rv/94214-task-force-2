@@ -4,6 +4,7 @@ namespace Taskforce\Utils;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Yii;
 
 class Geocoder
 {
@@ -22,39 +23,49 @@ class Geocoder
      */
     public static function getLocationData(string $location, string $format = 'allData'): null | string | array
     {
-        $apiKey = 'e666f398-c983-4bde-8f14-e3fec900592a';
+        $cache = Yii::$app->cache;
+        $cacheKey = "geocode_{$location}_{$format}";
 
-        $client = new Client([
-            'base_uri' => 'https://geocode-maps.yandex.ru/',
-        ]);
+        $locationData = $cache->get($cacheKey);
+        if ($locationData === false) {
+            $apiKey = 'e666f398-c983-4bde-8f14-e3fec900592a';
 
-        try {
-            $response = $client->request('GET', '1.x', [
-                'query' => ['geocode' => $location, 'apikey' => $apiKey, 'format' => 'json'],
+            $client = new Client([
+                'base_uri' => 'https://geocode-maps.yandex.ru/',
             ]);
-        } catch (GuzzleException $error) {
-            throw new \RuntimeException('Ошибка при запросе к API: ' . $error->getMessage());
+
+            try {
+                $response = $client->request('GET', '1.x', [
+                    'query' => ['geocode' => $location, 'apikey' => $apiKey, 'format' => 'json'],
+                ]);
+            } catch (GuzzleException $error) {
+                throw new \RuntimeException('Ошибка при запросе к API: ' . $error->getMessage());
+            }
+
+            $content = $response->getBody()->getContents();
+            $responseData = json_decode($content, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new \RuntimeException('Ошибка при парсинге ответа от API: ' . json_last_error_msg());
+            }
+
+            $geoObject = $responseData['response']['GeoObjectCollection']['featureMember']['0']['GeoObject'];
+
+            $coordinates = explode(' ', $geoObject['Point']['pos']);
+            $city = self::getCityName($geoObject['metaDataProperty']['GeocoderMetaData']['AddressDetails']['Country']['AdministrativeArea']);
+            $address = $geoObject['name'];
+
+            $locationData = match($format) {
+                'coordinates' => $coordinates,
+                'city' => $city,
+                'address' => $address,
+                'allData' => ['coordinates' => $coordinates, 'city' => $city, 'address' => $address],
+                default => throw new \InvalidArgumentException('Недопустимый формат данных'),
+            };
+
+            $cache->set($cacheKey, $locationData, 86400);
         }
 
-        $content = $response->getBody()->getContents();
-        $responseData = json_decode($content, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \RuntimeException('Ошибка при парсинге ответа от API: ' . json_last_error_msg());
-        }
-
-        $geoObject = $responseData['response']['GeoObjectCollection']['featureMember']['0']['GeoObject'];
-
-        $coordinates = explode(' ', $geoObject['Point']['pos']);
-        $city = self::getCityName($geoObject['metaDataProperty']['GeocoderMetaData']['AddressDetails']['Country']['AdministrativeArea']);
-        $address = $geoObject['name'];
-
-        return match($format) {
-            'coordinates' => $coordinates,
-            'city' => $city,
-            'address' => $address,
-            'allData' => ['coordinates' => $coordinates, 'city' => $city, 'address' => $address],
-        default=> throw new \InvalidArgumentException('Недопустимый формат данных'),
-        };
+        return $locationData;
     }
 
     /**
