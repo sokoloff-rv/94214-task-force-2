@@ -144,12 +144,8 @@ $formatter = Yii::$app->formatter;
     <footer class="page-footer">
         <div class="main-container page-footer__container">
             <div class="page-footer__info">
-                <p class="page-footer__info-copyright">
-                    © 2021, ООО «ТаскФорс»
-                    Все права защищены
-                </p>
                 <p class="page-footer__info-use">
-                    «TaskForce» — это сервис для поиска исполнителей на разовые задачи.
+                    © 2021, «TaskForce» — это сервис для поиска исполнителей на разовые задачи.
                     mail@taskforce.com
                 </p>
             </div>
@@ -159,19 +155,7 @@ $formatter = Yii::$app->formatter;
                         <a href="<?=Url::to(['/tasks'])?>">Задания</a>
                     </li>
                     <li class="links__item">
-                        <a href="">Мой профиль</a>
-                    </li>
-                    <li class="links__item">
-                        <a href="">Исполнители</a>
-                    </li>
-                    <li class="links__item">
                         <a href="<?=Url::to(['/registration'])?>">Регистрация</a>
-                    </li>
-                    <li class="links__item">
-                        <a href="<?=Url::to(['/tasks/new'])?>">Создать задание</a>
-                    </li>
-                    <li class="links__item">
-                        <a href="">Справка</a>
                     </li>
                 </ul>
             </div>
