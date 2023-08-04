@@ -5,7 +5,7 @@ use app\models\City;
 
 $this->title = 'Регистрация';
 $formatter = Yii::$app->formatter;
-$cities = ArrayHelper::map(City::find()->all(), 'id', 'name');
+$cities = ArrayHelper::map(City::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name');
 ?>
 
 <main class="container container--registration">
