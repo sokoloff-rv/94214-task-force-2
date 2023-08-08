@@ -880,15 +880,15 @@ template {
   position: relative;
 }
 
-.response-card .feedback-wrapper:last-child {
-  flex-grow: 1;
-}
-
 .feedback-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 20px;
+}
+
+.response-card .feedback-wrapper:last-child {
+  margin-left: auto;
 }
 
 .feedback-wrapper .stars-rating {
@@ -950,7 +950,6 @@ template {
 }
 
 .response-message {
-  width: 416px;
   font-size: 16px;
   margin-top: 5px;
   margin-bottom: auto;
