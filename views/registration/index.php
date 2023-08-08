@@ -1,4 +1,5 @@
 <?php
+
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\City;
@@ -17,28 +18,28 @@ $cities = ArrayHelper::map(City::find()->orderBy(['name' => SORT_ASC])->all(), '
                 'fieldConfig' => [
                     'template' => "{label}{input}\n{error}",
                 ],
-            ]);?>
-                <h3 class="head-main head-task">Регистрация нового пользователя</h3>
-                <?=$form->field($registration, 'name');?>
-                <div class="half-wrapper">
-                    <?=$form->field($registration, 'email');?>
-                    <?=$form->field($registration, 'city',)->dropDownList($cities); ?>
-                </div>
-                <div class="half-wrapper">
-                    <?=$form->field($registration, 'password')->passwordInput();?>
-                </div>
-                <div class="half-wrapper">
-                    <?=$form->field($registration, 'passwordRepeat')->passwordInput();?>
-                </div>
-                <?=$form->field($registration, 'isExecutor')->checkbox(
-                    [
-                        'labelOptions' => [
-                            'class' => 'control-label',
-                        ],
-                    ]
-                );?>
-                <input type="submit" class="button button--blue" value="Создать аккаунт">
-            <?php ActiveForm::end();?>
+            ]); ?>
+            <h3 class="head-main head-task">Регистрация нового пользователя</h3>
+            <?= $form->field($registration, 'name'); ?>
+            <div class="half-wrapper">
+                <?= $form->field($registration, 'email'); ?>
+                <?= $form->field($registration, 'city',)->dropDownList($cities); ?>
+            </div>
+            <div class="half-wrapper">
+                <?= $form->field($registration, 'password')->passwordInput(); ?>
+            </div>
+            <div class="half-wrapper">
+                <?= $form->field($registration, 'passwordRepeat')->passwordInput(); ?>
+            </div>
+            <?= $form->field($registration, 'isExecutor')->checkbox(
+                [
+                    'labelOptions' => [
+                        'class' => 'control-label',
+                    ],
+                ]
+            ); ?>
+            <input type="submit" class="button button--blue" value="Создать аккаунт">
+            <?php ActiveForm::end(); ?>
         </div>
     </div>
 </main>

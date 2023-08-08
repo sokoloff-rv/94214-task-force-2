@@ -1,4 +1,5 @@
 <?php
+
 use app\models\User;
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
@@ -40,26 +41,27 @@ if (!Yii::$app->user->isGuest) {
     <div class="left-column left-column--task">
         <h3 class="head-main head-regular">Задания</h3>
 
-        <?php foreach ($tasks as $task): ?>
+        <?php foreach ($tasks as $task) : ?>
             <div class="task-card">
                 <div class="header-task">
-                    <a href="<?=Url::toRoute(['/tasks/view/', 'id' => $task->id])?>" class="link link--block link--big"><?=$task->title?></a>
+                    <a href="<?= Url::toRoute(['/tasks/view/', 'id' => $task->id]) ?>" class="link link--block link--big"><?= $task->title ?></a>
                     <p class="price price--task">
-                        <?=$task->budget ? $formatter->asCurrency($task->budget) : 'Без бюджета'?>
+                        <?= $task->budget ? $formatter->asCurrency($task->budget) : 'Без бюджета' ?>
                     </p>
                 </div>
                 <p class="info-text">
-                    <?=$formatter->format(
-                        $task->creation_date, 'relativeTime'
-                    )?>
+                    <?= $formatter->format(
+                        $task->creation_date,
+                        'relativeTime'
+                    ) ?>
                 </p>
-                <p class="task-text"><?=$task->description?></p>
+                <p class="task-text"><?= $task->description ?></p>
                 <div class="footer-task">
-                    <p class="info-text <?=isset($task->city->name) ? 'town-text' : 'laptop-text'?>">
-                        <?=isset($task->city->name) ? $task->city->name : 'Удаленная работа'?>
+                    <p class="info-text <?= isset($task->city->name) ? 'town-text' : 'laptop-text' ?>">
+                        <?= isset($task->city->name) ? $task->city->name : 'Удаленная работа' ?>
                     </p>
-                    <p class="info-text category-text"><?=$task->category->name?></p>
-                    <a href="<?=Url::toRoute(['/tasks/view/', 'id' => $task->id])?>" class="button button--black">Смотреть задание</a>
+                    <p class="info-text category-text"><?= $task->category->name ?></p>
+                    <a href="<?= Url::toRoute(['/tasks/view/', 'id' => $task->id]) ?>" class="button button--black">Смотреть задание</a>
                 </div>
             </div>
         <?php endforeach; ?>
