@@ -739,7 +739,7 @@ template {
 .card-photo {
   margin-right: 8px;
   margin-bottom: 8px;
-  border-radius: 4px;
+  border-radius: 15px;
 }
 
 .card-rate {
@@ -760,7 +760,7 @@ template {
   min-height: 100px;
   padding: 26px 30px;
   background-color: #f5f5f6;
-  border-radius: 4px;
+  border-radius: 15px;
   align-self: flex-start;
   position: relative;
 }
@@ -1815,10 +1815,11 @@ form .has-error textarea:hover {
   width: 100px;
   height: 100px;
   flex-shrink: 0;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .response-card .image-wrapper img {
   width: 100%;
   height: auto;
-  border-radius: 50%;
 }
