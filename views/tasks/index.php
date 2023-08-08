@@ -21,7 +21,7 @@ $categories = ArrayHelper::map($categoriesQuery, 'id', 'name');
                 <div class="header-task">
                     <a href="<?=Url::toRoute(['/tasks/view/', 'id' => $task->id])?>" class="link link--block link--big"><?=$task->title?></a>
                     <p class="price price--task">
-                        <?=$task->budget ? $formatter->asCurrency($task->budget) : 'Бюджен не указан'?>
+                        <?=$task->budget ? $formatter->asCurrency($task->budget) : 'Без бюджета'?>
                     </p>
                 </div>
                 <p class="info-text">
@@ -31,7 +31,7 @@ $categories = ArrayHelper::map($categoriesQuery, 'id', 'name');
                 </p>
                 <p class="task-text"><?=$task->description?></p>
                 <div class="footer-task">
-                    <p class="info-text town-text">
+                    <p class="info-text <?=isset($task->city->name) ? 'town-text' : 'laptop-text'?>">
                         <?=isset($task->city->name) ? $task->city->name : 'Удаленная работа'?>
                     </p>
                     <p class="info-text category-text"><?=$task->category->name?></p>

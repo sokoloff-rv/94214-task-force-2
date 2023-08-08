@@ -24,7 +24,7 @@ if (!Yii::$app->user->isGuest) {
         <div class="head-wrapper">
             <h3 class="head-main"><?=$task->title?></h3>
             <p class="price price--big">
-                <?=$task->budget ? $formatter->asCurrency($task->budget) : 'Бюджет не указан'?>
+                <?=$task->budget ? $formatter->asCurrency($task->budget) : 'Без бюджета'?>
             </p>
         </div>
         <p class="task-description">
@@ -89,7 +89,7 @@ if (!Yii::$app->user->isGuest) {
                                 )?>
                             </p>
                             <p class="price price--small">
-                                <?=$response->price ? $formatter->asCurrency($response->price) : 'Бюджет не указан'?>
+                                <?=$response->price ? $formatter->asCurrency($response->price) : 'Без бюджета'?>
                             </p>
                         </div>
                         <?php if (ResponsesHelper::userCanSeeResponseButtons($user->id, $task->customer_id, $task->status, $response->status)): ?>

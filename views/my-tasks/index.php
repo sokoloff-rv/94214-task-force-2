@@ -38,14 +38,14 @@ if (!Yii::$app->user->isGuest) {
     </div>
 
     <div class="left-column left-column--task">
-        <h3 class="head-main head-regular">Новые задания</h3>
+        <h3 class="head-main head-regular">Задания</h3>
 
         <?php foreach ($tasks as $task): ?>
             <div class="task-card">
                 <div class="header-task">
                     <a href="<?=Url::toRoute(['/tasks/view/', 'id' => $task->id])?>" class="link link--block link--big"><?=$task->title?></a>
                     <p class="price price--task">
-                        <?=$task->budget ? $formatter->asCurrency($task->budget) : 'Бюджен не указан'?>
+                        <?=$task->budget ? $formatter->asCurrency($task->budget) : 'Без бюджета'?>
                     </p>
                 </div>
                 <p class="info-text">
@@ -55,7 +55,7 @@ if (!Yii::$app->user->isGuest) {
                 </p>
                 <p class="task-text"><?=$task->description?></p>
                 <div class="footer-task">
-                    <p class="info-text town-text">
+                    <p class="info-text <?=isset($task->city->name) ? 'town-text' : 'laptop-text'?>">
                         <?=isset($task->city->name) ? $task->city->name : 'Удаленная работа'?>
                     </p>
                     <p class="info-text category-text"><?=$task->category->name?></p>

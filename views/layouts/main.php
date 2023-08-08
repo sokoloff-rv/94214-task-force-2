@@ -55,7 +55,7 @@ $currentRoute = Yii::$app->controller->getRoute();
                         'class' => 'nav-list'
                     ],
                     'items' => [
-                        ['label' => 'Новое', 'url' => ['/tasks/index']],
+                        ['label' => 'Задания', 'url' => ['/tasks/index']],
                         [
                             'label' => 'Мои задания',
                             'url' => ['/my-tasks'],

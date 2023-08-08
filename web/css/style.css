@@ -487,6 +487,7 @@ template {
 .head-main {
   font-size: 30px;
   margin-bottom: 27px;
+  line-height: 125%;
 }
 
 .head-regular {
@@ -630,7 +631,7 @@ template {
 
 .list-item {
   text-decoration: none;
-  margin-right: 15px;
+  margin-right: 10px;
   border-radius: 25px;
 }
 
@@ -1152,9 +1153,11 @@ template {
   font-size: 48px;
   margin-top: 35px;
   margin-bottom: 32px;
+  white-space: nowrap;
 }
 
 .task-description {
+  line-height: 150%;
   padding: 30px 26px;
   margin-top: 0;
   margin-bottom: 20px;
@@ -1169,6 +1172,7 @@ template {
   padding-bottom: 15px;
   position: relative;
   margin-bottom: 48px;
+  overflow: hidden;
 }
 
 .task-map::after {
@@ -1256,13 +1260,23 @@ template {
 
 .town-text::after {
   width: 18px;
-  height: 14px;
+  height: 18px;
+  margin-top: -3px;
   background-image: url("../img/home-icon.svg");
+}
+
+.laptop-text::after {
+  width: 18px;
+  height: 18px;
+  margin-top: -3px;
+  margin-top: -3px;
+  background-image: url("../img/laptop-icon.svg");
 }
 
 .category-text::after {
   width: 18px;
   height: 18px;
+  margin-top: -3px;
   background-image: url("../img/category-icon.svg");
 }
 
@@ -1822,4 +1836,23 @@ form .has-error textarea:hover {
 .response-card .image-wrapper img {
   width: 100%;
   height: auto;
+}
+
+.auth-icon {
+  width: 48px;
+  height: 48px;
+  background: url("../img/vk_circled.svg");
+}
+
+.auth-icon.vkontakte {
+  background-position: 0px 0px;
+}
+
+.input-middle {
+  margin-bottom: 0px !important;
+}
+
+.form-modal {
+  border-radius: 10px;
+  padding: 30px 45px !important;
 }
