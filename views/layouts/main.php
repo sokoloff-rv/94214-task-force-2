@@ -24,75 +24,86 @@ if (!Yii::$app->user->isGuest) {
 }
 $currentRoute = Yii::$app->controller->getRoute();
 ?>
-<?php $this->beginPage()?>
+<?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?=Yii::$app->language?>">
+<html lang="<?= Yii::$app->language ?>">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title><?=Html::encode($this->title) . ' - Taskforce'?></title>
-    <?php $this->head()?>
+    <title><?= Html::encode($this->title) . ' - Taskforce' ?></title>
+    <?php $this->head() ?>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#1e90ff">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
 </head>
-<body>
-<?php $this->beginBody()?>
 
-<header class="page-header">
-    <nav class="main-nav">
-        <a href='/' class="header-logo">
-            <img class="logo-image" src="/img/logotype.png" width=227 height=60 alt="taskforce">
-        </a>
-        <?php if (!Yii::$app->user->isGuest): ?>
-            <div class="nav-wrapper">
-                <?= Menu::widget([
-                    'options' => [
-                        'class' => 'nav-list'
-                    ],
-                    'items' => [
-                        ['label' => 'Новое', 'url' => ['/tasks/index']],
-                        [
-                            'label' => 'Мои задания',
-                            'url' => ['/my-tasks'],
-                            'active' => strpos($currentRoute, 'my-tasks') === 0
-                        ],
-                        ['label' => 'Создать задание', 'url' => ['/tasks/new'], 'visible' => $user->role === User::ROLE_CUSTOMER],
-                        ['label' => 'Настройки', 'url' => ['/users/edit']]
-                    ],
-                    'itemOptions' => [
-                        'class' => 'list-item'],
-                    'linkTemplate' => '<a href="{url}" class="link link--nav">{label}</a>',
-                    'activeCssClass' => 'list-item--active'
-                ]); ?>
-            </div>
-        <?php endif;?>
-    </nav>
-    <?php if (!Yii::$app->user->isGuest): ?>
-        <div class="user-block">
-            <a href="<?=Url::toRoute(['/users/view/', 'id' => $user->id])?>">
-                <img class="user-photo" src="<?=$user->avatar ? $user->avatar : "/img/default-avatar.webp"?>" width="55" height="55" alt="Аватар">
+<body>
+    <?php $this->beginBody() ?>
+
+    <header class="page-header">
+        <nav class="main-nav">
+            <a href='/' class="header-logo">
+                <img class="logo-image" src="/img/logotype.png" width=227 height=60 alt="taskforce">
             </a>
-            <div class="user-menu">
-                <p class="user-name"><?=$user->name?></p>
-                <div class="popup-head">
-                    <ul class="popup-menu">
-                        <li class="menu-item">
-                            <a href="<?=Url::toRoute(['/users/edit'])?>" class="link">Настройки</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="<?=Url::to(['/users/logout'])?>" class="link">Выход из системы</a>
-                        </li>
-                    </ul>
+            <?php if (!Yii::$app->user->isGuest) : ?>
+                <div class="nav-wrapper">
+                    <?= Menu::widget([
+                        'options' => [
+                            'class' => 'nav-list'
+                        ],
+                        'items' => [
+                            ['label' => 'Задания', 'url' => ['/tasks/index']],
+                            [
+                                'label' => 'Мои задания',
+                                'url' => ['/my-tasks'],
+                                'active' => strpos($currentRoute, 'my-tasks') === 0
+                            ],
+                            ['label' => 'Создать задание', 'url' => ['/tasks/new'], 'visible' => $user->role === User::ROLE_CUSTOMER],
+                            ['label' => 'Настройки', 'url' => ['/users/edit']]
+                        ],
+                        'itemOptions' => [
+                            'class' => 'list-item'
+                        ],
+                        'linkTemplate' => '<a href="{url}" class="link link--nav">{label}</a>',
+                        'activeCssClass' => 'list-item--active'
+                    ]); ?>
+                </div>
+            <?php endif; ?>
+        </nav>
+        <?php if (!Yii::$app->user->isGuest) : ?>
+            <div class="user-block">
+                <a href="<?= Url::toRoute(['/users/view/', 'id' => $user->id]) ?>">
+                    <img class="user-photo" src="<?= $user->avatar ? $user->avatar : "/img/default-avatar.webp" ?>" width="55" height="55" alt="Аватар">
+                </a>
+                <div class="user-menu">
+                    <p class="user-name"><?= $user->name ?></p>
+                    <div class="popup-head">
+                        <ul class="popup-menu">
+                            <li class="menu-item">
+                                <a href="<?= Url::toRoute(['/users/edit']) ?>" class="link">Настройки</a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="<?= Url::to(['/users/logout']) ?>" class="link">Выход из системы</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-    <?php endif;?>
-</header>
+        <?php endif; ?>
+    </header>
 
-<?php if (!empty($this->params['breadcrumbs'])): ?>
-    <?=Breadcrumbs::widget(['links' => $this->params['breadcrumbs']])?>
-<?php endif?>
-<?=Alert::widget()?>
-<?=$content?>
-<?php $this->endBody()?>
+    <?php if (!empty($this->params['breadcrumbs'])) : ?>
+        <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
+    <?php endif ?>
+    <?= Alert::widget() ?>
+    <?= $content ?>
+    <?php $this->endBody() ?>
 </body>
+
 </html>
-<?php $this->endPage()?>
+<?php $this->endPage() ?>
