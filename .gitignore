@@ -1,14 +1,10 @@
-# vscode files
-.vscode
-
 # phpstorm project files
 .idea
-
 
 # netbeans project files
 nbproject
 
-# zend studio for eclips project files
+# zend studio for eclipse project files
 .buildpath
 .project
 .settings
@@ -41,3 +37,5 @@ tests/_support/_generated
 
 #uploaded files
 /web/uploads
+public_html
+/public_html
