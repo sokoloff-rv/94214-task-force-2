@@ -887,7 +887,7 @@ template {
   padding: 20px;
 }
 
-.response-card .feedback-wrapper:last-child {
+.response-card .feedback-wrapper+.feedback-wrapper {
   margin-left: auto;
 }
 
