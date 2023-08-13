@@ -87,7 +87,7 @@
 1. Клонируйте репозиторий:
 
 ```bash
-git clone https://github.com/sokoloff-rv/94214-task-force-2.git [doingsdone](https://github.com/sokoloff-rv/94214-what-to-watch-2.git)
+git clone https://github.com/sokoloff-rv/94214-task-force-2.git taskforce
 ```
 
 1. Перейдите в директорию проекта:
