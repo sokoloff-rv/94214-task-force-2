@@ -1,233 +1,236 @@
-<p align="center">
-    <a href="https://github.com/yiisoft" target="_blank">
-        <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">
-    </a>
-    <h1 align="center">Yii 2 Basic Project Template</h1>
-    <br>
-</p>
+# Taskforce
+![PHP Version](https://img.shields.io/badge/php-%5E7.4-7A86B8)
+![MySQL Version](https://img.shields.io/badge/mysql-%5E5.6-F29221)
+![Yii2 Version](https://img.shields.io/badge/Yii2-%5E2.0.45-83C933)
+![PHPUnit Version](https://img.shields.io/badge/phpunit-%5E9.5-3A97D0)
 
-Yii 2 Basic Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
-rapidly creating small projects.
+## О проекте
 
-The template contains the basic features including user login/logout and a contact page.
-It includes all commonly used configurations that would allow you to focus on adding new
-features to your application.
+«TaskForce» — это онлайн площадка для поиска исполнителей на разовые задачи. Сайт функционирует как биржа объявлений, где заказчики — физические лица публикуют задания. Исполнители могут откликаться на эти задания, предлагая свои услуги и стоимость работ. Проект разработан на базе фреймворка Yii2, использует методологию ООП и паттерн MVC. Также используется внешний API Яндекс.Карт и Вконтакте.
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/yiisoft/yii2-app-basic.svg)](https://packagist.org/packages/yiisoft/yii2-app-basic)
-[![Total Downloads](https://img.shields.io/packagist/dt/yiisoft/yii2-app-basic.svg)](https://packagist.org/packages/yiisoft/yii2-app-basic)
-[![build](https://github.com/yiisoft/yii2-app-basic/workflows/build/badge.svg)](https://github.com/yiisoft/yii2-app-basic/actions?query=workflow%3Abuild)
+Демонстрационная версия доступна по адресу https://taskforce.sokoloff-rv.ru/.
 
-DIRECTORY STRUCTURE
--------------------
+Для входа в **демо-аккаунт заказчика** используйте следующие данные:
 
-      assets/             contains assets definition
-      commands/           contains console commands (controllers)
-      config/             contains application configurations
-      controllers/        contains Web controller classes
-      mail/               contains view files for e-mails
-      models/             contains model classes
-      runtime/            contains files generated during runtime
-      tests/              contains various tests for the basic application
-      vendor/             contains dependent 3rd-party packages
-      views/              contains view files for the Web application
-      web/                contains the entry script and Web resources
+- Логин: customer@fake.mail
+- Пароль: democustomer
 
+Для входа в **демо-аккаунт исполнителя** используйте следующие данные:
 
+- Логин: executor@fake.mail
+- Пароль: demoexecutor
 
-REQUIREMENTS
-------------
+## Функциональность
 
-The minimum requirement by this project template that your Web server supports PHP 7.4.
+Основные возможности, реализованные в проекте:
 
+- Регистрация на сайте;
+- Авторизация;
+- Регистрация и авторизация через социальную сеть VK;
+- Профиль пользователя, отображаемый на отдельной странице:
+    - аватар,
+    - город,
+    - возраст,
+    - информация о пользователе,
+    - блок с контактами,
+    - специализации (для исполнителей),
+    - отзывы заказчиков (для исполнителей),
+    - статистика выполненных заказов (для исполнителей),
+    - дата регистрации (для исполнителей),
+    - место в общем рейтинге (для исполнителей),
+    - статус (для исполнителей);
+- Редактирование профиля пользователя:
+    - аватар,
+    - электронная почта,
+    - день рождения,
+    - номер телефона,
+    - telegram,
+    - информация о себе,
+    - пароль (с подтверждением старого);
+- Вывод списка заданий с пагинацией (каждый пользователь видит только задания из своего города, а также задания в формате удаленной работы);
+- Фильтрация заданий по категориям, времени размещения, наличию откликов и формату работы (удаленная работа или обычная);
+- Вывод карточки задания;
+- Статусы заданий (в зависимости от того, есть ли на задание отклики, находится ли задание в работе, выполнено оно или провалено);
+- Отображение локации задания на Яндекс.Карте через внешний API;
+- Возможность оставить отклик на задание (для исполнителей);
+- Просмотр откликов на задания (для заказчиков);
+- Раздел “Мои задания” для заказчиков:
+    - список заданий, находящихся в процессе,
+    - список просроченных заданий,
+    - список завершенных заданий;
+- Раздел “Мои задания” для исполнителей:
+    - список новых заданий, по которым ещё не выбран исполнитель,
+    - список заданий, над которыми работают исполнители,
+    - список завершенных заданий;
+- Страница с формой добавления нового задания (для заказчиков), включающая в себя следующие поля:
+    - заголовок,
+    - описание задания,
+    - категория задания,
+    - локация,
+    - бюджет,
+    - срок исполнения,
+    - файлы задания;
+- Размещение откликов на задания (для исполнителей);
+- Выбор исполнителя на задание (для заказчиков);
+- Размещение отзывов на исполнителей (для заказчиков);
+- Система рейтинга исполнителей;
+- Валидация всех форм;
+- Возврат страницы с ошибкой 404, если пользователь пытается открыть страницу с несуществующим пользователем или заданием.
 
-INSTALLATION
-------------
+## Обзор проекта
 
-### Install via Composer
+[![Видео](https://img.youtube.com/vi/mDWVi3cPgNI/0.jpg)](https://youtu.be/mDWVi3cPgNI)
 
-If you do not have [Composer](http://getcomposer.org/), you may install it by following the instructions
-at [getcomposer.org](http://getcomposer.org/doc/00-intro.md#installation-nix).
+## Начало работы
 
-You can then install this project template using the following command:
+Чтобы развернуть проект локально или на хостинге, выполните последовательно несколько действий:
 
-~~~
-composer create-project --prefer-dist yiisoft/yii2-app-basic basic
-~~~
+1. Клонируйте репозиторий:
 
-Now you should be able to access the application through the following URL, assuming `basic` is the directory
-directly under the Web root.
-
-~~~
-http://localhost/basic/web/
-~~~
-
-### Install from an Archive File
-
-Extract the archive file downloaded from [yiiframework.com](http://www.yiiframework.com/download/) to
-a directory named `basic` that is directly under the Web root.
-
-Set cookie validation key in `config/web.php` file to some random secret string:
-
-```php
-'request' => [
-    // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-    'cookieValidationKey' => '<secret random string goes here>',
-],
+```bash
+git clone https://github.com/sokoloff-rv/94214-task-force-2.git [doingsdone](https://github.com/sokoloff-rv/94214-what-to-watch-2.git)
 ```
 
-You can then access the application through the following URL:
+1. Перейдите в директорию проекта:
 
-~~~
-http://localhost/basic/web/
-~~~
+```bash
+cd taskforce
+```
 
+1. Установите зависимости, выполнив команду:
 
-### Install with Docker
+```bash
+composer install
+```
 
-Update your vendor packages
+1. Настройте веб-сервер таким образом, чтобы корневая директория указывала на папку web внутри проекта. Например, в случае с размещением проекта в директории `public_html` это можно сделать с помощью команды:
 
-    docker-compose run --rm php composer update --prefer-dist
-    
-Run the installation triggers (creating cookie validation code)
+```bash
+ln -s web public_html
+```
 
-    docker-compose run --rm php composer install    
-    
-Start the container
+1. Создайте базу данных для проекта, используя схему из файла `schema.sql`:
 
-    docker-compose up -d
-    
-You can then access the application through the following URL:
+```sql
+CREATE DATABASE taskforce
+    DEFAULT CHARACTER SET utf8
+    DEFAULT COLLATE utf8_general_ci;
 
-    http://127.0.0.1:8000
+USE taskforce;
 
-**NOTES:** 
-- Minimum required Docker engine version `17.04` for development (see [Performance tuning for volume mounts](https://docs.docker.com/docker-for-mac/osxfs-caching/))
-- The default configuration uses a host-volume in your home directory `.docker-composer` for composer caches
+/* Города */
+CREATE TABLE cities (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    latitude DECIMAL(11, 8) NOT NULL,
+    longitude DECIMAL(11, 8) NOT NULL
+);
 
+/* Пользователи */
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    birthday DATETIME,
+    phone VARCHAR(100),
+    telegram VARCHAR(100),
+    information TEXT,
+    specializations VARCHAR(255),
+    avatar VARCHAR(255),
+    register_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    role ENUM ('customer', 'executor') NOT NULL,
+    succesful_tasks INT,
+    failed_tasks INT,
+    city_id INT,
+    vk_id INT,
+    hidden_contacts INT DEFAULT 0 NOT NULL,
+    total_score FLOAT DEFAULT 0 NOT NULL,
+    FOREIGN KEY (city_id) REFERENCES cities(id)
+);
 
-CONFIGURATION
--------------
+/* Категории заданий */
+CREATE TABLE categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    alias VARCHAR(100) NOT NULL
+);
 
-### Database
+/* Задания */
+CREATE TABLE tasks (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    category_id INT NOT NULL,
+    city_id INT,
+    budget VARCHAR(100),
+    deadline DATETIME,
+    location VARCHAR(255),
+    latitude DECIMAL(11, 8),
+    longitude DECIMAL(11, 8),
+    creation_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(50) DEFAULT 'new' NOT NULL,
+    executor_id INT,
+    FOREIGN KEY (category_id) REFERENCES categories(id),
+    FOREIGN KEY (customer_id) REFERENCES users(id),
+    FOREIGN KEY (executor_id) REFERENCES users(id),
+    FOREIGN KEY (city_id) REFERENCES cities(id)
+);
 
-Edit the file `config/db.php` with real data, for example:
+/* Файлы */
+CREATE TABLE files (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    link VARCHAR(255) NOT NULL UNIQUE,
+    task_id INT NOT NULL,
+    FOREIGN KEY (task_id) REFERENCES tasks(id)
+);
+
+/* Отклики */
+CREATE TABLE responses (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    executor_id INT NOT NULL,
+    task_id INT NOT NULL,
+    comment TEXT,
+    price INT,
+    creation_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(50) DEFAULT 'new' NOT NULL,
+    FOREIGN KEY (executor_id) REFERENCES users(id),
+    FOREIGN KEY (task_id) REFERENCES tasks(id)
+);
+
+/* Отзывы */
+CREATE TABLE reviews (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    executor_id INT NOT NULL,
+    task_id INT NOT NULL,
+    comment TEXT,
+    grade INT,
+    creation_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (customer_id) REFERENCES users(id),
+    FOREIGN KEY (executor_id) REFERENCES users(id),
+    FOREIGN KEY (task_id) REFERENCES tasks(id)
+);
+
+CREATE FULLTEXT INDEX task_title_search ON tasks(title);
+CREATE FULLTEXT INDEX task_description_search ON tasks(description);
+```
+
+1. Настройте подключение к базе данных в файле `config\db.php`, указав в нем параметры своего окружения. Например, это может выглядеть так:
 
 ```php
+<?php
+
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
+    'dsn' => 'mysql:host=127.0.0.1;dbname=taskforce',
     'username' => 'root',
-    'password' => '1234',
+    'password' => 'root',
     'charset' => 'utf8',
 ];
 ```
 
-**NOTES:**
-- Yii won't create the database for you, this has to be done manually before you can access it.
-- Check and edit the other files in the `config/` directory to customize your application as required.
-- Refer to the README in the `tests` directory for information specific to basic application tests.
+## Техническое задание
 
-
-TESTING
--------
-
-Tests are located in `tests` directory. They are developed with [Codeception PHP Testing Framework](http://codeception.com/).
-By default, there are 3 test suites:
-
-- `unit`
-- `functional`
-- `acceptance`
-
-Tests can be executed by running
-
-```
-vendor/bin/codecept run
-```
-
-The command above will execute unit and functional tests. Unit tests are testing the system components, while functional
-tests are for testing user interaction. Acceptance tests are disabled by default as they require additional setup since
-they perform testing in real browser. 
-
-
-### Running  acceptance tests
-
-To execute acceptance tests do the following:  
-
-1. Rename `tests/acceptance.suite.yml.example` to `tests/acceptance.suite.yml` to enable suite configuration
-
-2. Replace `codeception/base` package in `composer.json` with `codeception/codeception` to install full-featured
-   version of Codeception
-
-3. Update dependencies with Composer 
-
-    ```
-    composer update  
-    ```
-
-4. Download [Selenium Server](http://www.seleniumhq.org/download/) and launch it:
-
-    ```
-    java -jar ~/selenium-server-standalone-x.xx.x.jar
-    ```
-
-    In case of using Selenium Server 3.0 with Firefox browser since v48 or Google Chrome since v53 you must download [GeckoDriver](https://github.com/mozilla/geckodriver/releases) or [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/downloads) and launch Selenium with it:
-
-    ```
-    # for Firefox
-    java -jar -Dwebdriver.gecko.driver=~/geckodriver ~/selenium-server-standalone-3.xx.x.jar
-    
-    # for Google Chrome
-    java -jar -Dwebdriver.chrome.driver=~/chromedriver ~/selenium-server-standalone-3.xx.x.jar
-    ``` 
-    
-    As an alternative way you can use already configured Docker container with older versions of Selenium and Firefox:
-    
-    ```
-    docker run --net=host selenium/standalone-firefox:2.53.0
-    ```
-
-5. (Optional) Create `yii2basic_test` database and update it by applying migrations if you have them.
-
-   ```
-   tests/bin/yii migrate
-   ```
-
-   The database configuration can be found at `config/test_db.php`.
-
-
-6. Start web server:
-
-    ```
-    tests/bin/yii serve
-    ```
-
-7. Now you can run all available tests
-
-   ```
-   # run all available tests
-   vendor/bin/codecept run
-
-   # run acceptance tests
-   vendor/bin/codecept run acceptance
-
-   # run only unit and functional tests
-   vendor/bin/codecept run unit,functional
-   ```
-
-### Code coverage support
-
-By default, code coverage is disabled in `codeception.yml` configuration file, you should uncomment needed rows to be able
-to collect code coverage. You can run your tests and collect coverage with the following command:
-
-```
-#collect coverage for all tests
-vendor/bin/codecept run --coverage --coverage-html --coverage-xml
-
-#collect coverage only for unit tests
-vendor/bin/codecept run unit --coverage --coverage-html --coverage-xml
-
-#collect coverage for unit and functional tests
-vendor/bin/codecept run functional,unit --coverage --coverage-html --coverage-xml
-```
-
-You can see code coverage output under the `tests/_output` directory.
+[Посмотреть техническое задание проекта](https://www.notion.so/Taskforce-a703517be86f4dd2b0562c0602bad50e?pvs=21)
