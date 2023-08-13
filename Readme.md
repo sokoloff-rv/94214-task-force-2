@@ -78,8 +78,7 @@
 - Возврат страницы с ошибкой 404, если пользователь пытается открыть страницу с несуществующим пользователем или заданием.
 
 ## Обзор проекта
-
-[![Видео](https://img.youtube.com/vi/mDWVi3cPgNI/0.jpg)](https://youtu.be/mDWVi3cPgNI)
+[![Видео](https://sokoloff-rv.ru/share/github/taskforce.webp)](https://youtu.be/mDWVi3cPgNI)
 
 ## Начало работы
 
@@ -233,4 +232,4 @@ return [
 
 ## Техническое задание
 
-[Посмотреть техническое задание проекта](https://www.notion.so/Taskforce-a703517be86f4dd2b0562c0602bad50e?pvs=21)
+[Посмотреть техническое задание проекта](https://sokoloff-rv.notion.site/Taskforce-a703517be86f4dd2b0562c0602bad50e?pvs=4)
