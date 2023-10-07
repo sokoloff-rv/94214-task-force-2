@@ -39,3 +39,6 @@ tests/_support/_generated
 /web/uploads
 public_html
 /public_html
+
+#bd config
+/config/db.php
