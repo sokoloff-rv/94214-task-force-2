@@ -88,7 +88,7 @@
 1. Клонируйте репозиторий:
 
 ```bash
-git clone https://github.com/sokoloff-rv/94214-task-force-2.git taskforce
+git clone https://github.com/sokoloff-rv/task-force.git taskforce
 ```
 
 2. Перейдите в директорию проекта:
