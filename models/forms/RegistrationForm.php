@@ -77,7 +77,10 @@ class RegistrationForm extends Model
     {
         if ($this->validate()) {
             $this->password = Yii::$app->security->generatePasswordHash($this->password);
-            $this->newUser()->save(false);
+            $user = $this->newUser();
+            if ($user->save(false)) {
+                Yii::$app->user->login($user);
+            }
         }
     }
 }
